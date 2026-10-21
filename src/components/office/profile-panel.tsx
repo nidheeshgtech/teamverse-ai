@@ -2,9 +2,10 @@
 
 import { CalendarPlus, LocateFixed, MessageSquare, Mic, MonitorUp, Phone, Video, X } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import type { Occupant } from "@/features/office/model";
 import { cn } from "@/lib/utils";
+import { DisabledActionTile, PrimaryActionTile } from "@/ui/action-tile";
 import { Avatar } from "@/ui/avatar";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
@@ -41,75 +42,71 @@ export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClos
   const localTime = format.dateTime(new Date(), { timeZone: person.timezone, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
   const place = person.seat ? t("office.desk", { label: person.seat.label }) : t("office.noDesk");
 
+  const phaseTag = (phase: number) => t("office.profile.phaseTag", { phase });
+  const phaseReason = (phase: number) => t("office.profile.phaseHint", { phase });
+
   return (
-    <Panel
-      level={variant === "sheet" ? 3 : 2}
-      padding={variant === "sheet" ? "none" : "lg"}
-      aria-label={t("office.profile.label", { name: person.displayName })}
-      className={cn("flex flex-col gap-space-md", variant === "sheet" && "bg-transparent shadow-none backdrop-blur-none")}
-    >
-      <div className={cn("flex items-start justify-between", variant === "sheet" && "hidden")}>
+    <Root variant={variant} label={t("office.profile.label", { name: person.displayName })}>
+      <div className={cn("-mb-1 flex items-center justify-between", variant === "sheet" && "hidden")}>
         <PanelEyebrow>{person.seat?.label ?? t("office.noDesk")}</PanelEyebrow>
         <button
           type="button"
           onClick={onClose}
           aria-label={t("office.profile.close")}
-          className="-m-space-xs inline-flex size-8 items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface"
+          className="-me-2 inline-flex size-8 items-center justify-center rounded-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface focus-visible:shadow-focus-ring focus-visible:outline-none"
         >
           <X aria-hidden className="size-4" />
         </button>
       </div>
 
-      <div className="flex items-center gap-space-md">
+      <div className="flex items-center gap-4">
         <Avatar name={person.displayName} src={person.avatarUrl} size="lg" status={person.status} statusLabel={t(`presence.${person.status}`)} />
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <h2 className="truncate type-headline-md text-on-surface">{person.displayName}</h2>
-          {person.title ? <p className="truncate type-label-lg text-on-surface-variant">{person.title}</p> : null}
-          <div className="mt-space-2xs flex flex-wrap items-center gap-space-xs">
+          {person.title ? <p className="mt-0.5 truncate type-body-md text-on-surface-variant">{person.title}</p> : null}
+          <div className="mt-2 flex flex-wrap items-center gap-2">
             {person.departmentSlug ? <Badge tone={departmentTone(person.departmentSlug)}>{deptLabel(person.departmentSlug)}</Badge> : null}
             <span className="type-code-sm text-on-surface-variant">{t("office.profile.localTime", { time: localTime })}</span>
           </div>
         </div>
       </div>
 
-      <p className="flex items-center gap-space-sm rounded-md bg-surface-container-low px-space-sm py-space-xs type-label-lg text-on-surface">
+      <p className="flex items-center gap-2.5 rounded-md border border-glass-line bg-surface-container-low/60 px-3 py-2.5 type-body-md text-on-surface">
         <PresenceDot status={person.status} />
-        {person.status === "offline" ? t("office.profile.notConnected") : t(`presence.${person.status}`)} · {place}
+        <span className="min-w-0 truncate">
+          {person.status === "offline" ? t("office.profile.notConnected") : t(`presence.${person.status}`)}
+          <span className="text-on-surface-variant"> · {place}</span>
+        </span>
       </p>
 
       {isSelf ? (
         <p className="type-body-md text-on-surface-variant">{t("office.profile.you")}</p>
       ) : (
-        <section aria-labelledby="contact-title">
+        <section aria-labelledby="contact-title" className="flex flex-col gap-3">
           <PanelEyebrow id="contact-title">{t("office.profile.actionsTitle")}</PanelEyebrow>
           {/* Actions arrive in later phases; shown disabled with the reason instead of pretending to work. */}
-          <div className="mt-space-sm grid grid-cols-3 gap-space-xs">
+          <div className="grid grid-cols-3 gap-2">
             {onMessage ? (
-              <button
-                type="button"
+              <PrimaryActionTile
+                icon={<MessageSquare />}
+                label={t("office.profile.message")}
                 disabled={messaging === "pending"}
                 onClick={async () => {
                   setMessaging("pending");
                   setMessaging((await onMessage(person.userId)) ? "idle" : "failed");
                 }}
-                className="flex flex-col items-center gap-space-2xs rounded-md bg-primary-container px-space-xs py-space-sm text-center text-on-primary-action shadow-primary-rest hover:shadow-glow-primary focus-visible:shadow-focus-ring focus-visible:outline-none disabled:opacity-60 [&_svg]:size-5"
-              >
-                <span aria-hidden>
-                  <MessageSquare />
-                </span>
-                <span className="type-label-md font-semibold">{t("office.profile.message")}</span>
-              </button>
+              />
             ) : (
-              <ActionTile icon={<MessageSquare />} label={t("office.profile.message")} hint={t("office.profile.previewHint")} />
+              <DisabledActionTile icon={<MessageSquare />} label={t("office.profile.message")} tag={t("office.profile.previewTag")} reason={t("office.profile.previewHint")} />
             )}
-            <ActionTile icon={<Phone />} label={t("office.profile.voiceCall")} hint={t("office.profile.phaseHint", { phase: 4 })} />
-            <ActionTile icon={<Video />} label={t("office.profile.videoCall")} hint={t("office.profile.phaseHint", { phase: 4 })} />
-            <ActionTile icon={<MonitorUp />} label={t("office.profile.screenShare")} hint={t("office.profile.screenShareHint")} />
-            <ActionTile icon={<Mic />} label={t("office.profile.voiceNote")} hint={t("office.profile.phaseHint", { phase: 5 })} />
-            <ActionTile icon={<CalendarPlus />} label={t("office.profile.inviteMeeting")} hint={t("office.profile.phaseHint", { phase: 4 })} />
+            <DisabledActionTile icon={<Phone />} label={t("office.profile.voiceCall")} tag={phaseTag(4)} reason={phaseReason(4)} />
+            <DisabledActionTile icon={<Video />} label={t("office.profile.videoCall")} tag={phaseTag(4)} reason={phaseReason(4)} />
+            <DisabledActionTile icon={<MonitorUp />} label={t("office.profile.screenShare")} tag={t("office.profile.inCallsTag")} reason={t("office.profile.screenShareHint")} />
+            <DisabledActionTile icon={<Mic />} label={t("office.profile.voiceNote")} tag={phaseTag(5)} reason={phaseReason(5)} />
+            <DisabledActionTile icon={<CalendarPlus />} label={t("office.profile.inviteMeeting")} tag={phaseTag(4)} reason={phaseReason(4)} />
           </div>
           {messaging === "failed" ? (
-            <p role="alert" className="mt-space-xs type-body-sm text-error">
+            <p role="alert" className="type-body-sm text-error">
               {t("office.profile.messageFailed")}
             </p>
           ) : null}
@@ -122,21 +119,22 @@ export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClos
           {t("office.profile.focusDesk")}
         </Button>
       ) : null}
-    </Panel>
+    </Root>
   );
 }
 
-function ActionTile({ icon, label, hint }: { icon: ReactNode; label: string; hint: string }) {
+/** Card on desktop; plain section inside a bottom sheet (the sheet is already the card). */
+function Root({ variant, label, children }: { variant: "panel" | "sheet"; label: string; children: React.ReactNode }) {
+  if (variant === "sheet") {
+    return (
+      <section aria-label={label} className="flex flex-col gap-5">
+        {children}
+      </section>
+    );
+  }
   return (
-    <button
-      type="button"
-      aria-disabled
-      title={hint}
-      className="flex cursor-not-allowed flex-col items-center gap-space-2xs rounded-md bg-surface-container-low px-space-xs py-space-sm text-center text-on-surface-variant [&_svg]:size-5"
-    >
-      <span aria-hidden className="text-on-surface-variant">{icon}</span>
-      <span className="type-label-md text-on-surface">{label}</span>
-      <span className="type-label-xs text-on-surface-variant">{hint}</span>
-    </button>
+    <Panel level={2} padding="lg" aria-label={label} className="flex flex-col gap-5">
+      {children}
+    </Panel>
   );
 }

@@ -17,6 +17,7 @@ import type { CameraCommand } from "./scene/office-scene";
 import { prefersLowPower, useReducedMotion, useWebGLSupport } from "./use-device-capabilities";
 import { useDepartmentLabel } from "./use-labels";
 import { cn } from "@/lib/utils";
+import { Avatar } from "@/ui/avatar";
 import { useSceneTokens } from "./use-scene-tokens";
 
 // three.js + R3F load only when the 3D view is actually shown.
@@ -145,30 +146,45 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
             onHover={setHoveredId}
           />
           {/* DOM labels positioned by the scene's LabelProjector. Hidden until first placed. */}
-          <div ref={labelLayer} aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div ref={labelLayer} aria-hidden className="group/labels pointer-events-none absolute inset-0 overflow-hidden">
             {data.scene.rooms.map((room) => (
               <span
                 key={room.department}
                 data-anchor={`room:${room.department}`}
                 data-dimmed={department !== null && department !== room.department}
                 style={screenOrigin}
-                className="glass-level-1 invisible absolute top-0 inline-flex items-center gap-space-xs whitespace-nowrap rounded-full px-space-sm py-space-2xs type-label-md text-on-surface transition-opacity data-[dimmed=true]:opacity-40"
+                className="invisible absolute top-0 inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-glass-line bg-surface-canvas/85 px-3.5 py-2 type-title-md text-on-surface shadow-level-2 backdrop-blur-md transition-opacity data-[dimmed=true]:opacity-40"
               >
-                <span className="inline-block size-2 rounded-full" style={{ backgroundColor: `var(--tv-color-dept-${room.department}, var(--tv-color-primary))` }} />
-                {deptLabel(room.department)} · {t("roomPeople", { count: counts.get(room.department) ?? 0 })}
+                <span className="inline-block size-2.5 rounded-full" style={{ backgroundColor: `var(--tv-color-dept-${room.department}, var(--tv-color-primary))` }} />
+                {deptLabel(room.department)}
+                <span className="type-label-md text-on-surface-variant">{t("roomPeople", { count: counts.get(room.department) ?? 0 })}</span>
               </span>
             ))}
+            {/* Name tags for everyone with a desk (mouse shortcut; the People list is the keyboard path). */}
             {occupants
-              .filter((o) => o.seat && (o.userId === hoveredId || o.userId === selectedId))
+              .filter((o) => o.seat)
               .map((o) => (
-                <span
+                <button
                   key={o.userId}
+                  type="button"
+                  tabIndex={-1}
                   data-anchor={`person:${o.userId}`}
+                  data-dimmed={(department !== null && o.departmentSlug !== department) || undefined}
+                  data-active={o.userId === hoveredId || o.userId === selectedId || undefined}
+                  onClick={() => select(o.userId)}
+                  onPointerEnter={() => setHoveredId(o.userId)}
+                  onPointerLeave={() => setHoveredId(null)}
                   style={screenOrigin}
-                  className="glass-level-3 invisible absolute top-0 whitespace-nowrap rounded px-space-sm py-space-2xs type-label-md text-on-surface"
+                  className={cn(
+                    "pointer-events-auto invisible absolute top-0 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-glass-line bg-surface-canvas/80 p-1 type-label-md group-data-[zoomed=true]/labels:pe-3 data-[active]:pe-3 text-on-surface shadow-level-1 backdrop-blur-md",
+                    "transition-[opacity,border-color,background-color] duration-150 hover:border-primary-container data-[active]:border-primary-container data-[active]:bg-surface-panel data-[dimmed]:opacity-30",
+                    o.status === "offline" && "opacity-70",
+                  )}
                 >
-                  {o.displayName}
-                </span>
+                  <Avatar name={o.displayName} src={o.avatarUrl} size="xs" status={o.status} decorative />
+                  {/* Compact (avatar only) when zoomed out; the name shows when zoomed in or active. */}
+                  <span className="hidden group-data-[zoomed=true]/labels:inline [[data-active]>&]:inline">{o.displayName}</span>
+                </button>
               ))}
           </div>
         </div>
@@ -177,11 +193,13 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
       {/* Layer 1: HUD. Containers ignore the pointer so the canvas stays draggable between panels. */}
       <div className="pointer-events-none contents lg:absolute lg:inset-0 lg:z-10 lg:flex lg:flex-col lg:gap-space-md lg:p-margin">
         <header className="pointer-events-auto flex flex-wrap items-start justify-between gap-space-md max-lg:mx-margin-mobile">
-          <div className="glass-level-1 flex flex-wrap items-center gap-space-sm rounded-lg px-space-md py-space-sm max-lg:w-full">
-            <Building2 aria-hidden className="size-5 text-secondary" />
-            <div>
+          <div className="glass-level-1 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg px-4 py-3 max-lg:w-full">
+            <span aria-hidden className="inline-flex size-10 items-center justify-center rounded-md bg-surface-container-high text-secondary">
+              <Building2 className="size-5" />
+            </span>
+            <div className="me-auto">
               <h1 className="type-title-md text-on-surface">{data.layoutName}</h1>
-              <p className="type-label-xs uppercase text-secondary">{data.orgName}</p>
+              <p className="mt-0.5 type-label-xs uppercase tracking-[0.08em] text-secondary">{data.orgName}</p>
             </div>
             {data.orgIsDemo ? <Badge tone="warning">{t("demoData")}</Badge> : null}
             {data.scene.placeholder && show3d ? <Badge>{t("placeholderScene")}</Badge> : null}
@@ -237,7 +255,7 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
         </div>
 
         {show3d ? (
-          <p className="glass-level-1 pointer-events-auto hidden w-fit items-center gap-space-sm rounded-md px-space-sm py-space-xs type-label-md text-on-surface-variant lg:flex">
+          <p className="glass-level-1 pointer-events-auto hidden w-fit items-center gap-2 rounded-lg px-3 py-2 type-label-md text-on-surface-variant lg:flex [&_kbd]:ms-2 [&_kbd:first-child]:ms-0">
             <Kbd>{t("keyDrag")}</Kbd> {t("hintOrbit")}
             <Kbd>{t("keyScroll")}</Kbd> {t("hintZoom")}
             <Kbd>{t("keyRightDrag")}</Kbd> {t("hintPan")}

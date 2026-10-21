@@ -28,7 +28,7 @@ function NavLinkView({ href, icon, badge, children, active }: Props & { active: 
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "group/nav flex items-center gap-space-sm rounded-md px-space-md py-space-sm type-label-lg transition-[background-color,color,box-shadow] duration-200 [&_svg]:size-5",
+        "group/nav flex min-h-10 items-center gap-3 rounded-md px-3.5 py-2 type-label-lg transition-[background-color,color,box-shadow] duration-200 [&_svg]:size-5",
         active
           ? "bg-primary-container font-semibold text-on-primary-action shadow-nav-active"
           : "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface",

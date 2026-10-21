@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 // DESIGN.md › Buttons & Action Triggers. Radius: 8px base components.
 export const buttonVariants = cva(
   [
-    "inline-flex shrink-0 items-center justify-center gap-space-sm rounded whitespace-nowrap type-label-lg",
+    "inline-flex shrink-0 items-center justify-center gap-space-sm rounded-md whitespace-nowrap type-label-lg",
     "transition-[background-color,border-color,box-shadow,color] duration-200",
     "focus-visible:outline-none focus-visible:shadow-focus-ring",
     "disabled:pointer-events-none disabled:opacity-50",
@@ -21,9 +21,9 @@ export const buttonVariants = cva(
         destructive: "border border-destructive-border bg-destructive-fill text-destructive-text hover:bg-destructive-border/40",
       },
       size: {
-        sm: "h-8 px-space-sm",
-        md: "h-10 px-space-md",
-        lg: "h-12 px-space-lg type-title-md",
+        sm: "h-9 px-3",
+        md: "h-10 px-4",
+        lg: "h-12 px-5 type-title-md",
         icon: "size-10",
       },
     },

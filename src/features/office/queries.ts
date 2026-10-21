@@ -15,7 +15,7 @@ export async function getOfficeData(orgId: string): Promise<OfficeData | null> {
     supabase.from("departments").select("id, slug, sort_order").eq("org_id", orgId).order("sort_order"),
     supabase
       .from("memberships")
-      .select("user_id, role, department_id, profiles(display_name, title, avatar_url, timezone, availability)")
+      .select("user_id, role, department_id, profiles(display_name, title, avatar_url, timezone, availability, avatar_character)")
       .eq("org_id", orgId),
   ]);
   for (const result of [org, layout, departments, members]) {
@@ -46,7 +46,7 @@ export async function getOfficeData(orgId: string): Promise<OfficeData | null> {
       assignedUserId: s.assigned_user_id,
     })),
     people: (members.data ?? []).flatMap((m) => {
-      const profile = m.profiles as unknown as Row<{ display_name: string; title: string | null; avatar_url: string | null; timezone: string; availability: string }>;
+      const profile = m.profiles as unknown as Row<{ display_name: string; title: string | null; avatar_url: string | null; timezone: string; availability: string; avatar_character: string | null }>;
       if (!profile) return [];
       return [
         {
@@ -58,6 +58,7 @@ export async function getOfficeData(orgId: string): Promise<OfficeData | null> {
           role: m.role,
           departmentSlug: m.department_id ? (slugById.get(m.department_id) ?? null) : null,
           availability: profile.availability,
+          character: profile.avatar_character,
         },
       ];
     }),

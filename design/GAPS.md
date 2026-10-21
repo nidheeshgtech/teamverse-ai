@@ -114,6 +114,19 @@ Message text uses a safe markdown subset (bold, italic, code, code blocks, quote
 - New-message pings fan out to each member's inbox in the database trigger; fine at agency scale, to be load-tested in Phase 7.
 - Global search is not built.
 
+## 3D office v2 (2026-10-21) — warm modern office (product owner's reference render)
+- Art direction from the reference image supplied by the product owner. Built with free CC0
+  placeholder models (Kenney Furniture Kit + Mini Characters, credits in `public/models/CREDITS.md`),
+  re-tinted warm; labelled "Placeholder 3D" until the commissioned assets arrive (brief:
+  `design/3D-ASSET-BRIEF.md`).
+- Matches the reference: glass rooms with warm LED edges and solid back walls, desks with monitors,
+  office chairs, seated people, plants, lounge, meeting table, warm lighting and soft shadows,
+  floating name tags (photo/initials + status dot).
+- Deviations: realtime WebGL is stylised, not photoreal; people appear only while connected (an
+  empty chair = not connected, never a guess); name tags are compact (avatar only) when zoomed
+  out and show names when zoomed in or hovered; room names are floor signs at each room's front;
+  figures are user-chosen (default from the account id, never inferred from a name).
+
 ## Accessibility notes
 - axe (WCAG 2.1 AA) reports no serious/critical issues on sign-in and the component gallery.
 - Offline presence is a hollow ring and DND has a bar, so status isn't conveyed by colour alone.

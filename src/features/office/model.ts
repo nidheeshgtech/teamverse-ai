@@ -38,6 +38,8 @@ export const personSchema = z.object({
   departmentSlug: z.string().nullable(),
   /** The availability the person chose; only shown while they are actually connected. */
   availability: z.enum(presenceStatuses),
+  /** 3D figure the person picked (null = stable default). */
+  character: z.string().nullable().default(null),
 });
 
 export const officeDataSchema = z.object({

@@ -73,11 +73,11 @@
   --tv-color-dept-marketing: #F59E0B;
   --tv-color-dept-project-management: #10B981;
   --tv-color-dept-meeting-room: #6BD8CB;
-  --tv-glass-level-1-fill: rgba(13, 19, 31, 0.65);
+  --tv-glass-level-1-fill: rgba(13, 19, 31, 0.8);
   --tv-glass-level-1-blur: 16px;
-  --tv-glass-level-2-fill: rgba(13, 19, 31, 0.85);
+  --tv-glass-level-2-fill: rgba(13, 19, 31, 0.93);
   --tv-glass-level-2-blur: 24px;
-  --tv-glass-level-3-fill: rgba(9, 13, 22, 0.94);
+  --tv-glass-level-3-fill: rgba(9, 13, 22, 0.97);
   --tv-glass-level-3-blur: 32px;
 }
 

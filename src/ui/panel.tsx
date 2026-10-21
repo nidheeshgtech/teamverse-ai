@@ -10,7 +10,8 @@ const panelVariants = cva("text-on-surface", {
       2: "glass-level-2 rounded-lg",
       3: "glass-level-3 rounded-xl",
     },
-    padding: { none: "", sm: "p-space-sm", md: "p-space-md", lg: "p-space-lg" },
+    // 12 / 20 / 24px: cards breathe; content never touches the border.
+    padding: { none: "", sm: "p-3", md: "p-5", lg: "p-space-lg" },
   },
   defaultVariants: { level: 2, padding: "md" },
 });
@@ -23,5 +24,5 @@ export function Panel({ className, level, padding, ...props }: PanelProps) {
 
 /** Small uppercase heading used on HUD cards ("OFFICE TELEMETRY", "SPATIAL COMMS"). */
 export function PanelEyebrow({ className, ...props }: ComponentProps<"h2">) {
-  return <h2 className={cn("type-label-xs uppercase text-secondary", className)} {...props} />;
+  return <h2 className={cn("type-label-xs uppercase tracking-[0.08em] text-secondary", className)} {...props} />;
 }

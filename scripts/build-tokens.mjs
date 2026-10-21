@@ -47,9 +47,10 @@ const supplementary = {
     "focus-ring": "0 0 0 2px rgba(16, 185, 129, 0.35)",
   },
   glass: {
-    "level-1": { fill: "rgba(13, 19, 31, 0.65)", blur: "16px" },
-    "level-2": { fill: "rgba(13, 19, 31, 0.85)", blur: "24px" },
-    "level-3": { fill: "rgba(9, 13, 22, 0.94)", blur: "32px" },
+    // Opacity raised from the Stitch HTML (0.65/0.85/0.94) so text stays legible over the 3D scene.
+    "level-1": { fill: "rgba(13, 19, 31, 0.8)", blur: "16px" },
+    "level-2": { fill: "rgba(13, 19, 31, 0.93)", blur: "24px" },
+    "level-3": { fill: "rgba(9, 13, 22, 0.97)", blur: "32px" },
   },
   // DESIGN.md › Layout: side panels 380–440px; shell sizes measured from the Stitch HTML.
   layout: {

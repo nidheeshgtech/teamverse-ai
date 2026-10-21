@@ -2,10 +2,11 @@
 
 import { LogOut, Mic, MonitorUp, Phone, ShieldCheck, Video } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState } from "react";
 import type { ConversationDetail } from "@/features/messaging/model";
 import type { ThreadMessage } from "@/features/messaging/thread-state";
 import { cn } from "@/lib/utils";
+import { DisabledActionTile } from "@/ui/action-tile";
 import { Avatar } from "@/ui/avatar";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
@@ -114,11 +115,11 @@ function PersonCard({ userId }: { userId: string }) {
         {t(`presence.${status}`)}
       </p>
 
-      <div className="mt-space-xs grid w-full grid-cols-2 gap-space-xs" aria-label={t("comms.details.contact")} role="group">
-        <ContactTile icon={<Phone />} label={t("comms.details.directCall")} hint={t("comms.thread.phaseHint", { phase: 4 })} />
-        <ContactTile icon={<Video />} label={t("comms.details.videoCall")} hint={t("comms.thread.phaseHint", { phase: 4 })} />
-        <ContactTile icon={<MonitorUp />} label={t("comms.details.screenShare")} hint={t("office.profile.screenShareHint")} />
-        <ContactTile icon={<Mic />} label={t("comms.details.voiceNote")} hint={t("comms.thread.phaseHint", { phase: 5 })} />
+      <div className="mt-2 grid w-full grid-cols-2 gap-2" aria-label={t("comms.details.contact")} role="group">
+        <DisabledActionTile icon={<Phone />} label={t("comms.details.directCall")} tag={t("office.profile.phaseTag", { phase: 4 })} reason={t("comms.thread.phaseHint", { phase: 4 })} />
+        <DisabledActionTile icon={<Video />} label={t("comms.details.videoCall")} tag={t("office.profile.phaseTag", { phase: 4 })} reason={t("comms.thread.phaseHint", { phase: 4 })} />
+        <DisabledActionTile icon={<MonitorUp />} label={t("comms.details.screenShare")} tag={t("office.profile.inCallsTag")} reason={t("office.profile.screenShareHint")} />
+        <DisabledActionTile icon={<Mic />} label={t("comms.details.voiceNote")} tag={t("office.profile.phaseTag", { phase: 5 })} reason={t("comms.thread.phaseHint", { phase: 5 })} />
       </div>
     </section>
   );
@@ -154,20 +155,5 @@ function MembersCard({ detail }: { detail: ConversationDetail }) {
         </ul>
       </section>
     </>
-  );
-}
-
-function ContactTile({ icon, label, hint }: { icon: ReactNode; label: string; hint: string }) {
-  return (
-    <button
-      type="button"
-      aria-disabled
-      title={hint}
-      className="flex cursor-not-allowed flex-col items-center gap-space-2xs rounded-md bg-surface-container-low px-space-xs py-space-sm text-on-surface-variant [&_svg]:size-5"
-    >
-      <span aria-hidden>{icon}</span>
-      <span className="type-label-md text-on-surface">{label}</span>
-      <span className="type-label-xs">{hint}</span>
-    </button>
   );
 }

@@ -273,6 +273,22 @@ update public.conversation_members
  where conversation_id = 'c0000000-0000-4000-8000-000000000006'
    and user_id = 'a0000000-0000-4000-8000-000000000003';
 
+-- Demo figures for the 3D office (fictional people; real users pick theirs in Settings).
+update public.profiles p set avatar_character = v.c
+from (values
+  ('a0000000-0000-4000-8000-000000000002'::uuid, 'character-male-a'),
+  ('a0000000-0000-4000-8000-000000000003'::uuid, 'character-female-a'),
+  ('a0000000-0000-4000-8000-000000000004'::uuid, 'character-male-b'),
+  ('a0000000-0000-4000-8000-000000000005'::uuid, 'character-female-b'),
+  ('a0000000-0000-4000-8000-000000000006'::uuid, 'character-female-c'),
+  ('a0000000-0000-4000-8000-000000000007'::uuid, 'character-male-c'),
+  ('a0000000-0000-4000-8000-000000000008'::uuid, 'character-female-d'),
+  ('a0000000-0000-4000-8000-000000000009'::uuid, 'character-female-e'),
+  ('a0000000-0000-4000-8000-000000000010'::uuid, 'character-male-d'),
+  ('a0000000-0000-4000-8000-000000000011'::uuid, 'character-male-e')
+) as v(id, c)
+where p.id = v.id;
+
 -- Layla has read the DM, but prefers not to share read receipts (shows the opt-out).
 update public.conversation_members
    set last_read_at = now() - interval '30 minutes'

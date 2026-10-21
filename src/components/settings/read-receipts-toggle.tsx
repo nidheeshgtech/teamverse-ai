@@ -23,7 +23,7 @@ export function ReadReceiptsToggle({ initial }: { initial: boolean }) {
 
   return (
     <div className="flex items-start justify-between gap-space-lg">
-      <div className="flex flex-col gap-space-2xs">
+      <div className="flex flex-col gap-1.5">
         <label htmlFor="share-read-receipts" className="type-title-md text-on-surface">
           {t("readReceipts")}
         </label>

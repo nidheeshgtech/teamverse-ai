@@ -35,23 +35,23 @@ export default async function AdminPage() {
 
       <div className="grid grid-cols-1 gap-gutter lg:grid-cols-12">
         <Panel level={2} padding="none" className="overflow-hidden lg:col-span-8" aria-labelledby="members-title">
-          <div className="flex items-center justify-between p-space-md">
+          <div className="flex items-center justify-between px-5 py-4">
             <h2 id="members-title" className="type-title-md">{t("admin.membersTitle")}</h2>
             <span className="type-label-md text-on-surface-variant">{t("admin.membersCount", { count: data.members.length })}</span>
           </div>
           <table className="w-full text-start">
-            <thead className="border-y border-surface-glass-border">
+            <thead className="border-y border-surface-glass-border bg-surface-container-low/40">
               <tr className="type-label-xs uppercase text-on-surface-variant">
-                <th scope="col" className="px-space-md py-space-sm text-start">{t("admin.colName")}</th>
-                <th scope="col" className="px-space-md py-space-sm text-start max-md:hidden">{t("admin.colEmail")}</th>
-                <th scope="col" className="px-space-md py-space-sm text-start max-sm:hidden">{t("admin.colDepartment")}</th>
-                <th scope="col" className="px-space-md py-space-sm text-start">{t("admin.colRole")}</th>
+                <th scope="col" className="px-5 py-2.5 text-start">{t("admin.colName")}</th>
+                <th scope="col" className="px-5 py-2.5 text-start max-md:hidden">{t("admin.colEmail")}</th>
+                <th scope="col" className="px-5 py-2.5 text-start max-sm:hidden">{t("admin.colDepartment")}</th>
+                <th scope="col" className="px-5 py-2.5 text-start">{t("admin.colRole")}</th>
               </tr>
             </thead>
             <tbody>
               {data.members.map((member) => (
                 <tr key={member.id} className="border-b border-surface-glass-border last:border-b-0">
-                  <td className="px-space-md py-space-sm">
+                  <td className="px-5 py-3">
                     <span className="flex items-center gap-space-sm">
                       <Avatar name={member.profile.display_name} src={member.profile.avatar_url} size="sm" />
                       <span className="min-w-0">
@@ -61,15 +61,15 @@ export default async function AdminPage() {
                       </span>
                     </span>
                   </td>
-                  <td className="px-space-md py-space-sm type-body-sm text-on-surface-variant max-md:hidden" dir="ltr">{member.profile.email}</td>
-                  <td className="px-space-md py-space-sm max-sm:hidden">
+                  <td className="px-5 py-3 type-body-sm text-on-surface-variant max-md:hidden" dir="ltr">{member.profile.email}</td>
+                  <td className="px-5 py-3 max-sm:hidden">
                     {member.department ? (
                       <Badge tone={`dept-${member.department.slug}` as BadgeTone}>{t(`departments.${member.department.slug}` as "departments.development")}</Badge>
                     ) : (
                       <span className="text-on-surface-variant">{t("admin.noDepartment")}</span>
                     )}
                   </td>
-                  <td className="px-space-md py-space-sm">
+                  <td className="px-5 py-3">
                     <Badge tone={member.role === "member" ? "neutral" : "primary"}>{t(`roles.${member.role}`)}</Badge>
                   </td>
                 </tr>

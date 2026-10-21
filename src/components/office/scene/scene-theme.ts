@@ -3,25 +3,26 @@
 // here as the single source for the scene. UI-facing colours (departments, presence, primary)
 // are read from the CSS design tokens at runtime instead — see useSceneTokens().
 export const sceneTheme = {
-  floor: "#0f172a",
+  // Warm modern office (art direction from the product owner's reference render, 2026-10-21).
+  floor: "#4a453f",
+  floorEdge: "#1b1916",
+  roomFloor: "#5d564d",
+  backWall: "#24221f",
+  glass: "#d8e6e3",
+  glassFrame: "#17191d",
+  ledWarm: "#e39a4c",
+  hoverRing: "#f8fafc",
+  ambient: "#ffe9cc",
+  keyLight: "#fff1dc",
+  fillLight: "#a9c7ff",
+  roomLight: "#ffcf91",
+  // Legacy (Stitch) values still used by the 2D plan / tokens fallback.
   floorGrid: "#1e293b",
-  wallTrim: "#334155",
-  glass: "#38bdf8",
-  desk: "#1e293b",
-  monitor: "#0f172a",
-  chair: "#0284c7",
-  boardTable: "#1e1b4b",
-  holo: "#38bdf8",
-  holoEmissive: "#0284c7",
-  plantPot: "#0f766e",
-  plantFoliage: "#10b981",
-  avatarHead: "#dfe2ef",
-  ambient: "#dcfce7",
   accentCyan: "#06b6d4",
   accentEmerald: "#10b981",
 } as const;
 
-/** Camera placement from the Stitch scene: isometric-style orthographic view. */
+/** Camera placement from the Stitch scene: isometric-style orthographic view (camera at +X/+Z). */
 export const cameraPosition: [number, number, number] = [24, 28, 24];
 
 export const tokenNames = [

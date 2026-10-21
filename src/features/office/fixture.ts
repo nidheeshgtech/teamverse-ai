@@ -284,6 +284,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "owner",
       "departmentSlug": null,
+      "character": null,
       "availability": "online"
     },
     {
@@ -294,6 +295,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "admin",
       "departmentSlug": "development",
+      "character": "character-male-a",
       "availability": "online"
     },
     {
@@ -304,6 +306,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "admin",
       "departmentSlug": "design",
+      "character": "character-female-a",
       "availability": "online"
     },
     {
@@ -314,6 +317,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "member",
       "departmentSlug": "development",
+      "character": "character-male-b",
       "availability": "online"
     },
     {
@@ -324,6 +328,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "member",
       "departmentSlug": "marketing",
+      "character": "character-female-b",
       "availability": "online"
     },
     {
@@ -334,6 +339,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "member",
       "departmentSlug": "design",
+      "character": "character-female-c",
       "availability": "online"
     },
     {
@@ -344,6 +350,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "member",
       "departmentSlug": "project-management",
+      "character": "character-male-c",
       "availability": "online"
     },
     {
@@ -354,6 +361,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "member",
       "departmentSlug": "project-management",
+      "character": "character-female-d",
       "availability": "online"
     },
     {
@@ -364,6 +372,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "member",
       "departmentSlug": "marketing",
+      "character": "character-female-e",
       "availability": "online"
     },
     {
@@ -374,6 +383,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "member",
       "departmentSlug": "project-management",
+      "character": "character-male-d",
       "availability": "online"
     },
     {
@@ -384,6 +394,7 @@ export const demoOfficeFixture: OfficeData = {
       "timezone": "Asia/Dubai",
       "role": "member",
       "departmentSlug": "development",
+      "character": "character-male-e",
       "availability": "online"
     }
   ]

@@ -6,6 +6,7 @@ import { PresenceDot, type PresenceStatus } from "./presence";
 const avatarVariants = cva("relative inline-flex shrink-0", {
   variants: {
     size: {
+      xs: "size-7",
       sm: "size-8",
       md: "size-10",
       lg: "size-16",
@@ -32,7 +33,7 @@ export function initialsFor(name: string): string {
   return (first + last).toUpperCase();
 }
 
-const initialsType = { sm: "type-label-md", md: "type-label-md", lg: "type-title-md", xl: "type-headline-md" } as const;
+const initialsType = { xs: "type-label-xs", sm: "type-label-md", md: "type-label-md", lg: "type-title-md", xl: "type-headline-md" } as const;
 
 export function Avatar({ name, src, status, statusLabel, size, decorative = false, className }: AvatarProps) {
   const large = size === "lg" || size === "xl";

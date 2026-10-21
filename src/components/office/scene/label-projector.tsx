@@ -6,6 +6,9 @@ import { Vector3 } from "three";
 
 export type LabelAnchor = { id: string; position: [number, number, number] };
 
+/** Orthographic zoom above which person tags show full names. */
+const ZOOMED_IN = 34;
+
 /**
  * Positions plain DOM labels (children of `layer` with matching `data-anchor`) over 3D points.
  * Runs only on rendered frames (the canvas uses frameloop="demand"), writing transforms directly
@@ -23,6 +26,9 @@ export function LabelProjector({ anchors, layer }: { anchors: LabelAnchor[]; lay
   useFrame(({ camera, size }) => {
     const root = layer.current;
     if (!root) return;
+    // Names on person tags appear once zoomed in (or on hover/selection); see office-view.tsx.
+    const zoomed = (camera as { zoom?: number }).zoom ?? 0;
+    root.setAttribute("data-zoomed", zoomed > ZOOMED_IN ? "true" : "false");
     for (const point of points) {
       const element = root.querySelector<HTMLElement>(`[data-anchor="${point.id}"]`);
       if (!element) continue;

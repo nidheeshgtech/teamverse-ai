@@ -24,7 +24,7 @@ type Props = {
 };
 
 const chip =
-  "inline-flex h-8 shrink-0 items-center gap-space-xs whitespace-nowrap rounded px-space-sm type-label-lg text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action";
+  "inline-flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-md px-3 type-label-lg text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action";
 
 export function OfficeToolbar(props: Props) {
   const t = useTranslations("office");
@@ -85,5 +85,5 @@ export function OfficeToolbar(props: Props) {
 }
 
 function Count({ value }: { value: number }) {
-  return <span className="type-code-sm opacity-80">{value}</span>;
+  return <span className="rounded-sm bg-current/10 px-1.5 py-0.5 type-code-sm leading-none tabular-nums">{value}</span>;
 }

@@ -202,7 +202,10 @@
       "screenShareHint": "Only during an active call, after you choose to share.",
       "notConnected": "Not connected",
       "messageFailed": "Couldn't open the conversation.",
-      "previewHint": "Not available in the preview"
+      "previewHint": "Not available in the preview",
+      "phaseTag": "Phase {phase}",
+      "inCallsTag": "During calls",
+      "previewTag": "Preview"
     }
   },
   "directory": {

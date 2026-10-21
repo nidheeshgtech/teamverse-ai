@@ -22,7 +22,7 @@ type Props = {
 };
 
 const chip =
-  "inline-flex h-8 shrink-0 items-center gap-space-xs whitespace-nowrap rounded px-space-sm type-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action";
+  "inline-flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-md px-3 type-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action";
 
 // DESIGN GAP: Stitch shows "Team Directory" in navigation only. Built from the people list,
 // department chips and the profile panel of the office screen.
@@ -80,13 +80,13 @@ export function DirectoryView({ data, viewerId, presence, connection, onMessage 
                   type="button"
                   onClick={() => setSelectedId(person.userId)}
                   aria-current={person.userId === selectedId ? "true" : undefined}
-                  className="glass-level-2 flex w-full items-center gap-space-md rounded-lg p-space-md text-start hover:border-surface-glass-highlight aria-[current=true]:border-primary-container"
+                  className="glass-level-2 flex w-full items-center gap-4 rounded-lg p-4 text-start transition-[border-color,background-color] duration-200 hover:border-surface-glass-highlight focus-visible:shadow-focus-ring focus-visible:outline-none aria-[current=true]:border-primary-container"
                 >
                   <Avatar name={person.displayName} src={person.avatarUrl} size="lg" status={person.status} statusLabel={t(`presence.${person.status}`)} decorative />
                   <span className="min-w-0 flex-1">
                     <span className="block truncate type-title-md text-on-surface">{person.displayName}</span>
-                    <span className="block truncate type-body-sm text-on-surface-variant">{person.title}</span>
-                    <span className="mt-space-xs flex flex-wrap items-center gap-space-xs">
+                    <span className="mt-0.5 block truncate type-body-sm text-on-surface-variant">{person.title}</span>
+                    <span className="mt-2 flex flex-wrap items-center gap-2">
                       {person.departmentSlug ? <Badge tone={departmentTone(person.departmentSlug)}>{deptLabel(person.departmentSlug)}</Badge> : null}
                       <span className="type-label-md text-on-surface-variant">{t(`presence.${person.status}`)}</span>
                     </span>

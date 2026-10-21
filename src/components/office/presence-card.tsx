@@ -28,19 +28,19 @@ export function PresenceCard({ summary, connection }: { summary: ReturnType<type
         <PanelEyebrow id="presence-title">{t("office.presenceTitle")}</PanelEyebrow>
         <Badge tone={connectionTone[connection]} aria-live="polite">{t(`office.connection.${connection}`)}</Badge>
       </div>
-      <dl className="mt-space-sm grid grid-cols-3 gap-space-xs">
+      <dl className="mt-4 grid grid-cols-3 gap-2">
         {stats.map(({ status, value }) => (
-          <div key={status} className="flex flex-col-reverse items-center rounded-md bg-surface-container-low px-space-xs py-space-sm">
+          <div key={status} className="flex flex-col-reverse items-center gap-1 rounded-lg border border-glass-line bg-surface-container-low/60 px-2 py-3">
             <dt className="type-label-md text-on-surface-variant">{t(`presence.${status}`)}</dt>
-            <dd className="flex items-center gap-space-xs type-headline-md tabular-nums text-on-surface">
+            <dd className="flex items-center gap-2 type-headline-md tabular-nums text-on-surface">
               <PresenceDot status={status} />
               {String(value).padStart(2, "0")}
             </dd>
           </div>
         ))}
       </dl>
-      <p className="mt-space-sm flex gap-space-xs rounded-md bg-surface-container-low p-space-sm type-body-sm text-on-surface-variant">
-        <ShieldCheck aria-hidden className="mt-space-2xs size-4 shrink-0 text-primary" />
+      <p className="mt-3 flex gap-2.5 rounded-lg bg-surface-container-low/60 px-3 py-2.5 type-body-sm leading-5 text-on-surface-variant">
+        <ShieldCheck aria-hidden className="mt-0.5 size-4 shrink-0 text-primary" />
         {t("office.presenceNote")}
       </p>
     </Panel>

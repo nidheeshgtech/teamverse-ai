@@ -40,8 +40,10 @@ test.describe("virtual office (fixture)", () => {
     await expect(profile).toBeVisible();
     await expect(profile.getByText("Online · Desk DEV-1")).toBeVisible();
     // Unbuilt actions are visibly disabled with the reason, never faked.
-    await expect(profile.getByRole("button", { name: /Screen share/ })).toHaveAttribute("aria-disabled", "true");
-    await expect(profile.getByText("Only during an active call, after you choose to share.")).toBeVisible();
+    const screenShare = profile.getByRole("button", { name: /Screen share/ });
+    await expect(screenShare).toHaveAttribute("aria-disabled", "true");
+    await expect(screenShare).toContainText("During calls");
+    await expect(screenShare).toHaveAttribute("title", "Only during an active call, after you choose to share.");
 
     await page.keyboard.press("Escape");
     await expect(profile).toHaveCount(0);
