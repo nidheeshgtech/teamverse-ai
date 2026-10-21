@@ -14,7 +14,7 @@ export async function generateMetadata() {
 export default async function SettingsPage() {
   const t = await getTranslations("settings");
   return (
-    <div className="flex max-w-4xl flex-col gap-space-lg p-margin">
+    <div className="flex max-w-4xl flex-col gap-space-lg px-margin-mobile py-space-lg lg:p-margin">
       <h1 className="type-headline-lg text-on-surface">{t("title")}</h1>
       <Panel level={2} padding="lg" aria-labelledby="privacy-settings" className="flex flex-col gap-space-md">
         <PanelEyebrow id="privacy-settings">{t("privacyTitle")}</PanelEyebrow>

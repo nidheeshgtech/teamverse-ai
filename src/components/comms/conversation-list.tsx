@@ -40,7 +40,7 @@ export function ConversationList({ basePath }: { basePath: string }) {
   }, [inbox.conversations, query, conversationName]);
 
   return (
-    <nav aria-label={t("listLabel")} className="flex min-h-0 flex-col gap-space-md border-e border-glass-line bg-surface-panel/60 p-space-md">
+    <nav aria-label={t("listLabel")} className="flex min-h-0 w-full flex-col gap-space-md bg-surface-panel/60 px-margin-mobile py-space-md lg:border-e lg:border-glass-line lg:px-space-md">
       <div className="flex items-center gap-space-sm rounded-lg bg-surface-container-low/70 p-space-sm">
         <span aria-hidden className="inline-flex size-10 items-center justify-center rounded-md bg-surface-container-high text-secondary [&_svg]:size-5">
           <Users />

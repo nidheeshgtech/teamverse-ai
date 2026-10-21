@@ -15,6 +15,8 @@ type CommsContextValue = {
   orgId: string;
   orgName: string;
   timezone: string;
+  /** Route prefix for conversation links ("/comms", or "/dev/comms" in the preview). */
+  basePath: string;
   people: Map<string, ChatPerson>;
   presence: ReadonlyMap<string, PresenceStatus>;
   personName: (userId: string | null) => string;
@@ -32,12 +34,13 @@ type ProviderProps = {
   orgId: string;
   orgName: string;
   timezone: string;
+  basePath: string;
   people: ChatPerson[];
   presence: ReadonlyMap<string, PresenceStatus>;
   children: ReactNode;
 };
 
-export function CommsProvider({ transport, viewerId, orgId, orgName, timezone, people, presence, children }: ProviderProps) {
+export function CommsProvider({ transport, viewerId, orgId, orgName, timezone, basePath, people, presence, children }: ProviderProps) {
   const t = useTranslations("comms");
   const store = getInboxStore(transport);
   const inbox = useInbox(store) ?? EMPTY_INBOX;
@@ -61,8 +64,8 @@ export function CommsProvider({ transport, viewerId, orgId, orgName, timezone, p
   const statusOf = useCallback((userId: string) => presence.get(userId) ?? "offline", [presence]);
 
   const value = useMemo<CommsContextValue>(
-    () => ({ transport, store, inbox, viewerId, orgId, orgName, timezone, people: peopleById, presence, personName, conversationName, statusOf }),
-    [transport, store, inbox, viewerId, orgId, orgName, timezone, peopleById, presence, personName, conversationName, statusOf],
+    () => ({ transport, store, inbox, viewerId, orgId, orgName, timezone, basePath, people: peopleById, presence, personName, conversationName, statusOf }),
+    [transport, store, inbox, viewerId, orgId, orgName, timezone, basePath, peopleById, presence, personName, conversationName, statusOf],
   );
 
   return <CommsContext.Provider value={value}>{children}</CommsContext.Provider>;

@@ -9,7 +9,7 @@ import { StateMessage } from "@/ui/states";
 export default function AppError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   const t = useTranslations("states");
   return (
-    <div className="p-margin">
+    <div className="px-margin-mobile py-space-lg lg:p-margin">
       <Panel level={2} padding="lg">
         <StateMessage
           tone="error"

@@ -3,7 +3,33 @@
 
 @custom-variant rtl (&:where([dir="rtl"], [dir="rtl"] *));
 
+/* DESIGN GAP: Stitch has no mobile screens. App chrome for phones/tablets (< lg): compact top bar +
+   bottom tab bar (< xl). Pages size themselves with --chrome-top / --chrome-bottom instead of fixed offsets. */
+@theme {
+  --spacing-mobile-nav: 4rem;
+}
+
 @layer base {
+  :root {
+    --chrome-top: calc(var(--spacing-topbar) + env(safe-area-inset-top));
+    --chrome-bottom: calc(var(--spacing-mobile-nav) + env(safe-area-inset-bottom));
+  }
+
+  /* The desktop sidebar takes over from the tab bar at xl (DESIGN.md › tablet is 768–1279px). */
+  @media (width >= 80rem) {
+    :root {
+      --chrome-bottom: 0px;
+    }
+  }
+
+  /* An open chat on a phone is full screen, like a native messenger (set by <MobileFullscreen>). */
+  @media (width < 64rem) {
+    :root[data-mobile-fullscreen] {
+      --chrome-top: 0px;
+      --chrome-bottom: 0px;
+    }
+  }
+
   html {
     color-scheme: dark;
     background-color: var(--tv-color-surface-canvas);
@@ -40,5 +66,22 @@
 @utility icon-directional {
   &:where([dir="rtl"] *) {
     transform: scaleX(-1);
+  }
+}
+
+/* Unlayered so it beats the display utilities on the chrome elements. */
+@media (width < 64rem) {
+  :root[data-mobile-fullscreen] [data-mobile-chrome] {
+    display: none;
+  }
+}
+
+/* iOS zooms into focused fields smaller than 16px; keep them at 16px on touch screens.
+   Unlayered on purpose so it wins over the type-* utilities. */
+@media (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1em);
   }
 }

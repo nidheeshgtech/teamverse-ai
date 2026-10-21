@@ -50,7 +50,7 @@ export const MessageItem = memo(function MessageItem({ message, showHeader, rece
   return (
     <article
       aria-labelledby={`msg-${message.id}-meta`}
-      className={cn("group relative flex gap-space-md rounded-lg px-space-sm py-space-2xs hover:bg-surface-container-low/40 focus-within:bg-surface-container-low/40", showHeader && "mt-space-md")}
+      className={cn("group relative flex gap-space-sm rounded-lg px-space-xs py-space-2xs sm:gap-space-md sm:px-space-sm hover:bg-surface-container-low/40 focus-within:bg-surface-container-low/40", showHeader && "mt-space-md")}
     >
       <div className="w-10 shrink-0">
         {showHeader ? (
@@ -129,7 +129,7 @@ export const MessageItem = memo(function MessageItem({ message, showHeader, rece
       </div>
 
       {canAct && !editing ? (
-        <div className="absolute -top-space-sm end-space-sm opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 has-[[data-state=open]]:opacity-100">
+        <div className="absolute -top-space-sm end-space-sm opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 has-[[data-state=open]]:opacity-100 pointer-coarse:top-space-2xs pointer-coarse:opacity-100">
           <Menu>
             <MenuTrigger asChild>
               <Button size="sm" variant="glass" aria-label={t("comms.thread.actions")} className="size-8 px-0">

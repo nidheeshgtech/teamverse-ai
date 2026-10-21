@@ -12,10 +12,11 @@ import { FloorPlan2D } from "./floor-plan-2d";
 import { OfficeToolbar, type OfficeViewMode } from "./office-toolbar";
 import { PeopleList } from "./people-list";
 import { PresenceCard } from "./presence-card";
-import { ProfilePanel } from "./profile-panel";
+import { ProfileDock } from "./profile-dock";
 import type { CameraCommand } from "./scene/office-scene";
 import { prefersLowPower, useReducedMotion, useWebGLSupport } from "./use-device-capabilities";
 import { useDepartmentLabel } from "./use-labels";
+import { cn } from "@/lib/utils";
 import { useSceneTokens } from "./use-scene-tokens";
 
 // three.js + R3F load only when the 3D view is actually shown.
@@ -74,6 +75,8 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
     const storedPerf = readPref(PERF_KEY);
     /* eslint-disable react-hooks/set-state-in-effect -- one-time sync from browser storage */
     if (storedView === "2d" || storedView === "3d") setViewState(storedView);
+    // DESIGN.md › Mobile: 3D is optional on phones; the 2D floor plan is the default there.
+    else if (window.matchMedia("(max-width: 47.99rem)").matches) setViewState("2d");
     setPerformanceState(storedPerf ? storedPerf === "1" : lowBandwidth || prefersLowPower());
     /* eslint-enable react-hooks/set-state-in-effect */
   }, [lowBandwidth]);
@@ -114,7 +117,8 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
   }
 
   return (
-    <div className="relative h-[calc(100dvh-var(--spacing-topbar))] overflow-hidden">
+    // DESIGN GAP (< lg): the HUD panels stack in a scrolling column; the 3D view becomes a card.
+    <div className="relative flex flex-col gap-space-md py-space-md lg:block lg:h-[calc(100dvh-var(--chrome-top)-var(--chrome-bottom))] lg:overflow-hidden lg:py-0">
       {/* Layer 0: 3D canvas (full bleed) */}
       {show3d ? (
         <div
@@ -123,7 +127,7 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
           aria-label={t("canvasLabel")}
           role="group"
           // Starts after the people column so the fitted scene isn't hidden behind it (logical inset: flips in RTL).
-          className="absolute inset-y-0 end-0 start-[calc(var(--spacing-margin)+var(--spacing-panel-sm))] isolate focus-visible:outline-offset-[-4px]"
+          className="relative order-2 mx-margin-mobile h-[55dvh] overflow-hidden rounded-lg isolate focus-visible:outline-offset-[-4px] lg:absolute lg:inset-y-0 lg:end-0 lg:start-[calc(var(--spacing-margin)+var(--spacing-panel-sm))] lg:mx-0 lg:h-auto lg:overflow-visible lg:rounded-none"
         >
           <OfficeScene
             rooms={data.scene.rooms}
@@ -171,9 +175,9 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
       ) : null}
 
       {/* Layer 1: HUD. Containers ignore the pointer so the canvas stays draggable between panels. */}
-      <div className="pointer-events-none absolute inset-0 z-10 flex flex-col gap-space-md p-margin">
-        <header className="pointer-events-auto flex flex-wrap items-start justify-between gap-space-md">
-          <div className="glass-level-1 flex items-center gap-space-sm rounded-lg px-space-md py-space-sm">
+      <div className="pointer-events-none contents lg:absolute lg:inset-0 lg:z-10 lg:flex lg:flex-col lg:gap-space-md lg:p-margin">
+        <header className="pointer-events-auto flex flex-wrap items-start justify-between gap-space-md max-lg:mx-margin-mobile">
+          <div className="glass-level-1 flex flex-wrap items-center gap-space-sm rounded-lg px-space-md py-space-sm max-lg:w-full">
             <Building2 aria-hidden className="size-5 text-secondary" />
             <div>
               <h1 className="type-title-md text-on-surface">{data.layoutName}</h1>
@@ -184,7 +188,7 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
           </div>
         </header>
 
-        <div className="pointer-events-auto">
+        <div className="pointer-events-auto max-lg:mx-margin-mobile">
           <OfficeToolbar
             departments={departments}
             counts={counts}
@@ -200,40 +204,40 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
           />
         </div>
         {webgl === false ? (
-          <p role="status" className="pointer-events-auto type-body-sm text-tertiary">{t("webglUnavailable")}</p>
+          <p role="status" className="pointer-events-auto type-body-sm text-tertiary max-lg:mx-margin-mobile">{t("webglUnavailable")}</p>
         ) : null}
 
-        <div className="relative flex min-h-0 flex-1 gap-gutter">
-          <div className="pointer-events-auto flex w-panel-sm min-h-0 shrink-0 flex-col gap-gutter">
+        <div className="relative order-3 flex min-h-0 flex-col gap-gutter max-lg:mx-margin-mobile lg:flex-1 lg:flex-row">
+          <div className="pointer-events-auto order-2 flex min-h-0 shrink-0 flex-col gap-gutter lg:order-none lg:w-panel-sm">
             <PresenceCard summary={summary} connection={connection} />
-            <PeopleList people={visible} query={query} onQuery={setQuery} selectedId={selectedId} onSelect={select} className="flex-1" />
+            <PeopleList people={visible} query={query} onQuery={setQuery} selectedId={selectedId} onSelect={select} className="lg:flex-1" />
           </div>
 
-          <div className="min-w-0 flex-1">
+          <div className={cn("min-w-0 flex-1", effectiveView === "2d" ? "order-1 max-lg:h-[60dvh] max-lg:flex-none lg:order-none" : "max-lg:hidden")}>
             {effectiveView === "2d" ? (
-              <div className="pointer-events-auto size-full">
+              <div className="pointer-events-auto size-full max-lg:overflow-x-auto max-lg:overscroll-x-contain max-lg:[&>*]:min-w-[44rem]">
                 <FloorPlan2D rooms={data.scene.rooms} occupants={occupants} departmentFilter={department} selectedId={selectedId} onSelect={select} />
               </div>
             ) : null}
           </div>
 
           {selected ? (
-            // Floats over the content area so the 2D plan / 3D view keep their full width.
-            <div className="pointer-events-auto absolute inset-y-0 end-0 w-panel-lg overflow-y-auto">
-              <ProfilePanel
-                person={selected}
-                isSelf={selected.userId === viewerId}
-                canFocusDesk={show3d && selected.seat !== null}
-                onFocusDesk={() => focus(selected.userId)}
-                onClose={close}
-                onMessage={onMessage}
-              />
-            </div>
+            // Desktop: floats over the content area so the 2D plan / 3D view keep their full width.
+            // Phones/tablets: a bottom sheet.
+            <ProfileDock
+              desktopClassName="pointer-events-auto absolute inset-y-0 end-0 w-panel-lg overflow-y-auto"
+              person={selected}
+              isSelf={selected.userId === viewerId}
+              canFocusDesk={show3d && selected.seat !== null}
+              onFocusDesk={() => focus(selected.userId)}
+              onClose={close}
+              onMessage={onMessage}
+            />
           ) : null}
         </div>
 
         {show3d ? (
-          <p className="glass-level-1 pointer-events-auto flex w-fit items-center gap-space-sm rounded-md px-space-sm py-space-xs type-label-md text-on-surface-variant">
+          <p className="glass-level-1 pointer-events-auto hidden w-fit items-center gap-space-sm rounded-md px-space-sm py-space-xs type-label-md text-on-surface-variant lg:flex">
             <Kbd>{t("keyDrag")}</Kbd> {t("hintOrbit")}
             <Kbd>{t("keyScroll")}</Kbd> {t("hintZoom")}
             <Kbd>{t("keyRightDrag")}</Kbd> {t("hintPan")}

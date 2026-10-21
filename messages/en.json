@@ -1,7 +1,8 @@
 {
   "meta": {
     "title": "TeamVerse AI",
-    "description": "Virtual office communications for distributed teams."
+    "description": "Virtual office communications for distributed teams.",
+    "shortName": "TeamVerse"
   },
   "brand": {
     "name": "TeamVerse AI",
@@ -17,7 +18,12 @@
     "directory": "Team Directory",
     "admin": "Organization",
     "settings": "Settings",
-    "skipToContent": "Skip to main content"
+    "skipToContent": "Skip to main content",
+    "tabOffice": "Office",
+    "tabChats": "Chats",
+    "tabPeople": "People",
+    "more": "More",
+    "closeMenu": "Close menu"
   },
   "topbar": {
     "location": "Dubai, UAE",
@@ -32,7 +38,8 @@
     "account": "Account menu",
     "signedInAs": "Signed in as {email}",
     "signOut": "Sign out",
-    "demoOrg": "Demo data"
+    "demoOrg": "Demo data",
+    "brand": "TeamVerse AI"
   },
   "presence": {
     "online": "Online",
@@ -300,7 +307,8 @@
       "hideDetails": "Hide details",
       "jumpLatest": "Jump to latest",
       "newBelow": "{count, plural, one {# new message} other {# new messages}}",
-      "beginningDirect": "This is the beginning of your conversation with {name}."
+      "beginningDirect": "This is the beginning of your conversation with {name}.",
+      "back": "Back to conversations"
     },
     "composer": {
       "label": "Write a message",

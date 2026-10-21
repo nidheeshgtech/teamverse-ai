@@ -5,6 +5,7 @@ import { getViewer } from "@/lib/auth/dal";
 import { isAdminRole } from "@/lib/auth/roles";
 import { Badge } from "@/ui/badge";
 import { LogoMark } from "@/ui/logo";
+import { AdminMoreLink, MobileNav } from "./mobile-nav";
 import { NavLink } from "./nav-link";
 import { UnreadBadge } from "./unread-badge";
 
@@ -12,7 +13,7 @@ export async function Sidebar() {
   const t = await getTranslations();
 
   return (
-    <aside className="fixed inset-y-0 start-0 z-50 flex w-sidebar flex-col justify-between bg-surface-panel/90 py-space-md shadow-level-1 backdrop-blur-2xl">
+    <aside className="fixed inset-y-0 start-0 z-50 hidden w-sidebar flex-col xl:flex justify-between bg-surface-panel/90 py-space-md shadow-level-1 backdrop-blur-2xl">
       <div className="flex flex-col gap-space-lg">
         <div className="flex items-center gap-space-sm px-space-lg">
           <LogoMark />
@@ -63,10 +64,35 @@ async function AdminNavLink({ label }: { label: string }) {
   return <NavLink href="/admin" icon={<Shield />}>{label}</NavLink>;
 }
 
-async function CommsUnread() {
+async function CommsUnread({ placement = "sidebar" }: { placement?: "sidebar" | "tab" }) {
   const viewer = await getViewer();
   if (!viewer?.membership) return null;
-  return <UnreadBadge orgId={viewer.membership.orgId} viewerId={viewer.user.id} />;
+  return <UnreadBadge orgId={viewer.membership.orgId} viewerId={viewer.user.id} placement={placement} />;
+}
+
+async function AdminMore({ label }: { label: string }) {
+  const viewer = await getViewer();
+  if (!viewer?.membership || !isAdminRole(viewer.membership.role)) return null;
+  return <AdminMoreLink label={label} />;
+}
+
+/** Bottom tab bar for phones and tablets (< xl). Same data as the sidebar. */
+export async function MobileNavBar() {
+  const t = await getTranslations("nav");
+  return (
+    <MobileNav
+      chatsBadge={
+        <Suspense fallback={null}>
+          <CommsUnread placement="tab" />
+        </Suspense>
+      }
+      adminLink={
+        <Suspense fallback={null}>
+          <AdminMore label={t("admin")} />
+        </Suspense>
+      }
+    />
+  );
 }
 
 async function DemoMarker({ label }: { label: string }) {

@@ -102,7 +102,7 @@ export function Composer({ ref, conversationId, placeholder, onSend, onTyping }:
         <ToolButton label={t("code")} onClick={() => format("code")}><Code /></ToolButton>
         <ToolButton label={t("list")} onClick={() => format("list")}><List /></ToolButton>
         <ToolButton label={t("quote")} onClick={() => format("quote")}><Quote /></ToolButton>
-        <span id="composer-hint" className="ms-auto truncate pe-space-xs type-label-xs text-outline">
+        <span id="composer-hint" className="ms-auto truncate pe-space-xs type-label-xs text-outline max-md:sr-only">
           {t("hint")}
         </span>
       </div>
@@ -174,11 +174,11 @@ export function Composer({ ref, conversationId, placeholder, onSend, onTyping }:
         />
         <Button size="sm" variant="ghost" onClick={() => fileInput.current?.click()} disabled={files.length >= MAX_ATTACHMENTS}>
           <Paperclip aria-hidden />
-          {t("attach")}
+          <span className="max-sm:sr-only">{t("attach")}</span>
         </Button>
         <Button size="sm" variant="ghost" aria-disabled title={tThread("phaseHint", { phase: 5 })} className="cursor-not-allowed opacity-50 hover:bg-transparent" onClick={(e) => e.preventDefault()}>
           <Mic aria-hidden />
-          {t("voiceMemo")}
+          <span className="max-sm:sr-only">{t("voiceMemo")}</span>
         </Button>
         <Button size="sm" variant="primary" onClick={send} disabled={!canSend} className="ms-auto px-space-md">
           {t("send")}

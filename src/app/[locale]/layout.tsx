@@ -17,10 +17,17 @@ export function generateStaticParams() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");
-  return { title: { default: t("title"), template: `%s · ${t("title")}` }, description: t("description") };
+  return {
+    title: { default: t("title"), template: `%s · ${t("title")}` },
+    description: t("description"),
+    // iOS "Add to Home Screen": full-screen app with the brand icon.
+    appleWebApp: { capable: true, title: "TeamVerse", statusBarStyle: "black-translucent" },
+    icons: { apple: "/icons/apple-touch-icon.png" },
+  };
 }
 
-export const viewport: Viewport = { themeColor: "#06090F", colorScheme: "dark" };
+// viewport-fit=cover lets the app draw under the notch/home bar; the shell pads with safe-area insets.
+export const viewport: Viewport = { themeColor: "#06090F", colorScheme: "dark", viewportFit: "cover" };
 
 export default async function LocaleLayout({ children }: LayoutProps<"/[locale]">) {
   const locale = await rootLocale();

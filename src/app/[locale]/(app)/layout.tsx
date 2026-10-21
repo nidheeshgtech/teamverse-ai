@@ -1,9 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { Sidebar } from "@/components/shell/sidebar";
+import { MobileNavBar, Sidebar } from "@/components/shell/sidebar";
 import { Topbar } from "@/components/shell/topbar";
 
 // Desktop shell from the Stitch screens: fixed sidebar (18rem) + top bar (4rem) over the canvas.
-// DESIGN GAP: no tablet/mobile shell yet (deferred by product owner).
+// DESIGN GAP: below xl the sidebar gives way to a compact top bar and an app-style bottom tab bar;
+// pages size themselves with --chrome-top / --chrome-bottom (see globals.css).
 export default async function AppLayout({ children }: LayoutProps<"/[locale]">) {
   const t = await getTranslations("nav");
   return (
@@ -16,9 +17,14 @@ export default async function AppLayout({ children }: LayoutProps<"/[locale]">) 
       </a>
       <Sidebar />
       <Topbar />
-      <main id="main" tabIndex={-1} className="min-h-dvh bg-surface-canvas pt-topbar ps-sidebar outline-none">
+      <main
+        id="main"
+        tabIndex={-1}
+        className="min-h-dvh bg-surface-canvas pt-[var(--chrome-top)] pb-[var(--chrome-bottom)] outline-none xl:ps-sidebar"
+      >
         {children}
       </main>
+      <MobileNavBar />
     </>
   );
 }

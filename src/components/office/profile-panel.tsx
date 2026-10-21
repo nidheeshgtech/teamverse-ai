@@ -4,6 +4,7 @@ import { CalendarPlus, LocateFixed, MessageSquare, Mic, MonitorUp, Phone, Video,
 import { useFormatter, useTranslations } from "next-intl";
 import { useEffect, useState, type ReactNode } from "react";
 import type { Occupant } from "@/features/office/model";
+import { cn } from "@/lib/utils";
 import { Avatar } from "@/ui/avatar";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
@@ -19,11 +20,13 @@ type Props = {
   onClose: () => void;
   /** Opens a DM with this person; omitted in previews without a backend. */
   onMessage?: (userId: string) => Promise<boolean>;
+  /** "sheet": rendered inside a bottom sheet (phones), which provides the card and close button. */
+  variant?: "panel" | "sheet";
 };
 
 // Stitch "Target Focus" panel. DESIGN DEVIATIONS: no verified tick, "Active Work Stream" or
 // "Shared in Workspace" (no productivity data); "Spatial Proximity" replaced by desk label.
-export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClose, onMessage }: Props) {
+export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClose, onMessage, variant = "panel" }: Props) {
   const t = useTranslations();
   const [messaging, setMessaging] = useState<"idle" | "pending" | "failed">("idle");
   const format = useFormatter();
@@ -39,8 +42,13 @@ export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClos
   const place = person.seat ? t("office.desk", { label: person.seat.label }) : t("office.noDesk");
 
   return (
-    <Panel level={2} padding="lg" aria-label={t("office.profile.label", { name: person.displayName })} className="flex flex-col gap-space-md">
-      <div className="flex items-start justify-between">
+    <Panel
+      level={variant === "sheet" ? 3 : 2}
+      padding={variant === "sheet" ? "none" : "lg"}
+      aria-label={t("office.profile.label", { name: person.displayName })}
+      className={cn("flex flex-col gap-space-md", variant === "sheet" && "bg-transparent shadow-none backdrop-blur-none")}
+    >
+      <div className={cn("flex items-start justify-between", variant === "sheet" && "hidden")}>
         <PanelEyebrow>{person.seat?.label ?? t("office.noDesk")}</PanelEyebrow>
         <button
           type="button"

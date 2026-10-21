@@ -13,7 +13,7 @@ export default async function DirectoryPage() {
   const [t, data] = await Promise.all([getTranslations(), getOfficeData(viewer.membership.orgId)]);
 
   return (
-    <div className="flex flex-col gap-space-lg p-margin">
+    <div className="flex flex-col gap-space-lg px-margin-mobile py-space-lg lg:p-margin">
       <header>
         <h1 className="type-headline-lg text-on-surface">{t("nav.directory")}</h1>
         <p className="mt-space-2xs type-body-md text-on-surface-variant">{t("directory.subtitle", { org: viewer.membership.orgName })}</p>

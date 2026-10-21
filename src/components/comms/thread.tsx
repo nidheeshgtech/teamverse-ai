@@ -1,14 +1,17 @@
 "use client";
 
-import { ArrowDown, Hash, Headphones, Lock, MessagesSquare, PanelRightClose, PanelRightOpen, Users } from "lucide-react";
+import { ArrowDown, ArrowLeft, Hash, Headphones, Info, Lock, MessagesSquare, PanelRightClose, PanelRightOpen, Users } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Fragment, useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { attachmentPath } from "@/features/messaging/attachments";
 import { TYPING_THROTTLE_MS, TYPING_TTL_MS, type ConversationDetail } from "@/features/messaging/model";
 import { initialThreadState, latestConfirmedAt, readByCount, sameDay, startsGroup, threadReducer, ts, type ThreadMessage } from "@/features/messaging/thread-state";
 import { ChatError } from "@/features/messaging/transport";
+import { Link } from "@/i18n/navigation";
+import { useMediaQuery, WIDE_QUERY } from "@/lib/use-media-query";
 import { Avatar } from "@/ui/avatar";
 import { Button } from "@/ui/button";
+import { Sheet, SheetContent } from "@/ui/sheet";
 import { Skeleton, StateMessage } from "@/ui/states";
 import { memberIdsOf, useComms } from "./comms-context";
 import { Composer, type ComposerHandle } from "./composer";
@@ -23,7 +26,10 @@ type Outgoing = { body: string; files: File[]; uploaded: Map<number, string> };
 export function Thread({ conversationId }: { conversationId: string }) {
   const t = useTranslations("comms");
   const tPresence = useTranslations("presence");
-  const { transport, store, viewerId, orgId, conversationName, statusOf, people, timezone } = useComms();
+  const { transport, store, viewerId, orgId, conversationName, statusOf, people, timezone, basePath } = useComms();
+  // Wide screens show details inline (toggle); narrower ones open them as a sheet.
+  const wide = useMediaQuery(WIDE_QUERY);
+  const [detailsSheet, setDetailsSheet] = useState(false);
   const [load, setLoad] = useState<Load>({ state: "loading" });
   const [thread, dispatch] = useReducer(threadReducer, initialThreadState([], false));
   const [watermarks, setWatermarks] = useState<Map<string, string | null>>(() => new Map());
@@ -361,7 +367,15 @@ export function Thread({ conversationId }: { conversationId: string }) {
           composer.current?.addFiles([...e.dataTransfer.files]);
         }}
       >
-        <header className="flex items-center gap-space-md border-b border-glass-line px-space-lg py-space-md">
+        <header className="flex items-center gap-space-sm border-b border-glass-line px-space-sm py-space-sm max-lg:pt-[max(var(--spacing-space-sm),env(safe-area-inset-top))] sm:gap-space-md lg:px-space-lg lg:py-space-md">
+          {/* Phones/tablets: back to the conversation list (the thread is full screen there). */}
+          <Link
+            href={basePath}
+            aria-label={t("thread.back")}
+            className="inline-flex size-10 shrink-0 items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface focus-visible:shadow-focus-ring focus-visible:outline-none lg:hidden"
+          >
+            <ArrowLeft aria-hidden className="icon-directional size-5" />
+          </Link>
           {detail.kind === "direct" && other ? (
             <Avatar name={name} src={people.get(other)?.avatarUrl} status={statusOf(other)} decorative />
           ) : detail.kind === "channel" ? (
@@ -370,7 +384,7 @@ export function Thread({ conversationId }: { conversationId: string }) {
             <span aria-hidden className="text-secondary [&_svg]:size-6"><Users /></span>
           )}
           <div className="min-w-0 flex-1">
-            <h1 id="thread-title" className="truncate type-headline-md text-on-surface">{name}</h1>
+            <h1 id="thread-title" className="truncate type-title-md text-on-surface lg:type-headline-md">{name}</h1>
             <p className="truncate type-body-sm text-on-surface-variant">
               {detail.kind === "direct" && other ? [people.get(other)?.title, tPresence(statusOf(other))].filter(Boolean).join(" · ") : null}
               {detail.kind === "channel" ? (detail.visibility === "private" ? t("thread.privateChannel") : t("thread.publicChannel")) : detail.kind === "group" ? t("thread.group") : null}
@@ -379,19 +393,33 @@ export function Thread({ conversationId }: { conversationId: string }) {
             </p>
           </div>
           {/* DESIGN DEVIATION: "Huddle (3)" + video button are visible but disabled until calls exist (Phase 4). */}
-          <Button size="sm" variant="glass" aria-disabled title={t("thread.phaseHint", { phase: 4 })} className="cursor-not-allowed opacity-50" onClick={(e) => e.preventDefault()}>
+          <Button
+            size="sm"
+            variant="glass"
+            aria-disabled
+            aria-label={`${t("thread.huddle")} — ${t("thread.phaseHint", { phase: 4 })}`}
+            title={t("thread.phaseHint", { phase: 4 })}
+            className="cursor-not-allowed opacity-50 max-sm:size-10 max-sm:px-0"
+            onClick={(e) => e.preventDefault()}
+          >
             <Headphones aria-hidden />
-            {t("thread.huddle")}
+            <span className="max-sm:hidden">{t("thread.huddle")}</span>
           </Button>
-          <Button size="icon" variant="ghost" aria-pressed={showDetails} aria-label={showDetails ? t("thread.hideDetails") : t("thread.showDetails")} onClick={() => setShowDetails((s) => !s)}>
-            {showDetails ? <PanelRightClose aria-hidden className="icon-directional" /> : <PanelRightOpen aria-hidden className="icon-directional" />}
-          </Button>
+          {wide ? (
+            <Button size="icon" variant="ghost" aria-pressed={showDetails} aria-label={showDetails ? t("thread.hideDetails") : t("thread.showDetails")} onClick={() => setShowDetails((s) => !s)}>
+              {showDetails ? <PanelRightClose aria-hidden className="icon-directional" /> : <PanelRightOpen aria-hidden className="icon-directional" />}
+            </Button>
+          ) : (
+            <Button size="icon" variant="ghost" aria-label={t("thread.showDetails")} onClick={() => setDetailsSheet(true)}>
+              <Info aria-hidden />
+            </Button>
+          )}
         </header>
 
         <ConnectionBanner />
 
         <div className="relative min-h-0 flex-1">
-          <div ref={scroller} onScroll={onScroll} className="h-full overflow-y-auto px-space-lg pb-space-md">
+          <div ref={scroller} onScroll={onScroll} className="h-full overflow-y-auto overscroll-contain px-space-xs pb-space-md sm:px-space-md lg:px-space-lg">
             <div className="flex justify-center py-space-md">
               {thread.loadingOlder ? (
                 <p role="status" className="type-label-md text-on-surface-variant">{t("thread.loadingOlder")}</p>
@@ -431,7 +459,7 @@ export function Thread({ conversationId }: { conversationId: string }) {
           ) : null}
         </div>
 
-        <div className="px-space-lg pb-space-md">
+        <div className="px-space-sm pb-[max(var(--spacing-space-sm),env(safe-area-inset-bottom))] sm:px-space-md lg:px-space-lg lg:pb-space-md">
           <p aria-live="polite" className="h-5 px-space-xs type-label-md text-on-surface-variant">
             {typingNames.length === 1
               ? t("thread.typingOne", { name: typingNames[0] })
@@ -445,7 +473,22 @@ export function Thread({ conversationId }: { conversationId: string }) {
         </div>
       </section>
 
-      {showDetails ? <ThreadDetails detail={detail} messages={thread.messages} onLeft={() => setLoad({ state: "missing" })} /> : null}
+      {wide && showDetails ? <ThreadDetails detail={detail} messages={thread.messages} onLeft={() => setLoad({ state: "missing" })} /> : null}
+      {!wide ? (
+        <Sheet open={detailsSheet} onOpenChange={setDetailsSheet}>
+          <SheetContent title={t("details.label")} hideTitle closeLabel={t("thread.cancel")} side="bottom">
+            <ThreadDetails
+              variant="sheet"
+              detail={detail}
+              messages={thread.messages}
+              onLeft={() => {
+                setDetailsSheet(false);
+                setLoad({ state: "missing" });
+              }}
+            />
+          </SheetContent>
+        </Sheet>
+      ) : null}
     </div>
   );
 }

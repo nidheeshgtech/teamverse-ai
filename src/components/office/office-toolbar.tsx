@@ -24,20 +24,21 @@ type Props = {
 };
 
 const chip =
-  "inline-flex h-8 items-center gap-space-xs rounded px-space-sm type-label-lg text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action";
+  "inline-flex h-8 shrink-0 items-center gap-space-xs whitespace-nowrap rounded px-space-sm type-label-lg text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action";
 
 export function OfficeToolbar(props: Props) {
   const t = useTranslations("office");
   const deptLabel = useDepartmentLabel();
 
   return (
+    // Phones: the room chips scroll sideways in one row instead of wrapping into a tall block.
     <div className="flex flex-wrap items-center justify-between gap-space-sm">
       <ToggleGroup.Root
         type="single"
         aria-label={t("filtersLabel")}
         value={props.department ?? "all"}
         onValueChange={(value) => value && props.onDepartment(value === "all" ? null : value)}
-        className="glass-level-1 flex flex-wrap items-center gap-space-2xs rounded-md p-space-2xs"
+        className="glass-level-1 flex items-center gap-space-2xs rounded-md p-space-2xs max-md:w-full max-md:overflow-x-auto max-md:[scrollbar-width:none] md:flex-wrap"
       >
         <ToggleGroup.Item value="all" className={chip}>
           {t("allRooms")} <Count value={props.total} />

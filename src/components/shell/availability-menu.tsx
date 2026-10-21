@@ -41,7 +41,7 @@ export function AvailabilityMenu({ initial }: { initial: PresenceStatus }) {
         className="flex h-8 items-center gap-space-xs rounded px-space-sm type-label-md text-on-surface bg-surface-container-low/80 hover:bg-surface-container-high"
       >
         <PresenceDot status={status} />
-        <span>{t(`presence.${status}`)}</span>
+        <span className="max-sm:hidden">{t(`presence.${status}`)}</span>
         <ChevronDown aria-hidden className="size-4 text-on-surface-variant" />
       </MenuTrigger>
       <MenuContent align="end">

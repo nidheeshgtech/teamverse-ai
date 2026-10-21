@@ -23,8 +23,18 @@ Each item is also marked in code with `DESIGN GAP` or `DESIGN DEVIATION` comment
 Loading, empty, error, offline/reconnecting, unconfigured integration, permission denied, hover/focus/disabled.
 Phase 1 provides `Skeleton`, `StateMessage` and focus rings (`shadow-focus-ring` + global `:focus-visible` outline). Review in `/dev/ui`.
 
-## Breakpoints
-Desktop only (1280px+). Mobile/tablet deferred by the product owner on 2026-10-21.
+## Breakpoints (mobile added 2026-10-21 at the product owner's request)
+Stitch has desktop screens only, so every phone/tablet layout below is a DESIGN GAP built from the
+existing tokens and DESIGN.md › Layout (16px margins on mobile, 2D-first office, tablet 768–1279px).
+
+| Width | Shell | Communications | Office | Directory / Admin |
+|---|---|---|---|---|
+| < 768 (phones) | Compact top bar (logo, availability dot, bell, avatar) + bottom tab bar: Office · Chats · People · More (sheet with Conferences, Voice Notes, AI, Organization, Settings, Sign out) | List full screen → thread full screen with back button; top/tab bars hidden in a thread; details in a bottom sheet; icon-only Attach/Voice memo | Panels stack; 2D plan by default (scrolls sideways at a readable scale); 3D as a card; profile as a bottom sheet | 1 column; filters scroll sideways; invite form first; email under the name |
+| 768–1023 | Same shell | Same as phones | Same, 2 columns where space allows | 2 columns |
+| 1024–1279 (tablet landscape) | Same shell (no sidebar, full width for content) | List + thread side by side; details as a sheet | Desktop HUD layout | Desktop layout |
+| ≥ 1280 | Desktop sidebar (Stitch) | List + thread + details (Stitch) | Stitch HUD | Stitch |
+
+Also added for phones: safe-area padding (notch/home bar), 16px text in form fields on touch screens (prevents iOS zoom), always-visible message actions on touch, and an installable web-app manifest + icons ("Add to Home Screen" opens full screen).
 
 ## RTL
 No Arabic layouts in Stitch. Code is RTL-ready (logical properties enforced by a unit test; `dir` set from locale; directional icons use `icon-directional`). Arabic arrives in Phase 8.

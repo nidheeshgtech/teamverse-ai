@@ -1,6 +1,6 @@
 # TeamVerse AI
 
-Multi-tenant virtual office communications app. Master spec: `CLAUDE_CODE_PROMPT_v3.md`. Visual source of truth: the Stitch export in `design/` (gaps and deviations in `design/GAPS.md`).
+Multi-tenant virtual office communications app. Master spec: `CLAUDE_CODE_PROMPT_v3.md`. Visual source of truth: the Stitch export in `design/` (gaps and deviations in `design/GAPS.md`). Responsive: phones and tablets get an app-style layout (bottom tab bar, full-screen chats) and the app can be added to the home screen.
 
 **Status: Phase 3 (Messaging) on top of Phases 1–2 (Foundation, Virtual office).** Sections for later phases render an honest "not built yet" state.
 
@@ -43,7 +43,7 @@ Without Supabase values the app runs and shows a "Supabase is not configured" st
 | `npm run dev` / `build` / `start` | Next.js |
 | `npm run lint` · `npm run typecheck` | ESLint · route typegen + tsc |
 | `npm test` | Unit tests (tokens, RTL logical-property guard, auth helpers, components, messaging: markdown/XSS, thread state, receipts, files) |
-| `npm run test:e2e` | Playwright + axe against a production build (`E2E_DEV=1` for `next dev`). Full-stack flows need `E2E_SUPABASE=1` with Supabase running |
+| `npm run test:e2e` | Playwright + axe against a production build (`E2E_DEV=1` for `next dev`): desktop flows plus a phone-size suite (`tests/e2e/mobile.spec.ts`). Full-stack flows need `E2E_SUPABASE=1` with Supabase running |
 | `npm run db:test` | pgTAP RLS tests (`supabase/tests/database`) |
 | `npm run tokens` | Regenerate `src/styles/tokens.css` from `design/DESIGN.md` |
 | `npm run db:types` | Generate Supabase TypeScript types |

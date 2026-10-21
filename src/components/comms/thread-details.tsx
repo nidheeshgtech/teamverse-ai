@@ -5,6 +5,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import { useMemo, useState, type ReactNode } from "react";
 import type { ConversationDetail } from "@/features/messaging/model";
 import type { ThreadMessage } from "@/features/messaging/thread-state";
+import { cn } from "@/lib/utils";
 import { Avatar } from "@/ui/avatar";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
@@ -15,13 +16,13 @@ import { departmentTone, useDepartmentLabel } from "../office/use-labels";
 import { AttachmentList } from "./attachment-view";
 import { useComms } from "./comms-context";
 
-type Props = { detail: ConversationDetail; messages: ThreadMessage[]; onLeft: () => void };
+type Props = { detail: ConversationDetail; messages: ThreadMessage[]; onLeft: () => void; variant?: "panel" | "sheet" };
 
 // Stitch Communications › right column (profile card, contact grid, SHARED ASSETS).
 // DESIGN DEVIATIONS: "Spatial Presence · Synchronized / seated in Dubai VIP Executive Suite" and
 // "GCC Sovereign Telemetry" removed (no location tracking; unverifiable claims) → honest privacy note;
 // "DIFC Node" chip → department; contact actions disabled until Phases 4–5; "View Vault" omitted.
-export function ThreadDetails({ detail, messages, onLeft }: Props) {
+export function ThreadDetails({ detail, messages, onLeft, variant = "panel" }: Props) {
   const t = useTranslations();
   const { viewerId, transport, store } = useComms();
   const [leaving, setLeaving] = useState(false);
@@ -44,7 +45,13 @@ export function ThreadDetails({ detail, messages, onLeft }: Props) {
   };
 
   return (
-    <aside aria-label={t("comms.details.label")} className="flex w-[22rem] shrink-0 flex-col gap-space-lg overflow-y-auto border-s border-glass-line bg-surface-panel/60 p-space-lg">
+    <aside
+      aria-label={t("comms.details.label")}
+      className={cn(
+        "flex flex-col gap-space-lg",
+        variant === "panel" ? "w-[22rem] shrink-0 overflow-y-auto border-s border-glass-line bg-surface-panel/60 p-space-lg" : "pt-space-xs",
+      )}
+    >
       {other ? <PersonCard userId={other} /> : <MembersCard detail={detail} />}
 
       <section aria-labelledby="files-title" className="flex flex-col gap-space-xs">

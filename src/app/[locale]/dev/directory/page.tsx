@@ -9,7 +9,7 @@ export default async function DevDirectoryPage(props: LayoutProps<"/[locale]">) 
   if (!isDevPreviewEnabled()) notFound();
   return (
     <AppLayout {...props}>
-      <div className="p-margin">
+      <div className="px-margin-mobile py-space-lg lg:p-margin">
         <DirectoryView data={demoOfficeFixture} viewerId="a0000000-0000-4000-8000-000000000001" presence={demoPresenceFixture} connection="simulated" />
       </div>
     </AppLayout>

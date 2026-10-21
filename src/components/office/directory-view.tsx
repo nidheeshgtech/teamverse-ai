@@ -10,7 +10,7 @@ import { Badge } from "@/ui/badge";
 import { InputWithIcon } from "@/ui/input";
 import { StateMessage } from "@/ui/states";
 import { ToggleGroup } from "radix-ui";
-import { ProfilePanel } from "./profile-panel";
+import { ProfileDock } from "./profile-dock";
 import { departmentTone, useDepartmentLabel } from "./use-labels";
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
 };
 
 const chip =
-  "inline-flex h-8 items-center gap-space-xs rounded px-space-sm type-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action";
+  "inline-flex h-8 shrink-0 items-center gap-space-xs whitespace-nowrap rounded px-space-sm type-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action";
 
 // DESIGN GAP: Stitch shows "Team Directory" in navigation only. Built from the people list,
 // department chips and the profile panel of the office screen.
@@ -51,14 +51,14 @@ export function DirectoryView({ data, viewerId, presence, connection, onMessage 
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t("office.searchPeople")}
             aria-label={t("office.searchPeople")}
-            className="w-80"
+            className="w-full sm:w-80"
           />
           <ToggleGroup.Root
             type="single"
             aria-label={t("office.filtersLabel")}
             value={department ?? "all"}
             onValueChange={(v) => v && setDepartment(v === "all" ? null : v)}
-            className="glass-level-1 flex flex-wrap gap-space-2xs rounded-md p-space-2xs"
+            className="glass-level-1 flex gap-space-2xs rounded-md p-space-2xs max-md:w-full max-md:overflow-x-auto max-md:[scrollbar-width:none] md:flex-wrap"
           >
             <ToggleGroup.Item value="all" className={chip}>{t("office.allRooms")}</ToggleGroup.Item>
             {departments.map((slug) => (
@@ -73,7 +73,7 @@ export function DirectoryView({ data, viewerId, presence, connection, onMessage 
         {visible.length === 0 ? (
           <StateMessage icon={<Users />} title={t("office.noResults", { query })} />
         ) : (
-          <ul className="grid grid-cols-3 gap-gutter">
+          <ul className="grid grid-cols-1 gap-gutter sm:grid-cols-2 2xl:grid-cols-3">
             {visible.map((person) => (
               <li key={person.userId}>
                 <button
@@ -99,11 +99,16 @@ export function DirectoryView({ data, viewerId, presence, connection, onMessage 
       </div>
 
       {selected ? (
-        <div className="w-panel-lg shrink-0">
-          <div className="sticky top-[calc(var(--spacing-topbar)+var(--spacing-margin))]">
-            <ProfilePanel person={selected} isSelf={selected.userId === viewerId} canFocusDesk={false} onFocusDesk={() => undefined} onClose={close} onMessage={onMessage} />
-          </div>
-        </div>
+        // Desktop: sticky column. Phones/tablets: a bottom sheet.
+        <ProfileDock
+          desktopClassName="w-panel-lg shrink-0 [&>*]:sticky [&>*]:top-[calc(var(--spacing-topbar)+var(--spacing-margin))]"
+          person={selected}
+          isSelf={selected.userId === viewerId}
+          canFocusDesk={false}
+          onFocusDesk={() => undefined}
+          onClose={close}
+          onMessage={onMessage}
+        />
       ) : null}
     </div>
   );

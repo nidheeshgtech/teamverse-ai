@@ -13,7 +13,7 @@ export async function ComingSoon({ section }: { section: Section }) {
   await requireMember();
   const t = await getTranslations();
   return (
-    <div className="p-margin">
+    <div className="px-margin-mobile py-space-lg lg:p-margin">
       <h1 className="type-headline-lg text-on-surface">{t(`nav.${section}`)}</h1>
       <Panel level={2} padding="lg" className="mt-space-lg">
         <StateMessage

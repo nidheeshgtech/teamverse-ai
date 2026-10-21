@@ -21,8 +21,8 @@ export default async function AdminPage() {
   const [t, format, data] = await Promise.all([getTranslations(), getFormatter(), getOrgAdminData(viewer.membership.orgId)]);
 
   return (
-    <div className="flex flex-col gap-space-lg p-margin">
-      <header className="flex items-end justify-between gap-space-md">
+    <div className="flex flex-col gap-space-lg px-margin-mobile py-space-lg lg:p-margin">
+      <header className="flex flex-col gap-space-sm lg:flex-row lg:items-end lg:justify-between lg:gap-space-md">
         <div>
           <PanelEyebrow>{viewer.membership.orgName}</PanelEyebrow>
           <h1 className="mt-space-2xs type-headline-lg text-on-surface">{t("admin.title")}</h1>
@@ -33,8 +33,8 @@ export default async function AdminPage() {
         </p>
       </header>
 
-      <div className="grid grid-cols-12 gap-gutter">
-        <Panel level={2} padding="none" className="col-span-8 overflow-hidden" aria-labelledby="members-title">
+      <div className="grid grid-cols-1 gap-gutter lg:grid-cols-12">
+        <Panel level={2} padding="none" className="overflow-hidden lg:col-span-8" aria-labelledby="members-title">
           <div className="flex items-center justify-between p-space-md">
             <h2 id="members-title" className="type-title-md">{t("admin.membersTitle")}</h2>
             <span className="type-label-md text-on-surface-variant">{t("admin.membersCount", { count: data.members.length })}</span>
@@ -43,8 +43,8 @@ export default async function AdminPage() {
             <thead className="border-y border-surface-glass-border">
               <tr className="type-label-xs uppercase text-on-surface-variant">
                 <th scope="col" className="px-space-md py-space-sm text-start">{t("admin.colName")}</th>
-                <th scope="col" className="px-space-md py-space-sm text-start">{t("admin.colEmail")}</th>
-                <th scope="col" className="px-space-md py-space-sm text-start">{t("admin.colDepartment")}</th>
+                <th scope="col" className="px-space-md py-space-sm text-start max-md:hidden">{t("admin.colEmail")}</th>
+                <th scope="col" className="px-space-md py-space-sm text-start max-sm:hidden">{t("admin.colDepartment")}</th>
                 <th scope="col" className="px-space-md py-space-sm text-start">{t("admin.colRole")}</th>
               </tr>
             </thead>
@@ -54,11 +54,15 @@ export default async function AdminPage() {
                   <td className="px-space-md py-space-sm">
                     <span className="flex items-center gap-space-sm">
                       <Avatar name={member.profile.display_name} src={member.profile.avatar_url} size="sm" />
-                      <span className="type-label-lg text-on-surface">{member.profile.display_name}</span>
+                      <span className="min-w-0">
+                        <span className="block type-label-lg text-on-surface">{member.profile.display_name}</span>
+                        {/* Phones: email under the name instead of its own column. */}
+                        <span className="block truncate type-body-sm text-on-surface-variant md:hidden" dir="ltr">{member.profile.email}</span>
+                      </span>
                     </span>
                   </td>
-                  <td className="px-space-md py-space-sm type-body-sm text-on-surface-variant" dir="ltr">{member.profile.email}</td>
-                  <td className="px-space-md py-space-sm">
+                  <td className="px-space-md py-space-sm type-body-sm text-on-surface-variant max-md:hidden" dir="ltr">{member.profile.email}</td>
+                  <td className="px-space-md py-space-sm max-sm:hidden">
                     {member.department ? (
                       <Badge tone={`dept-${member.department.slug}` as BadgeTone}>{t(`departments.${member.department.slug}` as "departments.development")}</Badge>
                     ) : (
@@ -74,7 +78,8 @@ export default async function AdminPage() {
           </table>
         </Panel>
 
-        <div className="col-span-4 flex flex-col gap-gutter">
+        {/* Phones: inviting comes first; the member list follows. */}
+        <div className="flex flex-col gap-gutter max-lg:order-first lg:col-span-4">
           <Panel level={2} padding="md" aria-labelledby="invite-title">
             <h2 id="invite-title" className="type-title-md">{t("admin.inviteTitle")}</h2>
             <InviteForm

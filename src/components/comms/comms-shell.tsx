@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Suspense, type ReactNode } from "react";
+import { createContext, Suspense, useContext, useEffect, useState, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 import { getLiveTransport } from "@/features/messaging/inbox-store";
 import type { ChatPerson } from "@/features/messaging/model";
 import type { ChatTransport } from "@/features/messaging/transport";
@@ -21,15 +22,35 @@ type ShellProps = {
   children: ReactNode;
 };
 
-/** Two-column Communications layout (list + routed thread). The thread adds the details column. */
+const ThreadOpenContext = createContext<((open: boolean) => void) | null>(null);
+
+/** Rendered by the thread route: tells the layout a thread is showing (phones then hide the list). */
+export function ThreadOpenMarker() {
+  const setOpen = useContext(ThreadOpenContext);
+  useEffect(() => {
+    setOpen?.(true);
+    return () => setOpen?.(false);
+  }, [setOpen]);
+  return null;
+}
+
+/**
+ * Communications layout (list + routed thread; the thread adds the details column on wide screens).
+ * Below lg it behaves like a phone messenger: the list OR the open thread fills the screen.
+ */
 export function CommsLayoutGrid({ basePath, children }: { basePath: string; children: ReactNode }) {
+  const [threadOpen, setThreadOpen] = useState(false);
   return (
-    <div className="grid h-[calc(100dvh-var(--spacing-topbar))] grid-cols-[22rem_minmax(0,1fr)] overflow-hidden">
-      <Suspense fallback={null}>
-        <ConversationList basePath={basePath} />
-      </Suspense>
-      <div className="flex min-h-0 min-w-0">{children}</div>
-    </div>
+    <ThreadOpenContext.Provider value={setThreadOpen}>
+      <div className="grid h-[calc(100dvh-var(--chrome-top)-var(--chrome-bottom))] grid-cols-1 overflow-hidden lg:grid-cols-[22rem_minmax(0,1fr)]">
+        <div className={cn("flex min-h-0", threadOpen && "max-lg:hidden")}>
+          <Suspense fallback={null}>
+            <ConversationList basePath={basePath} />
+          </Suspense>
+        </div>
+        <div className={cn("flex min-h-0 min-w-0", !threadOpen && "max-lg:hidden")}>{children}</div>
+      </div>
+    </ThreadOpenContext.Provider>
   );
 }
 
@@ -39,7 +60,7 @@ export function LiveComms({ orgId, orgName, viewerId, timezone, people, basePath
   const { statuses } = useOrgPresence(orgId, viewerId, availability);
   if (!transport) return <StateMessage titleAs="h1" title={t("unconfiguredTitle")} className="mt-space-2xl" />;
   return (
-    <CommsProvider transport={transport} viewerId={viewerId} orgId={orgId} orgName={orgName} timezone={timezone} people={people} presence={statuses}>
+    <CommsProvider transport={transport} viewerId={viewerId} orgId={orgId} orgName={orgName} timezone={timezone} people={people} presence={statuses} basePath={basePath}>
       <CommsLayoutGrid basePath={basePath}>{children}</CommsLayoutGrid>
     </CommsProvider>
   );
