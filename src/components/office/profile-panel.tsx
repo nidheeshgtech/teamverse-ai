@@ -2,7 +2,7 @@
 
 import { CalendarPlus, LocateFixed, MessageSquare, Mic, MonitorUp, Phone, Video, X } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { Occupant } from "@/features/office/model";
 import { Avatar } from "@/ui/avatar";
 import { Badge } from "@/ui/badge";
@@ -17,12 +17,15 @@ type Props = {
   canFocusDesk: boolean;
   onFocusDesk: () => void;
   onClose: () => void;
+  /** Opens a DM with this person; omitted in previews without a backend. */
+  onMessage?: (userId: string) => Promise<boolean>;
 };
 
 // Stitch "Target Focus" panel. DESIGN DEVIATIONS: no verified tick, "Active Work Stream" or
 // "Shared in Workspace" (no productivity data); "Spatial Proximity" replaced by desk label.
-export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClose }: Props) {
+export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClose, onMessage }: Props) {
   const t = useTranslations();
+  const [messaging, setMessaging] = useState<"idle" | "pending" | "failed">("idle");
   const format = useFormatter();
   const deptLabel = useDepartmentLabel();
 
@@ -73,13 +76,35 @@ export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClos
           <PanelEyebrow id="contact-title">{t("office.profile.actionsTitle")}</PanelEyebrow>
           {/* Actions arrive in later phases; shown disabled with the reason instead of pretending to work. */}
           <div className="mt-space-sm grid grid-cols-3 gap-space-xs">
-            <ActionTile icon={<MessageSquare />} label={t("office.profile.message")} hint={t("office.profile.phaseHint", { phase: 3 })} />
+            {onMessage ? (
+              <button
+                type="button"
+                disabled={messaging === "pending"}
+                onClick={async () => {
+                  setMessaging("pending");
+                  setMessaging((await onMessage(person.userId)) ? "idle" : "failed");
+                }}
+                className="flex flex-col items-center gap-space-2xs rounded-md bg-primary-container px-space-xs py-space-sm text-center text-on-primary-action shadow-primary-rest hover:shadow-glow-primary focus-visible:shadow-focus-ring focus-visible:outline-none disabled:opacity-60 [&_svg]:size-5"
+              >
+                <span aria-hidden>
+                  <MessageSquare />
+                </span>
+                <span className="type-label-md font-semibold">{t("office.profile.message")}</span>
+              </button>
+            ) : (
+              <ActionTile icon={<MessageSquare />} label={t("office.profile.message")} hint={t("office.profile.previewHint")} />
+            )}
             <ActionTile icon={<Phone />} label={t("office.profile.voiceCall")} hint={t("office.profile.phaseHint", { phase: 4 })} />
             <ActionTile icon={<Video />} label={t("office.profile.videoCall")} hint={t("office.profile.phaseHint", { phase: 4 })} />
             <ActionTile icon={<MonitorUp />} label={t("office.profile.screenShare")} hint={t("office.profile.screenShareHint")} />
             <ActionTile icon={<Mic />} label={t("office.profile.voiceNote")} hint={t("office.profile.phaseHint", { phase: 5 })} />
             <ActionTile icon={<CalendarPlus />} label={t("office.profile.inviteMeeting")} hint={t("office.profile.phaseHint", { phase: 4 })} />
           </div>
+          {messaging === "failed" ? (
+            <p role="alert" className="mt-space-xs type-body-sm text-error">
+              {t("office.profile.messageFailed")}
+            </p>
+          ) : null}
         </section>
       )}
 

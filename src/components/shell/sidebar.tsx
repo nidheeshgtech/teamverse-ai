@@ -6,6 +6,7 @@ import { isAdminRole } from "@/lib/auth/roles";
 import { Badge } from "@/ui/badge";
 import { LogoMark } from "@/ui/logo";
 import { NavLink } from "./nav-link";
+import { UnreadBadge } from "./unread-badge";
 
 export async function Sidebar() {
   const t = await getTranslations();
@@ -23,7 +24,17 @@ export async function Sidebar() {
 
         <nav aria-label={t("nav.label")} className="flex flex-col gap-space-2xs px-space-sm">
           <NavLink href="/office" icon={<Building2 />}>{t("nav.office")}</NavLink>
-          <NavLink href="/comms" icon={<MessagesSquare />}>{t("nav.comms")}</NavLink>
+          <NavLink
+            href="/comms"
+            icon={<MessagesSquare />}
+            badge={
+              <Suspense fallback={null}>
+                <CommsUnread />
+              </Suspense>
+            }
+          >
+            {t("nav.comms")}
+          </NavLink>
           <NavLink href="/conferences" icon={<Users />}>{t("nav.conferences")}</NavLink>
           <NavLink href="/voice-notes" icon={<Mic />}>{t("nav.voiceNotes")}</NavLink>
           <NavLink href="/ai" icon={<Bot />}>{t("nav.ai")}</NavLink>
@@ -36,7 +47,7 @@ export async function Sidebar() {
 
       <div className="flex flex-col gap-space-xs px-space-sm">
         {/* DESIGN DEVIATION: Stitch shows "DUBAI NODE LIVE 24ms" telemetry with no data source.
-            Replaced by an honest demo-data marker until real connection status exists (Phase 3). */}
+            Replaced by an honest demo-data marker; real connection state is shown where it matters (chat banner). */}
         <Suspense fallback={null}>
           <DemoMarker label={t("topbar.demoOrg")} />
         </Suspense>
@@ -50,6 +61,12 @@ async function AdminNavLink({ label }: { label: string }) {
   const viewer = await getViewer();
   if (!viewer?.membership || !isAdminRole(viewer.membership.role)) return null;
   return <NavLink href="/admin" icon={<Shield />}>{label}</NavLink>;
+}
+
+async function CommsUnread() {
+  const viewer = await getViewer();
+  if (!viewer?.membership) return null;
+  return <UnreadBadge orgId={viewer.membership.orgId} viewerId={viewer.user.id} />;
 }
 
 async function DemoMarker({ label }: { label: string }) {

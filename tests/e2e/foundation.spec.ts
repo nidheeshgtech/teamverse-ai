@@ -18,6 +18,8 @@ test.describe("document", () => {
   });
 
   test("unknown routes render the localized 404", async ({ page }) => {
+    // With Supabase configured, signed-out visitors are sent to sign-in first (covered below, signed in).
+    test.skip(withSupabase, "signed-out unknown routes redirect to sign-in when auth is configured");
     await page.goto("/sign-in"); // establish a session-less context first
     const response = await page.goto("/definitely-not-a-page");
     expect(response?.status()).toBe(404);
@@ -54,6 +56,14 @@ test.describe("authenticated flows", () => {
     await page.getByRole("button", { name: "Sign in" }).click();
   }
 
+  test("unknown routes render the localized 404 when signed in", async ({ page }) => {
+    await signIn(page, "zayd.benali@demo.teamverse.local");
+    await expect(page).toHaveURL(/\/comms$/);
+    const response = await page.goto("/definitely-not-a-page");
+    expect(response?.status()).toBe(404);
+    await expect(page.getByText("Page not found")).toBeVisible();
+  });
+
   test("protected pages redirect to sign-in and back", async ({ page }) => {
     await page.goto("/admin");
     await expect(page).toHaveURL(/\/sign-in\?next=%2Fadmin/);
@@ -64,13 +74,13 @@ test.describe("authenticated flows", () => {
     await page.getByLabel("Email").fill("admin@demo.teamverse.local");
     await page.getByLabel("Password").fill("wrong-password");
     await page.getByRole("button", { name: "Sign in" }).click();
-    await expect(page.getByRole("alert")).toContainText("don't match");
+    await expect(page.getByRole("alert").filter({ hasText: "don't match" })).toBeVisible();
   });
 
   test("owner lands on the office and can open the organization page", async ({ page }) => {
     await signIn(page, "admin@demo.teamverse.local");
     await expect(page).toHaveURL(/\/office$/);
-    await expect(page.getByText("Demo data")).toBeVisible();
+    await expect(page.getByRole("complementary").getByText("Demo data")).toBeVisible();
     await page.getByRole("link", { name: "Organization" }).click();
     await expect(page.getByRole("heading", { name: "Members" })).toBeVisible();
     await expectNoSeriousA11yViolations(page);
@@ -85,9 +95,14 @@ test.describe("authenticated flows", () => {
   });
 
   test("availability is user-chosen and persists", async ({ page }) => {
-    await signIn(page, "zayd.benali@demo.teamverse.local");
+    // Hamdan is used by no other test: the presence test changes Zayd's availability in parallel.
+    await signIn(page, "hamdan.zayed@demo.teamverse.local");
+    await expect(page).toHaveURL(/\/comms$/);
     await page.getByRole("button", { name: /Your availability/ }).click();
     await page.getByRole("menuitemradio", { name: "Busy" }).click();
+    const trigger = page.getByRole("button", { name: /Your availability: Busy/ });
+    await expect(trigger).toBeVisible();
+    await expect(trigger).not.toHaveAttribute("aria-busy", "true"); // saved before reloading
     await page.reload();
     await expect(page.getByRole("button", { name: /Your availability: Busy/ })).toBeVisible();
     // restore
@@ -96,7 +111,9 @@ test.describe("authenticated flows", () => {
   });
 
   test("admin can create an invitation that a new user accepts", async ({ page, browser }) => {
+    test.setTimeout(60_000); // two browser sessions and an account creation
     await signIn(page, "admin@demo.teamverse.local");
+    await expect(page).toHaveURL(/\/office$/); // session cookie is set before navigating on
     await page.goto("/admin");
     const email = `new-${Date.now()}@demo.teamverse.local`;
     await page.getByLabel("Email address").fill(email);

@@ -13,8 +13,15 @@
 --     departments    de000000-0000-4000-8000-00000000000N  (1..5)
 --     office layout  f0000000-0000-4000-8000-000000000001
 --     seats          f5000000-0000-4000-8000-0000000000NN
---     conversations  c0000000-0000-4000-8000-000000000001  channel eng-architecture
+--     conversations  c0000000-0000-4000-8000-000000000001  channel eng-architecture (private)
 --                    c0000000-0000-4000-8000-000000000002  DM Zayd Benali <-> Layla Nour
+--                    c0000000-0000-4000-8000-000000000003  channel general-announcements (public)
+--                    c0000000-0000-4000-8000-000000000004  channel design-critique (public)
+--                    c0000000-0000-4000-8000-000000000005  channel client-showcase (private)
+--                    c0000000-0000-4000-8000-000000000006  DM Tariq Mansour <-> Sara Al-Hashimi
+--                    c0000000-0000-4000-8000-000000000007  DM Zayd Benali <-> Tariq Mansour
+--     The owner (Demo Admin, a...01) is deliberately in NO conversation: RLS
+--     tests rely on it, and it shows the "browse public channels" path.
 --     messages       e0000000-0000-4000-8000-0000000000NN
 -- =============================================================================
 
@@ -202,5 +209,76 @@ update public.conversation_members
    set last_read_at = now() - interval '44 minutes'
  where conversation_id = 'c0000000-0000-4000-8000-000000000002'
    and user_id = 'a0000000-0000-4000-8000-000000000004';
+
+-- -----------------------------------------------------------------------------
+-- Phase 3: more channels and DMs
+-- -----------------------------------------------------------------------------
+insert into public.conversations (id, org_id, kind, visibility, name, topic, direct_key, created_by) values
+  ('c0000000-0000-4000-8000-000000000003', 'd0000000-0000-4000-8000-000000000001', 'channel', 'public',
+   'general-announcements', 'Company-wide news (demo)', null, 'a0000000-0000-4000-8000-000000000002'),
+  ('c0000000-0000-4000-8000-000000000004', 'd0000000-0000-4000-8000-000000000001', 'channel', 'public',
+   'design-critique', 'Share work in progress for feedback (demo)', null, 'a0000000-0000-4000-8000-000000000003'),
+  ('c0000000-0000-4000-8000-000000000005', 'd0000000-0000-4000-8000-000000000001', 'channel', 'private',
+   'client-showcase', 'Prep for client presentations (demo)', null, 'a0000000-0000-4000-8000-000000000010'),
+  ('c0000000-0000-4000-8000-000000000006', 'd0000000-0000-4000-8000-000000000001', 'direct', 'private',
+   null, null, 'a0000000-0000-4000-8000-000000000002:a0000000-0000-4000-8000-000000000003', 'a0000000-0000-4000-8000-000000000002'),
+  ('c0000000-0000-4000-8000-000000000007', 'd0000000-0000-4000-8000-000000000001', 'direct', 'private',
+   null, null, 'a0000000-0000-4000-8000-000000000002:a0000000-0000-4000-8000-000000000004', 'a0000000-0000-4000-8000-000000000004');
+
+-- general-announcements: everyone except the owner
+insert into public.conversation_members (org_id, conversation_id, user_id, role, last_read_at)
+select 'd0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000003', u.id,
+       (case when u.id = 'a0000000-0000-4000-8000-000000000002' then 'owner' else 'member' end)::public.conversation_member_role,
+       now() - interval '1 day'
+from _demo_users u
+where u.id <> 'a0000000-0000-4000-8000-000000000001';
+
+insert into public.conversation_members (org_id, conversation_id, user_id, role) values
+  -- design-critique: Sara (owner), Layla, Tariq
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000004', 'a0000000-0000-4000-8000-000000000003', 'owner'),
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000004', 'a0000000-0000-4000-8000-000000000006', 'member'),
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000004', 'a0000000-0000-4000-8000-000000000002', 'member'),
+  -- client-showcase: Marcus (owner), Noor, Fatima, Sara
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000005', 'a0000000-0000-4000-8000-000000000010', 'owner'),
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000005', 'a0000000-0000-4000-8000-000000000005', 'member'),
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000005', 'a0000000-0000-4000-8000-000000000009', 'member'),
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000005', 'a0000000-0000-4000-8000-000000000003', 'member'),
+  -- DM Tariq <-> Sara
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000006', 'a0000000-0000-4000-8000-000000000002', 'member'),
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000006', 'a0000000-0000-4000-8000-000000000003', 'member'),
+  -- DM Zayd <-> Tariq
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000007', 'a0000000-0000-4000-8000-000000000004', 'member'),
+  ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000007', 'a0000000-0000-4000-8000-000000000002', 'member');
+
+insert into public.messages (id, org_id, conversation_id, sender_id, body, kind, created_at) values
+  ('e0000000-0000-4000-8000-000000000008', 'd0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000003',
+   'a0000000-0000-4000-8000-000000000002', 'Welcome to TeamVerse! This is **demo data**: every person and message here is fictional.', 'text', now() - interval '5 hours'),
+  ('e0000000-0000-4000-8000-000000000009', 'd0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000003',
+   'a0000000-0000-4000-8000-000000000010', 'Reminder: client review on Thursday at 10:00. Agenda in `#client-showcase`.', 'text', now() - interval '4 hours'),
+  ('e0000000-0000-4000-8000-000000000010', 'd0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000004',
+   'a0000000-0000-4000-8000-000000000006', 'First pass at the onboarding empty states. Thoughts on the illustration weight?', 'text', now() - interval '3 hours 30 minutes'),
+  ('e0000000-0000-4000-8000-000000000011', 'd0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000004',
+   'a0000000-0000-4000-8000-000000000003', E'Looks good. Two notes:\n- tighten the heading spacing\n- use the secondary teal for the CTA', 'text', now() - interval '3 hours 10 minutes'),
+  ('e0000000-0000-4000-8000-000000000012', 'd0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000005',
+   'a0000000-0000-4000-8000-000000000010', 'Deck outline for the pitch is ready. Noor, can you own the case-study slide?', 'text', now() - interval '2 hours'),
+  ('e0000000-0000-4000-8000-000000000013', 'd0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000006',
+   'a0000000-0000-4000-8000-000000000002', 'Can we sync on the 3D office art direction this week?', 'text', now() - interval '1 hour 20 minutes'),
+  ('e0000000-0000-4000-8000-000000000014', 'd0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000006',
+   'a0000000-0000-4000-8000-000000000003', 'Yes, Wednesday afternoon works for me.', 'text', now() - interval '1 hour 5 minutes'),
+  ('e0000000-0000-4000-8000-000000000015', 'd0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000007',
+   'a0000000-0000-4000-8000-000000000004', 'Deploy of the staging build is done. Smoke tests are green.', 'text', now() - interval '30 minutes');
+
+update public.conversation_members
+   set last_read_at = now() - interval '1 hour'
+ where conversation_id = 'c0000000-0000-4000-8000-000000000006'
+   and user_id = 'a0000000-0000-4000-8000-000000000003';
+
+-- Layla has read the DM, but prefers not to share read receipts (shows the opt-out).
+update public.conversation_members
+   set last_read_at = now() - interval '30 minutes'
+ where conversation_id = 'c0000000-0000-4000-8000-000000000002'
+   and user_id = 'a0000000-0000-4000-8000-000000000006';
+update public.profiles set share_read_receipts = false
+ where id = 'a0000000-0000-4000-8000-000000000006';
 
 drop table _demo_users;

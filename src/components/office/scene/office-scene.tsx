@@ -27,7 +27,6 @@ export type OfficeSceneProps = {
   performance: boolean;
   reducedMotion: boolean;
   camera: CameraCommand | null;
-  canvasLabel: string;
   onSelect: (userId: string | null) => void;
   onHover: (userId: string | null) => void;
 };
@@ -53,7 +52,6 @@ export default function OfficeScene(props: OfficeSceneProps) {
       gl={{ antialias: !performance, alpha: true, powerPreference: performance ? "low-power" : "high-performance" }}
       camera={{ position: cameraPosition, zoom: 20, near: 1, far: 500 }}
       onPointerMissed={() => props.onSelect(null)}
-      aria-label={props.canvasLabel}
       data-testid="office-canvas"
     >
       <ambientLight color={sceneTheme.ambient} intensity={0.7} />

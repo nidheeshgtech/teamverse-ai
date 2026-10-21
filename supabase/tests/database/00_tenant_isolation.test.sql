@@ -38,6 +38,10 @@ insert into public.call_participants (org_id, call_id, user_id)
 values ('d0000000-0000-4000-8000-000000000001', 'ac000000-0000-4000-8000-000000000001',
         'a0000000-0000-4000-8000-000000000004');
 
+-- Attachment rows must point at a stored object (Phase 3 trigger).
+insert into storage.objects (bucket_id, name, owner)
+values ('attachments', 'd0000000-0000-4000-8000-000000000001/c0000000-0000-4000-8000-000000000001/spec.pdf',
+        'a0000000-0000-4000-8000-000000000002');
 insert into public.message_attachments (org_id, conversation_id, message_id, uploader_id, storage_path, file_name, mime_type, size_bytes)
 values ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000001',
         'e0000000-0000-4000-8000-000000000001', 'a0000000-0000-4000-8000-000000000002',

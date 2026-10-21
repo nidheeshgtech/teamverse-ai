@@ -13,14 +13,20 @@ import { ToggleGroup } from "radix-ui";
 import { ProfilePanel } from "./profile-panel";
 import { departmentTone, useDepartmentLabel } from "./use-labels";
 
-type Props = { data: OfficeData; viewerId: string; presence: PresenceMap; connection: PresenceConnection | "simulated" };
+type Props = {
+  data: OfficeData;
+  viewerId: string;
+  presence: PresenceMap;
+  connection: PresenceConnection | "simulated";
+  onMessage?: (userId: string) => Promise<boolean>;
+};
 
 const chip =
   "inline-flex h-8 items-center gap-space-xs rounded px-space-sm type-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action";
 
 // DESIGN GAP: Stitch shows "Team Directory" in navigation only. Built from the people list,
 // department chips and the profile panel of the office screen.
-export function DirectoryView({ data, viewerId, presence, connection }: Props) {
+export function DirectoryView({ data, viewerId, presence, connection, onMessage }: Props) {
   const t = useTranslations();
   const deptLabel = useDepartmentLabel();
   const [query, setQuery] = useState("");
@@ -95,7 +101,7 @@ export function DirectoryView({ data, viewerId, presence, connection }: Props) {
       {selected ? (
         <div className="w-panel-lg shrink-0">
           <div className="sticky top-[calc(var(--spacing-topbar)+var(--spacing-margin))]">
-            <ProfilePanel person={selected} isSelf={selected.userId === viewerId} canFocusDesk={false} onFocusDesk={() => undefined} onClose={close} />
+            <ProfilePanel person={selected} isSelf={selected.userId === viewerId} canFocusDesk={false} onFocusDesk={() => undefined} onClose={close} onMessage={onMessage} />
           </div>
         </div>
       ) : null}

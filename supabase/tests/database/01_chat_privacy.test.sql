@@ -7,15 +7,16 @@ create extension if not exists pgtap with schema extensions;
 select plan(17);
 
 -- Fixtures: a DM attachment row and its storage object.
+-- Storage object first: attachment rows must point at a stored object (Phase 3 trigger).
+insert into storage.objects (bucket_id, name, owner)
+values ('attachments',
+        'd0000000-0000-4000-8000-000000000001/c0000000-0000-4000-8000-000000000002/screens.png',
+        'a0000000-0000-4000-8000-000000000004');
 insert into public.message_attachments (org_id, conversation_id, message_id, uploader_id, storage_path, file_name, mime_type, size_bytes)
 values ('d0000000-0000-4000-8000-000000000001', 'c0000000-0000-4000-8000-000000000002',
         'e0000000-0000-4000-8000-000000000005', 'a0000000-0000-4000-8000-000000000004',
         'd0000000-0000-4000-8000-000000000001/c0000000-0000-4000-8000-000000000002/screens.png',
         'screens.png', 'image/png', 2048);
-insert into storage.objects (bucket_id, name, owner)
-values ('attachments',
-        'd0000000-0000-4000-8000-000000000001/c0000000-0000-4000-8000-000000000002/screens.png',
-        'a0000000-0000-4000-8000-000000000004');
 
 -- ---------------------------------------------------------------------------
 -- (b) Org admin, not a DM member

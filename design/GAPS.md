@@ -16,7 +16,8 @@ Each item is also marked in code with `DESIGN GAP` or `DESIGN DEVIATION` comment
 - Sign-in, invitation acceptance — level-3 glass card over the canvas (Phase 1, built)
 - Organization/admin page — level-2 cards, HUD eyebrows, badges (Phase 1, built)
 - 404 / forbidden / no-organization / error / loading / "not built yet" states (Phase 1, built)
-- Still missing: Voice Notes page, Team Directory, Settings, incoming-call modal, meeting lobby & device check, notifications panel, search results, 2D office list.
+- Built in Phase 3 (DESIGN GAP, extends existing patterns): new-message dialog, channels browse/create dialog, delete confirmation, "no conversation selected" state, offline/reconnecting banner, Settings › Privacy.
+- Still missing: Voice Notes page, incoming-call modal, meeting lobby & device check, notifications panel, global search results.
 
 ## Missing states
 Loading, empty, error, offline/reconnecting, unconfigured integration, permission denied, hover/focus/disabled.
@@ -41,7 +42,7 @@ No Arabic layouts in Stitch. Code is RTL-ready (logical properties enforced by a
 | "DUBAI NODE LIVE 24ms" sidebar telemetry | Demo-data marker (demo org only) | No data source |
 | "Lobby: Ready" chip | Omitted until Phase 4 | No lobby yet |
 | Notification unread dot | No dot until notifications exist (Phase 5) | Would be fake |
-| Search box | Visible but disabled with "arrives in Phase 3" hint | Not built |
+| Search box | Visible but disabled; hint points to “Jump to a conversation” | Global search not built (deferred beyond Phase 3) |
 | "E2EE Active", "Encrypted E2EE", "Sovereign Signed" | "Encrypted in transit" (Phase 4) | LiveKit/Supabase defaults are not end-to-end encrypted |
 | "UAE PDPL 100% compliant", "Cryptographic Ledger SHA256" | Removed; consent status shown instead (Phase 6) | Unverifiable compliance claim |
 | Profile "Active Work Stream" (PR/branch), "Spatial Proximity 4.2m", "Acoustic Ambience 32 dB", "Office Telemetry" counts as metrics | User-written status message; counts only from real presence (Phase 2) | Spec: no productivity inference, presence is not surveillance |
@@ -68,6 +69,40 @@ No Arabic layouts in Stitch. Code is RTL-ready (logical properties enforced by a
 | Team Directory (nav only) | Card grid + search + department filter + profile panel | DESIGN GAP |
 
 The scene is labelled "Placeholder 3D — final office assets pending". Demo data and simulated presence (dev preview only) are badged.
+
+## Phase 3 — Messaging
+**Matches the Stitch Communications screen:** three columns (conversation list, thread, details); org card + "Jump to" filter; collapsible CHANNELS / direct-message sections with unread pills; channel header with lock/hash, topic and Huddle button; message cards with avatar, name, department chip and time; day separator; formatting toolbar + composer card with Attach / Voice Memo / Send; right column with profile, contact grid and shared files.
+
+| Design shows | Built | Reason |
+|---|---|---|
+| "Direct Telemetry (8)" | "Direct messages (n)" | Plain language; no telemetry |
+| Per-person activity lines ("Active on Figma Mirror", "Focus Mode: Deploying v4", "In Boardroom Sync") | Last-message preview + presence dot | No activity tracking (spec: presence is not surveillance) |
+| "VIP" channel tag, "Spatial Mesh L3 · Latency 18ms" footer | Omitted | No data source |
+| AI Copilot banner ("detected 2 action items… Review Draft Items") | Omitted until Phase 6 | No AI yet; AI output must be an approved draft |
+| Emoji reactions (⚡4, 🇦🇪6) | Deferred (approved 2026-10-21) | Not in spec; logged for review |
+| "Read by 12" under any message | "Read by N" / "Seen" under **your** latest message; counts only people who share receipts | Read receipts are opt-out per person (Settings) |
+| Huddle (3) + video button | Huddle visible, disabled "Arrives in Phase 4"; video omitted | Calls are Phase 4 |
+| Pin and in-thread search icons | Omitted | Not built; avoids dead controls |
+| Composer placeholder "Send an encrypted broadcast…", "Transmit" | "Message #channel", "Send" | Not end-to-end encrypted |
+| RTL / العربية toggle in composer | Omitted until Phase 8 | Arabic arrives in Phase 8 |
+| Voice Memo button | Visible, disabled "Arrives in Phase 5" | Voice notes are Phase 5 |
+| Emoji picker button | Omitted | Reactions/emoji deferred |
+| Voice-note waveform message, code-block with "TYPESCRIPT" label | Code blocks render (safe markdown, language caption); voice messages in Phase 5 | — |
+| Right column: "Spatial Presence · Synchronized / seated in Dubai VIP Executive Suite", "DIFC Node" chip | Department chip, local time, chosen availability | No location tracking |
+| Contact grid: Direct Call / Audio Memo / Screen Share / Invite Room | Voice call, Video call, Screen share, Voice note — disabled with phase hints | Phases 4–5 |
+| Shared Assets with "Encrypted E2EE" / "Sovereign Signed", "View Vault" | Shared files from loaded messages (name, size, download via short-lived signed URL) | Unverifiable claims removed |
+| "GCC Sovereign Telemetry" note | Privacy note: members only (admins included), encrypted in transit not E2EE; receipts opt-out | Honest claims only |
+| Profile "Message" action (office/directory) | Now works: opens or creates the DM | Built |
+
+Groups (unnamed multi-person DMs) and the channel browser have no design and reuse the list/dialog patterns.
+Message text uses a safe markdown subset (bold, italic, code, code blocks, quotes, lists, links) rendered as React elements; raw HTML in a message is shown as text.
+
+### Known limitations (Phase 3)
+- Realtime authorization is checked when a channel is joined. Someone removed from a conversation can keep receiving its broadcasts until their connection re-authenticates (token refresh, ≤1 h) — the UI drops them immediately, but a modified client would not. Phase 7: force re-join on membership change.
+- Typing events carry the sender's user id as claimed by the client (members only); they are cosmetic and never stored.
+- Files uploaded for a message that then fails to send, or whose removal fails after the message is deleted, stay in storage (no longer attached to any message) until the Phase 7 cleanup job.
+- New-message pings fan out to each member's inbox in the database trigger; fine at agency scale, to be load-tested in Phase 7.
+- Global search is not built.
 
 ## Accessibility notes
 - axe (WCAG 2.1 AA) reports no serious/critical issues on sign-in and the component gallery.

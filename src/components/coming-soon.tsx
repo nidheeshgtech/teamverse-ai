@@ -4,9 +4,9 @@ import { requireMember } from "@/lib/auth/dal";
 import { Panel } from "@/ui/panel";
 import { StateMessage } from "@/ui/states";
 
-type Section = "comms" | "conferences" | "voiceNotes" | "ai" | "settings";
+type Section = "conferences" | "voiceNotes" | "ai";
 
-const phaseFor: Record<Section, number> = { comms: 3, conferences: 4, voiceNotes: 5, settings: 5, ai: 6 };
+const phaseFor: Record<Section, number> = { conferences: 4, voiceNotes: 5, ai: 6 };
 
 /** Honest placeholder for sections that later phases build. Still enforces membership. */
 export async function ComingSoon({ section }: { section: Section }) {

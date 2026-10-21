@@ -28,6 +28,7 @@ type Props = {
   connection: PresenceConnection | "simulated";
   /** Low-bandwidth preference from the viewer's profile. */
   lowBandwidth?: boolean;
+  onMessage?: (userId: string) => Promise<boolean>;
 };
 
 const VIEW_KEY = "tv.office.view";
@@ -51,7 +52,7 @@ function writePref(key: string, value: string) {
   }
 }
 
-export function OfficeView({ data, viewerId, presence, connection, lowBandwidth = false }: Props) {
+export function OfficeView({ data, viewerId, presence, connection, lowBandwidth = false, onMessage }: Props) {
   const t = useTranslations("office");
   const deptLabel = useDepartmentLabel();
   const webgl = useWebGLSupport();
@@ -136,7 +137,6 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
             performance={performance}
             reducedMotion={reducedMotion}
             camera={camera}
-            canvasLabel={t("canvasLabel")}
             onSelect={select}
             onHover={setHoveredId}
           />
@@ -226,6 +226,7 @@ export function OfficeView({ data, viewerId, presence, connection, lowBandwidth 
                 canFocusDesk={show3d && selected.seat !== null}
                 onFocusDesk={() => focus(selected.userId)}
                 onClose={close}
+                onMessage={onMessage}
               />
             </div>
           ) : null}

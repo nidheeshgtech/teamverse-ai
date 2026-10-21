@@ -32,6 +32,8 @@ export function initialsFor(name: string): string {
   return (first + last).toUpperCase();
 }
 
+const initialsType = { sm: "type-label-md", md: "type-label-md", lg: "type-title-md", xl: "type-headline-md" } as const;
+
 export function Avatar({ name, src, status, statusLabel, size, decorative = false, className }: AvatarProps) {
   const large = size === "lg" || size === "xl";
   return (
@@ -40,15 +42,16 @@ export function Avatar({ name, src, status, statusLabel, size, decorative = fals
         className={cn(
           "inline-flex size-full items-center justify-center overflow-hidden bg-surface-container-high ring-1 ring-surface-glass-border",
           large ? "rounded-lg" : "rounded-full",
+          size === "xl" && "rounded-xl ring-2 ring-primary-container/40 shadow-level-2",
         )}
       >
         {src ? <AvatarPrimitive.Image src={src} alt="" className="size-full object-cover" /> : null}
-        <AvatarPrimitive.Fallback delayMs={src ? 300 : 0} className="type-label-md text-secondary">
+        <AvatarPrimitive.Fallback delayMs={src ? 300 : 0} className={cn(initialsType[size ?? "md"], "text-secondary")}>
           {initialsFor(name)}
         </AvatarPrimitive.Fallback>
       </AvatarPrimitive.Root>
       {status ? (
-        <PresenceDot status={status} label={statusLabel} size={large ? "md" : "sm"} knockout className="absolute end-0 bottom-0" />
+        <PresenceDot status={status} label={statusLabel} size={large ? "md" : "sm"} knockout className={cn("absolute", large ? "-end-1 -bottom-1" : "end-0 bottom-0")} />
       ) : null}
     </span>
   );

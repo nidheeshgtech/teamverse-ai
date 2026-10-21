@@ -8,6 +8,8 @@ const useDev = process.env.E2E_DEV === "1";
 export default defineConfig({
   testDir: "tests/e2e",
   fullyParallel: true,
+  // Full-stack runs share one local Supabase and two-browser flows; fewer workers keeps timing honest.
+  workers: process.env.E2E_SUPABASE === "1" ? 2 : undefined,
   retries: process.env.CI ? 1 : 0,
   use: { baseURL: `http://localhost:${port}`, trace: "retain-on-failure" },
   // Desktop only for now (mobile deferred by product owner).

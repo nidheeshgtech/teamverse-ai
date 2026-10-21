@@ -1,5 +1,6 @@
 import "server-only";
 import { createServerClient } from "@supabase/ssr";
+import { io } from "next/cache";
 import { cookies } from "next/headers";
 import { getPublicSupabaseConfig } from "@/lib/env";
 
@@ -7,6 +8,9 @@ import { getPublicSupabaseConfig } from "@/lib/env";
 export async function createSupabaseServerClient() {
   // Read cookies first so callers are always request-time, even when unconfigured at build time.
   const cookieStore = await cookies();
+  // supabase-js reads Date.now() while loading the session; mark this as request-time work
+  // so Cache Components never treats it as part of a prerender.
+  await io();
   const config = getPublicSupabaseConfig();
   if (!config) return null;
 
