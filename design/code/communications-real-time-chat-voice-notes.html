@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-tint":"#4edea3","on-primary-fixed":"#002113","on-primary-container":"#00422b","outline":"#86948a","tertiary-fixed-dim":"#ffb77d","surface-container-lowest":"#0a0e17","tertiary-fixed":"#ffdcc3","surface-panel-glass":"rgba(13, 19, 31, 0.75)","on-secondary-fixed":"#00201d","secondary":"#6bd8cb","tertiary":"#ffb77d","surface-canvas":"#06090F","on-error":"#690005","inverse-on-surface":"#2c303a","secondary-fixed-dim":"#6bd8cb","on-tertiary-fixed":"#2f1500","on-tertiary-fixed-variant":"#6e3900","error-container":"#93000a","on-tertiary-container":"#5a2e00","surface-container-high":"#262a34","on-secondary":"#003732","error":"#ffb4ab","on-error-container":"#ffdad6","hud-glow-emerald":"rgba(16, 185, 129, 0.15)","surface-panel":"#0D131F","primary-fixed-dim":"#4edea3","secondary-container":"#29a195","surface-bright":"#353943","on-primary-fixed-variant":"#005236","surface-container-highest":"#31353f","tertiary-container":"#f08921","background":"#0f131c","inverse-primary":"#006c49","secondary-fixed":"#89f5e7","surface-glass-highlight":"rgba(255, 255, 255, 0.16)","accent-desert-sand":"#E2B887","presence-dnd":"#F43F5E","on-surface":"#dfe2ef","outline-variant":"#3c4a42","primary-fixed":"#6ffbbe","surface-glass-border":"rgba(255, 255, 255, 0.08)","on-secondary-container":"#00302b","on-background":"#dfe2ef","on-primary":"#003824","on-surface-variant":"#bbcabf","inverse-surface":"#dfe2ef","presence-online":"#10B981","presence-away":"#64748B","surface-dim":"#0f131c","on-tertiary":"#4d2600","surface-container-low":"#181b25","presence-busy":"#F59E0B","surface-container":"#1c1f29","on-secondary-fixed-variant":"#005049","surface-variant":"#31353f","surface":"#0f131c","primary-container":"#10b981","primary":"#4edea3"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-3xl":"4rem","gutter-mobile":"0.75rem","space-2xl":"3rem","space-xl":"2rem","space-xs":"0.25rem","space-md":"1rem","margin-mobile":"1rem","space-2xs":"0.125rem","gutter":"1.25rem","space-lg":"1.5rem","margin":"2rem","space-sm":"0.5rem"},fontFamily:{"label-xs":["Geist"],"display-lg":["Geist"],"body-lg":["Inter"],"label-md":["Geist"],"headline-lg":["Geist"],"code-sm":["JetBrains Mono"],"body-md":["Inter"],"display-lg-mobile":["Geist"],"title-md":["Geist"],"headline-md":["Geist"],"label-lg":["Geist"],"headline-xl-mobile":["Geist"],"headline-lg-mobile":["Geist"],"body-sm":["Inter"],"headline-xl":["Geist"]},fontSize:{"label-xs":["10px",{"lineHeight":"14px","letterSpacing":"0.06em","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"code-sm":["12px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"display-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.02em","fontWeight":"500"}],"headline-xl-mobile":["26px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"400"}],"headline-xl":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface-canvas font-body-md text-on-surface antialiased"><aside class="fixed start-0 top-0 h-full w-72 bg-surface-panel/90 backdrop-blur-2xl z-50 flex flex-col justify-between py-space-md shadow-[0_8px_32px_-4px_rgba(0,0,0,0.5)]"><div class="flex flex-col gap-space-lg"><div class="flex items-center gap-space-sm px-space-lg"><img alt="TeamVerse AI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XJa-Xsxq46ALy6h61RtDlXZ-4X0GpC-WBYSiTJ-awiWsmjUrn_n5gsAml6bVVcBl121eet5MNJFi4NTfw54hD7GCjk5M8rCbARdK4J8wCZnSCAIU6QG7bsVGuU7OcUv4Q5yrzQcFa7vIQpDq_-rjSQktV_xWCyGjvCQOwuM18VXc7HV1UIbwoQveHB9yCirGqPGubrfnhJdyn86MVHmL5oLU7Wr6wSuQuKgmYhO7aKD5gROAu0nA2ACEo"/><div class="flex flex-col"><span class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">TeamVerse AI</span><span class="font-label-xs text-label-xs text-secondary tracking-widest uppercase">Virtual HQ • Dubai</span></div></div><nav class="flex flex-col gap-space-2xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(16,185,129,0.2)]"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="virtual-office" href="#"><span class="material-symbols-outlined text-[20px]">view_in_ar</span><span class="font-label-lg text-label-lg">Virtual Office</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-200 bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(16,185,129,0.2)]" data-path="communications" href="#"><span class="material-symbols-outlined text-[20px]">forum</span><span class="font-label-lg text-label-lg">Communications</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="conferences" href="#"><span class="material-symbols-outlined text-[20px]">groups</span><span class="font-label-lg text-label-lg">Conferences</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="voice-notes" href="#"><span class="material-symbols-outlined text-[20px]">mic</span><span class="font-label-lg text-label-lg">Voice Notes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="ai-assistant" href="#"><span class="material-symbols-outlined text-[20px]">auto_awesome</span><span class="font-label-lg text-label-lg">AI Assistant</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="team-directory" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span class="font-label-lg text-label-lg">Team Directory</span></a></nav></div><div class="px-space-sm flex flex-col gap-space-xs"><div class="bg-surface-container-low/60 backdrop-blur-md rounded-xl p-space-sm flex items-center justify-between mx-space-2xs"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-presence-online animate-pulse"></span><span class="font-label-xs text-label-xs text-on-surface-variant uppercase tracking-wider">Dubai Node Live</span></div><span class="font-code-sm text-code-sm text-secondary">24ms</span></div><nav class="flex flex-col" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-lg text-label-lg">Settings</span></a></nav></div></aside><div class="ps-72"><header class="fixed top-0 start-72 end-0 h-16 z-40 bg-surface-panel/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.3)] flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-lg bg-surface-container-low/70"><span class="material-symbols-outlined text-[16px] text-accent-desert-sand">location_on</span><span class="font-label-sm text-label-md text-on-surface">Dubai, UAE</span><span class="font-code-sm text-code-sm text-on-surface-variant">GST 14:45</span><span class="font-label-xs text-label-xs text-secondary-container px-space-2xs rounded bg-surface-container-high">UTC+4</span></div><div class="flex items-center gap-space-xs bg-surface-container-lowest/80 px-space-md py-space-2xs rounded-xl w-72"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">search</span><span class="font-body-sm text-body-sm text-on-surface-variant flex-1">Search space, channels, team...</span><kbd class="font-code-sm text-code-sm text-outline px-space-2xs py-space-2xs rounded bg-surface-container-high">Ctrl+K</kbd></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-lg bg-surface-container-low/80"><span class="w-2 h-2 rounded-full bg-presence-online ring-2 ring-surface-panel"></span><span class="font-label-sm text-label-md text-on-surface">Online</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-lg bg-surface-container-low/70"><span class="material-symbols-outlined text-[16px] text-secondary">meeting_room</span><span class="font-label-sm text-label-md text-on-surface-variant">Lobby:</span><span class="font-label-sm text-label-md text-primary">Ready</span></div><button class="relative p-space-2xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 end-1 w-2 h-2 rounded-full bg-primary"></span></button><div class="flex items-center gap-space-xs"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-surface-glass-border" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_-wFoGm3wLyAelbSH_VrH4F07siSvoJ92aF5TalkI_W0HaJAYyNGp2FkdphtuQR2UbsQWYQe2gHvhvlcONz82ZW-qnf0NtCGhzOCxZMDpmsgefE7wXPTv8_jeAcWGS8JQulS8yKH7vgEXXhdLIvxgoPb8qgVRdVAFKwkSQbpcS7wH1E_D26OGfamvP2CYLKny4CixmRfvB2jRBXTi5aRKCz3l-432QMbfYZKxG7cUfmR2vqCQeGhm"/><span class="absolute bottom-0 end-0 w-2.5 h-2.5 rounded-full bg-presence-online ring-2 ring-surface-panel"></span></div></div></div></header><main class="w-full pt-16 bg-surface-canvas min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full h-[calc(100vh-4rem)] grid grid-cols-12 gap-0 overflow-hidden bg-surface-canvas text-on-surface">
+<!-- COLUMN 1: Workspace Channels & DMs (Width: col-span-3) -->
+<aside class="col-span-3 h-full flex flex-col bg-surface-panel/95 backdrop-blur-2xl shadow-xl overflow-hidden select-none">
+<!-- Workspace Brand Capsule -->
+<div class="p-space-md bg-surface-container-low/40 flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">hub</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">Dubai Agency HQ</span>
+<span class="font-label-xs text-label-xs text-secondary tracking-widest uppercase">Emaar Square • Pod 04</span>
+</div>
+</div>
+<button class="p-space-2xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+<!-- Quick Action / Omnisearch -->
+<div class="px-space-md py-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest/90 px-space-sm py-space-xs rounded-xl shadow-inner">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">filter_list</span>
+<input class="bg-transparent border-0 outline-none text-on-surface font-body-sm text-body-sm placeholder:text-outline w-full" placeholder="Jump to channel or teammate..." type="text"/>
+<kbd class="font-code-sm text-code-sm text-outline px-space-2xs rounded bg-surface-container-high">⌘K</kbd>
+</div>
+</div>
+<!-- Channel & DM Navigation List -->
+<div class="flex-1 overflow-y-auto px-space-sm py-space-xs flex flex-col gap-space-md">
+<!-- Channels Section -->
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center justify-between px-space-sm py-space-2xs text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
+<span class="font-label-xs text-label-xs tracking-wider uppercase font-semibold text-outline">Channels (12)</span>
+</div>
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</button>
+</div>
+<!-- Channel 1: Announcements -->
+<button class="w-full flex items-center justify-between px-space-md py-space-xs rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all text-left">
+<div class="flex items-center gap-space-sm truncate">
+<span class="font-code-sm text-code-sm text-outline">#</span>
+<span class="font-body-md text-body-md truncate">general-announcements</span>
+</div>
+<span class="font-code-sm text-code-sm px-space-xs rounded-full bg-surface-container-high text-on-surface-variant">14</span>
+</button>
+<!-- Channel 2: eng-architecture (ACTIVE) -->
+<button class="w-full flex items-center justify-between px-space-md py-space-xs rounded-xl bg-primary-container text-on-primary-container font-semibold shadow-lg text-left">
+<div class="flex items-center gap-space-sm truncate">
+<span class="font-code-sm text-code-sm text-on-primary-container">#</span>
+<span class="font-body-md text-body-md font-semibold truncate">eng-architecture</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-surface-canvas animate-pulse"></span>
+<span class="font-code-sm text-code-sm px-space-xs rounded-full bg-surface-canvas/20 text-on-primary-container">3</span>
+</div>
+</button>
+<!-- Channel 3: design-critique -->
+<button class="w-full flex items-center justify-between px-space-md py-space-xs rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all text-left">
+<div class="flex items-center gap-space-sm truncate">
+<span class="font-code-sm text-code-sm text-outline">#</span>
+<span class="font-body-md text-body-md truncate">design-critique</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</button>
+<!-- Channel 4: dubai-agency-pitches -->
+<button class="w-full flex items-center justify-between px-space-md py-space-xs rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all text-left">
+<div class="flex items-center gap-space-sm truncate">
+<span class="font-code-sm text-code-sm text-outline">#</span>
+<span class="font-body-md text-body-md truncate">dubai-agency-pitches</span>
+</div>
+<span class="font-label-xs text-label-xs text-accent-desert-sand bg-surface-container px-space-xs rounded">VIP</span>
+</button>
+<!-- Channel 5: client-showcase -->
+<button class="w-full flex items-center justify-between px-space-md py-space-xs rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all text-left">
+<div class="flex items-center gap-space-sm truncate">
+<span class="font-code-sm text-code-sm text-outline">#</span>
+<span class="font-body-md text-body-md truncate">client-showcase</span>
+</div>
+</button>
+</div>
+<!-- Direct Messages Section -->
+<div class="flex flex-col gap-space-2xs pt-space-xs">
+<div class="flex items-center justify-between px-space-sm py-space-2xs text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
+<span class="font-label-xs text-label-xs tracking-wider uppercase font-semibold text-outline">Direct Telemetry (8)</span>
+</div>
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[14px]">chat</span>
+</button>
+</div>
+<!-- DM: Sara Al-Hashimi (Selected) -->
+<button class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-xl bg-surface-container-high/80 text-on-surface transition-all text-left shadow-sm">
+<div class="flex items-center gap-space-sm truncate">
+<div class="relative shrink-0">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="High-end cinematic portrait of an executive Emirati female design director wearing minimalist dark executive attire with architectural neon ambient backlighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAImQF3Mt1kCeuFut0LPeMGW9275mCblB1qnKvYE4tetVooZUozOXIQHV5eqtygZ6906a4V9PSSGI4Bf0ILfaoYUX4kTH5C1b72J-yU7rOTI0zj2GKP9E_IkBrOxGBNWRb5TzI4xy1jo0Z3CXjO5ZotuuGOC1TcxYuiYe1_pdniQEMz59geY1kKfXL9-9mVf00INaZqI51gjKcln_dniSOPNRIknPOVZgEZ0w6UZeOPYa4ySs70sebm"/>
+<span class="absolute bottom-0 end-0 w-2.5 h-2.5 rounded-full bg-presence-online shadow-sm"></span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-label-lg text-label-lg font-semibold truncate leading-tight">Sara Al-Hashimi</span>
+<span class="font-label-xs text-label-xs text-primary truncate">Active on Figma Mirror</span>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">14:42</span>
+</button>
+<!-- DM: Tariq Mansoor (In Meeting) -->
+<button class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all text-left">
+<div class="flex items-center gap-space-sm truncate">
+<div class="relative shrink-0">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Close up professional portrait of a tech lead with glasses in a Dubai modern glass office during golden hour sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEUD-qECVmSEL4MXL7ULjYHfzvNBGxlMfz8fFW58QUW8XNUtfLt49zYrRZTdxhGepZzPMeaAOnZgzjaEZW3BDcirh0KG0CB9wPjCBMgL13kj3evcxBBivR5RvwIXaKeQnGT-F5mTZKX_AbotFk-98sai8pzvcSV-tXlWNVF0UeQ3xZReL1cZEE9I61d2YhIZp__S2XDE543-muthDwdJZCemfXsrtgVzoQwVR-0nBe_MCTpt5dIE82"/>
+<span class="absolute bottom-0 end-0 w-2.5 h-2.5 rounded-full bg-presence-busy"></span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-label-lg text-label-lg font-medium truncate leading-tight">Tariq Mansoor</span>
+<span class="font-label-xs text-label-xs text-on-surface-variant truncate">In Boardroom Sync</span>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-outline">13:10</span>
+</button>
+<!-- DM: Zayd Benali (Busy) -->
+<button class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all text-left">
+<div class="flex items-center gap-space-sm truncate">
+<div class="relative shrink-0">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Portrait of a senior backend cloud architect in deep focus against luminous holographic code monitors in Dubai tech hub" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkY7_LIgDBeGHxOZvN1AnknJGzfMeXjVOKwF4Em_ckNw4z3CxEI6LbUnEsPhpLW1hkf1Z5T6TyiHys8r2jxL0D8N7r66fj04MkHhlIoYXJ1c7PBkhWcKrh_Lp9tUe2qYvcSnOFWdn3UKIhZDdI9muRl2hVMDsl8heVvvALowAneyrVDIhO8IvwVaFzMaaUhDn30PuNlmSXB_rYj_add_Z_VR9IFqg12eAcuZpOsVK8uOJ3lKN_1NTU"/>
+<span class="absolute bottom-0 end-0 w-2.5 h-2.5 rounded-full bg-presence-dnd"></span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-label-lg text-label-lg font-medium truncate leading-tight">Zayd Benali</span>
+<span class="font-label-xs text-label-xs text-presence-dnd truncate">Focus Mode: Deploying v4</span>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-outline">11:05</span>
+</button>
+<!-- DM: Noor Khalid (Away) -->
+<button class="w-full flex items-center justify-between px-space-sm py-space-xs rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all text-left">
+<div class="flex items-center gap-space-sm truncate">
+<div class="relative shrink-0">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Creative female brand strategist sitting in high-tech minimalist lounge in DIFC Dubai overlooking cityscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCGPPTMEzmwmLx0zDhPW2VtOkRxh8ODxtMVD90Fymcv8pqzLSZUywH9w8G89iLE3MKHF-FD917l7Kt2xqlB275rSaRIzXEU-HH1W14DEpGWLT0sgWD55-Nw1WaotENWLyv3fzUk1M0MQG70H5F_WFSrVOFukUi3ocJtA4n8ERuiJ9HwHYOdhQq7d5ZHigdMk0UF4Mh7CDD35CU9SdOYvT1vEHG_Oz9dCLHZYScGEOftBti2Ybl7gNb"/>
+<span class="absolute bottom-0 end-0 w-2.5 h-2.5 rounded-full bg-presence-away"></span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-label-lg text-label-lg font-medium truncate leading-tight">Noor Khalid</span>
+<span class="font-label-xs text-label-xs text-outline truncate">Away • GST 4:15 PM</span>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-outline">Yesterday</span>
+</button>
+</div>
+</div>
+<!-- User Floorplan Mini-Dock -->
+<div class="p-space-sm bg-surface-container-lowest/90 m-space-sm rounded-2xl flex items-center justify-between shadow-lg">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-presence-online animate-ping"></span>
+<div class="flex flex-col">
+<span class="font-label-xs text-label-xs font-semibold text-on-surface">Spatial Mesh L3</span>
+<span class="font-code-sm text-code-sm text-secondary">Latency 18ms</span>
+</div>
+</div>
+<div class="flex items-center gap-space-2xs">
+<button class="p-space-xs rounded-lg bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Toggle Spatial Audio">
+<span class="material-symbols-outlined text-[16px]">spatial_audio</span>
+</button>
+<button class="p-space-xs rounded-lg bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Mesh Settings">
+<span class="material-symbols-outlined text-[16px]">sensors</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- COLUMN 2: Active Conversation View (#eng-architecture) (Width: col-span-6) -->
+<main class="col-span-6 h-full flex flex-col bg-surface-canvas relative overflow-hidden">
+<!-- Top Channel Bar -->
+<header class="h-16 px-space-lg flex items-center justify-between bg-surface-panel/80 backdrop-blur-xl shadow-md z-10 shrink-0">
+<div class="flex items-center gap-space-md truncate">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md font-semibold text-primary">#</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<h1 class="font-title-md text-title-md font-semibold text-on-surface">eng-architecture</h1>
+<span class="material-symbols-outlined text-[16px] text-accent-desert-sand" title="VIP Secure Channel">lock</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Decentralized WebGL rendering pipeline & Dubai sovereign node compliance</span>
+</div>
+</div>
+</div>
+<!-- Controls: Huddle, Video, Pins, Search -->
+<div class="flex items-center gap-space-xs shrink-0">
+<!-- Instant Audio Huddle Button -->
+<button class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">headset_mic</span>
+<span class="font-label-md text-label-md font-semibold">Huddle (3)</span>
+</button>
+<!-- Live Video Button -->
+<button class="p-space-xs rounded-xl bg-primary hover:bg-primary-fixed-dim text-on-primary font-semibold transition-all shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+</button>
+<div class="h-4 w-px bg-surface-container-highest mx-space-2xs"></div>
+<!-- Pin Board & Search -->
+<button class="p-space-xs rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Channel Pins">
+<span class="material-symbols-outlined text-[20px]">keep</span>
+</button>
+<button class="p-space-xs rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Search in channel">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+</div>
+</header>
+<!-- AI Smart Action-Item Draft Banner -->
+<div class="px-space-lg pt-space-sm pb-space-xs z-10 shrink-0">
+<div class="w-full bg-surface-container/90 backdrop-blur-md rounded-2xl p-space-sm flex items-center justify-between shadow-lg">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-tint/20 text-surface-tint flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md font-semibold text-primary">AI Copilot</span>
+<span class="font-body-sm text-body-sm text-on-surface">detected 2 action items regarding the Dubai Sovereign cloud sync.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-space-2xs rounded-lg bg-primary-container text-on-primary-container font-label-xs text-label-xs font-semibold hover:opacity-90 transition-opacity">
+              Review Draft Items
+            </button>
+<button class="p-space-2xs text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Message History Thread -->
+<div class="flex-1 overflow-y-auto px-space-lg py-space-md flex flex-col gap-space-lg">
+<!-- Timeline Separator -->
+<div class="flex items-center gap-space-md my-space-xs">
+<div class="flex-1 h-px bg-surface-container-high"></div>
+<span class="font-label-xs text-label-xs text-outline uppercase tracking-widest px-space-sm py-space-2xs rounded-full bg-surface-container-low">Today • GST (UTC+4)</span>
+<div class="flex-1 h-px bg-surface-container-high"></div>
+</div>
+<!-- Message 1: Tariq Mansoor with Code Snippet -->
+<div class="flex gap-space-md group">
+<div class="relative shrink-0">
+<img class="w-10 h-10 rounded-xl object-cover" data-alt="Close up professional portrait of a tech lead with glasses in a Dubai modern glass office during golden hour sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB98JsbLe6w8MXDW-1ydrxscvK9Z8jpPOgAus-pRINwQ7Y9YFfS2cGRvCqdgwJ3WgkV7kdj8lvnppRklXpxzuYbYduGE_TJ98q7UYXTdBJ3CpXv5fLYfYk59I_7GwXTp3HCdkFhRz4zjxLqZohGhB4zU7QUGQJW6biFW34vjQ_VqUot0LNd8tv4zlzH3tlX1HxKy1AHrV_UT_Eibix066K4gQ7P02iUdChdQkT181NhtWVTtAyo0E4a"/>
+<span class="absolute -bottom-1 -end-1 w-3 h-3 rounded-full bg-presence-busy shadow-sm"></span>
+</div>
+<div class="flex flex-col gap-space-xs max-w-2xl">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md font-semibold text-on-surface">Tariq Mansoor</span>
+<span class="font-label-xs text-label-xs px-space-xs py-space-2xs rounded bg-surface-container text-secondary font-medium">Cloud Infrastructure</span>
+<span class="font-code-sm text-code-sm text-outline">14:18</span>
+</div>
+<div class="bg-surface-container/70 rounded-2xl rounded-tl-sm p-space-md text-on-surface shadow-sm">
+<p class="font-body-md text-body-md mb-space-sm leading-relaxed">
+                We completed the failover tests to the primary Dubai South data bunker. Latency between DIFC node and our WebGL scene spatial coordinates is clocking below 18ms. Here is the updated sync handler:
+              </p>
+<!-- Code Snippet Box -->
+<div class="bg-surface-canvas rounded-xl p-space-sm font-code-sm text-code-sm overflow-x-auto shadow-inner">
+<div class="flex items-center justify-between pb-space-xs mb-space-xs text-outline font-label-xs text-label-xs uppercase tracking-wider">
+<span>spatial-cluster-dubai.ts</span>
+<span class="text-secondary font-mono">TypeScript 5.4</span>
+</div>
+<pre class="text-on-surface"><span class="text-secondary">export async function</span> <span class="text-primary">recalibrateNodeMesh</span>(clusterId: <span class="text-accent-desert-sand">string</span>) {
+  <span class="text-outline">// Enforce GCC sovereign spatial privacy boundaries</span>
+  <span class="text-secondary">const</span> stream = <span class="text-secondary">await</span> WebGLSpatialCore.<span class="text-primary">connect</span>({
+    edge: <span class="text-accent-desert-sand">'ae-central-1'</span>,
+    encryption: <span class="text-accent-desert-sand">'AES-GCM-256'</span>,
+    quicTransport: <span class="text-secondary-fixed">true</span>
+  });
+  <span class="text-secondary">return</span> stream.<span class="text-primary">lockCoordinates</span>();
+}</pre>
+</div>
+</div>
+<!-- Message Reactions & Delivery Status -->
+<div class="flex items-center gap-space-xs mt-space-2xs">
+<span class="px-space-xs py-space-2xs rounded-lg bg-surface-container-high/60 text-label-xs font-label-xs text-on-surface flex items-center gap-space-2xs hover:bg-surface-container-highest cursor-pointer">
+<span>⚡</span> <span>4</span>
+</span>
+<span class="px-space-xs py-space-2xs rounded-lg bg-surface-container-high/60 text-label-xs font-label-xs text-on-surface flex items-center gap-space-2xs hover:bg-surface-container-highest cursor-pointer">
+<span>🇦🇪</span> <span>6</span>
+</span>
+<div class="flex items-center gap-space-2xs text-primary font-code-sm text-code-sm ms-space-xs" title="Delivered & Read by 12 participants">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+<span class="text-[11px]">Read by 12</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Message 2: Sara Al-Hashimi with Voice Note Waveform -->
+<div class="flex gap-space-md group">
+<div class="relative shrink-0">
+<img class="w-10 h-10 rounded-xl object-cover" data-alt="High-end cinematic portrait of an executive Emirati female design director wearing minimalist dark executive attire with architectural neon ambient backlighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA59cD-O0r81Z1rSwgGHTudvuROYKRH1BiN-eSg-g4iSx8Ikk5ug9zeYjZEzwl7p60zEzt7Yf709gqdMlT2ZbW2z6UW5ZaxyLZZAVsd0AwROhpQy7mjpx2YkL4_z9sExNcX2g0jk010TNvac-gBzhj9PeOgZS6lszKzWJ3WNK5VWqeFdYm1vN0HxGogE8bXi8o0QiezRbR0Ve8mpTVkoWtv8CcyeX7sD4Vn24Sk3CCIOVrvxMu1scW-"/>
+<span class="absolute -bottom-1 -end-1 w-3 h-3 rounded-full bg-presence-online shadow-sm"></span>
+</div>
+<div class="flex flex-col gap-space-xs max-w-2xl">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md font-semibold text-on-surface">Sara Al-Hashimi</span>
+<span class="font-label-xs text-label-xs px-space-xs py-space-2xs rounded bg-surface-container text-primary font-medium">Lead UI/UX</span>
+<span class="font-code-sm text-code-sm text-outline">14:26</span>
+</div>
+<div class="bg-surface-container/70 rounded-2xl rounded-tl-sm p-space-md text-on-surface shadow-sm flex flex-col gap-space-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                Brilliant Tariq. I also recorded a brief spatial voice walkthrough explaining how the avatar glass refraction looks inside the 3D boardroom view:
+              </p>
+<!-- Audio Voice Note Player -->
+<div class="bg-surface-container-lowest/90 rounded-xl p-space-sm flex items-center gap-space-md shadow-md">
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-transform shrink-0">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+</button>
+<!-- Interactive Waveform SVG -->
+<div class="flex-1 flex flex-col gap-space-2xs">
+<div class="flex items-center gap-[3px] h-7 w-full">
+<!-- Audio bar visualizations with dynamic heights -->
+<div class="w-1 bg-primary h-3 rounded-full"></div>
+<div class="w-1 bg-primary h-5 rounded-full"></div>
+<div class="w-1 bg-primary h-7 rounded-full"></div>
+<div class="w-1 bg-primary h-4 rounded-full"></div>
+<div class="w-1 bg-primary h-6 rounded-full"></div>
+<div class="w-1 bg-primary h-3 rounded-full"></div>
+<div class="w-1 bg-primary h-5 rounded-full"></div>
+<div class="w-1 bg-primary h-6 rounded-full"></div>
+<div class="w-1 bg-primary h-4 rounded-full"></div>
+<div class="w-1 bg-primary h-7 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-5 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-3 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-6 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-4 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-2 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-5 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-7 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-4 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-3 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-6 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-2 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-4 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-5 rounded-full"></div>
+<div class="w-1 bg-surface-container-highest h-3 rounded-full"></div>
+</div>
+<div class="flex items-center justify-between text-outline font-code-sm text-code-sm">
+<span>0:18 / 0:45</span>
+<span class="text-secondary">Spatial Audio (Binaural)</span>
+</div>
+</div>
+<!-- Speed Toggle Chip -->
+<button class="px-space-xs py-space-2xs rounded-lg bg-surface-container text-on-surface font-code-sm text-code-sm hover:bg-surface-container-high transition-colors">
+                  1.5x
+                </button>
+</div>
+</div>
+<div class="flex items-center gap-space-xs mt-space-2xs">
+<span class="px-space-xs py-space-2xs rounded-lg bg-surface-container-high/60 text-label-xs font-label-xs text-on-surface flex items-center gap-space-2xs">
+<span>🎯</span> <span>3</span>
+</span>
+<div class="flex items-center gap-space-2xs text-primary font-code-sm text-code-sm ms-space-xs">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+<span class="text-[11px]">Delivered</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Message 3: Current User Sent Message (Optimistic tick verification) -->
+<div class="flex gap-space-md justify-end">
+<div class="flex flex-col items-end gap-space-xs max-w-xl">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-outline">14:31</span>
+<span class="font-title-md text-title-md font-semibold text-primary">You</span>
+</div>
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm p-space-md shadow-md">
+<p class="font-body-md text-body-md font-medium leading-relaxed">
+                Reviewing now with the leadership team in Dubai Mall office. We will lock in the WebGL spatial camera transition before the client walk-through at 16:00 GST.
+              </p>
+</div>
+<div class="flex items-center gap-space-xs text-primary">
+<span class="font-label-xs text-label-xs text-on-surface-variant">Encrypted E2EE</span>
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Message Composer Deck -->
+<footer class="p-space-md bg-surface-panel/90 backdrop-blur-2xl shadow-2xl shrink-0">
+<div class="bg-surface-container-lowest/80 rounded-2xl p-space-xs shadow-inner">
+<!-- Rich Text Formatting Bar -->
+<div class="flex items-center justify-between px-space-xs pb-space-xs">
+<div class="flex items-center gap-space-2xs text-on-surface-variant">
+<button class="p-space-2xs rounded hover:bg-surface-container hover:text-on-surface transition-colors" title="Bold">
+<span class="material-symbols-outlined text-[16px]">format_bold</span>
+</button>
+<button class="p-space-2xs rounded hover:bg-surface-container hover:text-on-surface transition-colors" title="Italic">
+<span class="material-symbols-outlined text-[16px]">format_italic</span>
+</button>
+<button class="p-space-2xs rounded hover:bg-surface-container hover:text-on-surface transition-colors" title="Code Block">
+<span class="material-symbols-outlined text-[16px]">code</span>
+</button>
+<button class="p-space-2xs rounded hover:bg-surface-container hover:text-on-surface transition-colors" title="Bullet List">
+<span class="material-symbols-outlined text-[16px]">format_list_bulleted</span>
+</button>
+<button class="p-space-2xs rounded hover:bg-surface-container hover:text-on-surface transition-colors" title="Quote">
+<span class="material-symbols-outlined text-[16px]">format_quote</span>
+</button>
+</div>
+<!-- RTL / LTR Quick Direction Toggle -->
+<div class="flex items-center gap-space-xs">
+<button class="px-space-xs py-space-2xs rounded-lg bg-surface-container-high text-on-surface font-label-xs text-label-xs flex items-center gap-space-2xs hover:bg-surface-bright transition-colors" title="Toggle Arabic RTL Layout">
+<span class="material-symbols-outlined text-[14px]">translate</span>
+<span>RTL / العربية</span>
+</button>
+</div>
+</div>
+<!-- Main Input Area -->
+<div class="px-space-xs py-space-2xs">
+<textarea class="w-full bg-transparent border-0 outline-none text-on-surface font-body-md text-body-md placeholder:text-outline resize-none" placeholder="Send an encrypted broadcast or message to #eng-architecture..." rows="2"></textarea>
+</div>
+<!-- Footer Attachment & Action Bar -->
+<div class="flex items-center justify-between pt-space-xs px-space-xs">
+<div class="flex items-center gap-space-xs">
+<!-- Attachment Pill -->
+<label class="flex items-center gap-space-2xs px-space-xs py-space-2xs rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[16px]">attach_file</span>
+<span class="font-label-xs text-label-xs">Attach Asset</span>
+</label>
+<!-- Voice Memo Hold Trigger -->
+<button class="flex items-center gap-space-2xs px-space-xs py-space-2xs rounded-lg bg-surface-container text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[16px]">mic</span>
+<span class="font-label-xs text-label-xs">Voice Memo</span>
+</button>
+<!-- Emoji Trigger -->
+<button class="p-space-2xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">sentiment_satisfied</span>
+</button>
+</div>
+<!-- Send Action Trigger -->
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-xl bg-primary text-on-primary font-semibold hover:bg-primary-fixed-dim transition-all shadow-lg active:scale-95">
+<span class="font-label-md text-label-md">Transmit</span>
+<span class="material-symbols-outlined text-[16px]">send</span>
+</button>
+</div>
+</div>
+</footer>
+</main>
+<!-- COLUMN 3: Context & Teammate Profile Rail (Width: col-span-3) -->
+<aside class="col-span-3 h-full flex flex-col bg-surface-panel/95 backdrop-blur-2xl shadow-xl overflow-y-auto">
+<!-- Profile Header Visual -->
+<div class="p-space-lg flex flex-col items-center text-center bg-surface-container-low/30 relative">
+<div class="relative mb-space-sm">
+<img class="w-24 h-24 rounded-3xl object-cover shadow-2xl ring-2 ring-primary/40" data-alt="High-end cinematic portrait of an executive Emirati female design director wearing minimalist dark executive attire with architectural neon ambient backlighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMsXfyAD5fKIkbeYwy51p6v1_evpgciQMeieY2ZrGk7fw6bH21TzhZ7TMyGlsgwt8AF3ye1i9GqHc6uieQSIad5pGXdbQ7lTxIVFfimLYPmpvI8ZIFq9Tve5KgA5WIhE9qgWekS8yBLSZSkUvS5W0Oa4fhMK_tm79vsxZM83LxKTE4JeQqapltkZepst8tqM6h0EowcyHnDmMK2WCt6gxjNGqTv30ZqUGr3wZBujZtTC27bPlufBXu"/>
+<span class="absolute bottom-1 end-1 w-4 h-4 rounded-full bg-presence-online shadow-md"></span>
+</div>
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface">Sara Al-Hashimi</h2>
+<span class="font-label-lg text-label-lg text-primary font-medium mt-space-2xs">Lead UI/UX Designer & Design Architect</span>
+<!-- Telemetry Badges -->
+<div class="flex items-center gap-space-xs mt-space-sm">
+<span class="font-label-xs text-label-xs px-space-xs py-space-2xs rounded-full bg-surface-container-high text-on-surface-variant flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[12px] text-accent-desert-sand">schedule</span>
+<span>4:32 PM GST (Dubai)</span>
+</span>
+<span class="font-label-xs text-label-xs px-space-xs py-space-2xs rounded-full bg-surface-container-high text-secondary">
+            DIFC Node
+          </span>
+</div>
+</div>
+<!-- Direct Contact Quick Action Grid -->
+<div class="p-space-md grid grid-cols-2 gap-space-xs">
+<button class="flex items-center justify-center gap-space-xs p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">call</span>
+<span class="font-label-md text-label-md">Direct Call</span>
+</button>
+<button class="flex items-center justify-center gap-space-xs p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary">mic</span>
+<span class="font-label-md text-label-md">Audio Memo</span>
+</button>
+<button class="flex items-center justify-center gap-space-xs p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-tertiary">present_to_all</span>
+<span class="font-label-md text-label-md">Screen Share</span>
+</button>
+<button class="flex items-center justify-center gap-space-xs p-space-sm rounded-xl bg-primary-container text-on-primary-container hover:opacity-90 font-semibold transition-opacity shadow-sm">
+<span class="material-symbols-outlined text-[18px]">meeting_room</span>
+<span class="font-label-md text-label-md">Invite Room</span>
+</button>
+</div>
+<!-- Teammate Information Modules -->
+<div class="px-space-md flex flex-col gap-space-md">
+<!-- Live Presence Card -->
+<div class="bg-surface-container/60 rounded-xl p-space-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-outline font-label-xs text-label-xs uppercase tracking-wider">
+<span>Spatial Presence</span>
+<span class="text-primary flex items-center gap-space-2xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> Synchronized
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            Currently seated in <span class="text-secondary font-medium">Dubai VIP Executive Suite B</span>. Viewing WebGL Floor Model 4.
+          </p>
+</div>
+<!-- Shared Channel Files & Artifacts -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-outline font-label-xs text-label-xs uppercase tracking-wider">
+<span>Shared Assets (3)</span>
+<button class="text-primary hover:underline font-label-xs text-label-xs">View Vault</button>
+</div>
+<!-- File 1: Figma Prototype -->
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-lowest/80 hover:bg-surface-container transition-colors cursor-pointer">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[18px]">design_services</span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-label-md text-label-md font-semibold text-on-surface truncate">TeamVerse_DesignSystem_v4.fig</span>
+<span class="font-code-sm text-code-sm text-outline">Figma Mirror • Today 13:40</span>
+</div>
+</div>
+<!-- File 2: PDF Executive Brand Deck -->
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-lowest/80 hover:bg-surface-container transition-colors cursor-pointer">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-accent-desert-sand shrink-0">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-label-md text-label-md font-semibold text-on-surface truncate">Dubai_Pitch_Q3_ClientDeck.pdf</span>
+<span class="font-code-sm text-code-sm text-outline">18.4 MB • Encrypted E2EE</span>
+</div>
+</div>
+<!-- File 3: Sovereign Cloud Audit -->
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-lowest/80 hover:bg-surface-container transition-colors cursor-pointer">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-label-md text-label-md font-semibold text-on-surface truncate">UAE_Data_Compliance_Signed.pdf</span>
+<span class="font-code-sm text-code-sm text-outline">2.1 MB • Sovereign Signed</span>
+</div>
+</div>
+</div>
+<!-- Privacy & Sovereign Telemetry Disclaimer -->
+<div class="p-space-sm rounded-xl bg-surface-container-lowest/50 text-outline mb-space-md">
+<div class="flex items-center gap-space-xs mb-space-2xs text-on-surface-variant font-label-xs text-label-xs font-semibold">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+<span>GCC Sovereign Telemetry</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline leading-tight">
+            Presence, audio bursts, and messages are processed through sovereign regional data vaults under UAE digital workplace standards. No keystroke logging or unauthorized location tracking active.
+          </p>
+</div>
+</div>
+</aside>
+</div>
+</div></main></div></body></html>

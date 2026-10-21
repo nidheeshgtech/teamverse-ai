@@ -1,0 +1,63 @@
+{
+  "projectId": "3834886493870331771",
+  "screens": [
+    {
+      "id": "40d9121ec8f54b8d911f6d56d4bd3fd7",
+      "title": "Three.js",
+      "slug": "three-js",
+      "device": null,
+      "w": "512",
+      "h": "512",
+      "htmlCode": "/Applications/MAMP/htdocs/teamverse-ai/design/code/three-js.html"
+    },
+    {
+      "id": "4ac17e76def841e5b5a5e2d55b3b24b3",
+      "title": "Communications \u2014 Real-time Chat & Voice Notes",
+      "slug": "communications-real-time-chat-voice-notes",
+      "device": "DESKTOP",
+      "w": "2560",
+      "h": "2048",
+      "htmlCode": "/Applications/MAMP/htdocs/teamverse-ai/design/code/communications-real-time-chat-voice-notes.html",
+      "screenshot": "/Applications/MAMP/htdocs/teamverse-ai/design/screens/communications-real-time-chat-voice-notes.png"
+    },
+    {
+      "id": "c7dca13b9f144954aa94bb9e15422ae2",
+      "title": "Executive Boardroom \u2014 Live Audio/Video Conference",
+      "slug": "executive-boardroom-live-audio-video-conference",
+      "device": "DESKTOP",
+      "w": "2560",
+      "h": "2048",
+      "htmlCode": "/Applications/MAMP/htdocs/teamverse-ai/design/code/executive-boardroom-live-audio-video-conference.html",
+      "screenshot": "/Applications/MAMP/htdocs/teamverse-ai/design/screens/executive-boardroom-live-audio-video-conference.png"
+    },
+    {
+      "id": "17138602992749965060",
+      "title": "CLAUDE_CODE_PROMPT_v3.md",
+      "slug": "claude-code-prompt-v3-md",
+      "device": null,
+      "w": "780",
+      "h": "1768",
+      "htmlCode": "/Applications/MAMP/htdocs/teamverse-ai/design/code/claude-code-prompt-v3-md.html"
+    },
+    {
+      "id": "d6ac923cc8274911b4665f2c7e789ea7",
+      "title": "AI Assistant \u2014 Meeting Intelligence & Action Drafts",
+      "slug": "ai-assistant-meeting-intelligence-action-drafts",
+      "device": "DESKTOP",
+      "w": "2560",
+      "h": "2700",
+      "htmlCode": "/Applications/MAMP/htdocs/teamverse-ai/design/code/ai-assistant-meeting-intelligence-action-drafts.html",
+      "screenshot": "/Applications/MAMP/htdocs/teamverse-ai/design/screens/ai-assistant-meeting-intelligence-action-drafts.png"
+    },
+    {
+      "id": "c58dcd5ebe0e40f28e93758e2569524e",
+      "title": "Virtual Office \u2014 Interactive 3D Floorplan & HUD",
+      "slug": "virtual-office-interactive-3d-floorplan-hud",
+      "device": "DESKTOP",
+      "w": "2560",
+      "h": "2048",
+      "htmlCode": "/Applications/MAMP/htdocs/teamverse-ai/design/code/virtual-office-interactive-3d-floorplan-hud.html",
+      "screenshot": "/Applications/MAMP/htdocs/teamverse-ai/design/screens/virtual-office-interactive-3d-floorplan-hud.png"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@custom-variant rtl (&:where([dir="rtl"], [dir="rtl"] *));
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--tv-color-surface-canvas);
+  }
+
+  body {
+    @apply bg-surface-canvas text-on-surface type-body-md antialiased;
+    overscroll-behavior: none;
+  }
+
+  /* Visible focus for every interactive element; components may refine with shadow-focus-ring. */
+  :focus-visible {
+    outline: 2px solid var(--tv-color-primary);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--tv-color-primary-container) 35%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Mirrors directional icons (arrows, chevrons, send) in RTL. Apply only to icons that imply direction. */
+@utility icon-directional {
+  &:where([dir="rtl"] *) {
+    transform: scaleX(-1);
+  }
+}

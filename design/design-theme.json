@@ -1,0 +1,200 @@
+{
+  "colorMode": "DARK",
+  "font": "GEIST",
+  "roundness": "ROUND_EIGHT",
+  "customColor": "#10b981",
+  "headlineFont": "GEIST",
+  "bodyFont": "INTER",
+  "labelFont": "GEIST",
+  "namedColors": {
+    "on_primary_container": "#00422b",
+    "outline_variant": "#3c4a42",
+    "tertiary_container": "#f08921",
+    "on_surface": "#dfe2ef",
+    "primary_container": "#10b981",
+    "on_error": "#690005",
+    "accent-desert-sand": "#E2B887",
+    "error_container": "#93000a",
+    "surface_container_lowest": "#0a0e17",
+    "on_secondary": "#003732",
+    "surface-glass-border": "rgba(255, 255, 255, 0.08)",
+    "hud-glow-emerald": "rgba(16, 185, 129, 0.15)",
+    "tertiary": "#ffb77d",
+    "surface-panel-glass": "rgba(13, 19, 31, 0.75)",
+    "presence-online": "#10B981",
+    "primary": "#4edea3",
+    "surface": "#0f131c",
+    "on_error_container": "#ffdad6",
+    "secondary_fixed_dim": "#6bd8cb",
+    "on_secondary_fixed": "#00201d",
+    "surface_container_highest": "#31353f",
+    "on_background": "#dfe2ef",
+    "surface-panel": "#0D131F",
+    "outline": "#86948a",
+    "on_surface_variant": "#bbcabf",
+    "secondary_fixed": "#89f5e7",
+    "on_primary_fixed": "#002113",
+    "on_primary_fixed_variant": "#005236",
+    "presence-dnd": "#F43F5E",
+    "on_secondary_container": "#00302b",
+    "primary_fixed_dim": "#4edea3",
+    "presence-away": "#64748B",
+    "inverse_primary": "#006c49",
+    "surface_variant": "#31353f",
+    "tertiary_fixed_dim": "#ffb77d",
+    "on_primary": "#003824",
+    "on_tertiary_fixed_variant": "#6e3900",
+    "tertiary_fixed": "#ffdcc3",
+    "on_tertiary_fixed": "#2f1500",
+    "on_tertiary": "#4d2600",
+    "surface-glass-highlight": "rgba(255, 255, 255, 0.16)",
+    "inverse_on_surface": "#2c303a",
+    "primary_fixed": "#6ffbbe",
+    "surface_dim": "#0f131c",
+    "surface_bright": "#353943",
+    "on_secondary_fixed_variant": "#005049",
+    "presence-busy": "#F59E0B",
+    "on_tertiary_container": "#5a2e00",
+    "inverse_surface": "#dfe2ef",
+    "surface-canvas": "#06090F",
+    "error": "#ffb4ab",
+    "surface_tint": "#4edea3",
+    "surface_container": "#1c1f29",
+    "secondary": "#6bd8cb",
+    "background": "#0f131c",
+    "secondary_container": "#29a195",
+    "surface_container_high": "#262a34",
+    "surface_container_low": "#181b25"
+  },
+  "designMd": "---\nname: Executive Oasis\ncolors:\n  surface: '#0f131c'\n  surface-dim: '#0f131c'\n  surface-bright: '#353943'\n  surface-container-lowest: '#0a0e17'\n  surface-container-low: '#181b25'\n  surface-container: '#1c1f29'\n  surface-container-high: '#262a34'\n  surface-container-highest: '#31353f'\n  on-surface: '#dfe2ef'\n  on-surface-variant: '#bbcabf'\n  inverse-surface: '#dfe2ef'\n  inverse-on-surface: '#2c303a'\n  outline: '#86948a'\n  outline-variant: '#3c4a42'\n  surface-tint: '#4edea3'\n  primary: '#4edea3'\n  on-primary: '#003824'\n  primary-container: '#10b981'\n  on-primary-container: '#00422b'\n  inverse-primary: '#006c49'\n  secondary: '#6bd8cb'\n  on-secondary: '#003732'\n  secondary-container: '#29a195'\n  on-secondary-container: '#00302b'\n  tertiary: '#ffb77d'\n  on-tertiary: '#4d2600'\n  tertiary-container: '#f08921'\n  on-tertiary-container: '#5a2e00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#6ffbbe'\n  primary-fixed-dim: '#4edea3'\n  on-primary-fixed: '#002113'\n  on-primary-fixed-variant: '#005236'\n  secondary-fixed: '#89f5e7'\n  secondary-fixed-dim: '#6bd8cb'\n  on-secondary-fixed: '#00201d'\n  on-secondary-fixed-variant: '#005049'\n  tertiary-fixed: '#ffdcc3'\n  tertiary-fixed-dim: '#ffb77d'\n  on-tertiary-fixed: '#2f1500'\n  on-tertiary-fixed-variant: '#6e3900'\n  background: '#0f131c'\n  on-background: '#dfe2ef'\n  surface-variant: '#31353f'\n  presence-online: '#10B981'\n  presence-busy: '#F59E0B'\n  presence-dnd: '#F43F5E'\n  presence-away: '#64748B'\n  surface-canvas: '#06090F'\n  surface-panel: '#0D131F'\n  surface-panel-glass: rgba(13, 19, 31, 0.75)\n  surface-glass-border: rgba(255, 255, 255, 0.08)\n  surface-glass-highlight: rgba(255, 255, 255, 0.16)\n  hud-glow-emerald: rgba(16, 185, 129, 0.15)\n  accent-desert-sand: '#E2B887'\ntypography:\n  display-lg:\n    fontFamily: Geist\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: 56px\n    letterSpacing: -0.03em\n  display-lg-mobile:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '700'\n    lineHeight: 40px\n    letterSpacing: -0.02em\n  headline-xl:\n    fontFamily: Geist\n    fontSize: 36px\n    fontWeight: '600'\n    lineHeight: 44px\n    letterSpacing: -0.02em\n  headline-xl-mobile:\n    fontFamily: Geist\n    fontSize: 26px\n    fontWeight: '600'\n    lineHeight: 32px\n    letterSpacing: -0.01em\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 28px\n    fontWeight: '600'\n    lineHeight: 36px\n    letterSpacing: -0.02em\n  headline-lg-mobile:\n    fontFamily: Geist\n    fontSize: 22px\n    fontWeight: '600'\n    lineHeight: 28px\n    letterSpacing: -0.01em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 20px\n    fontWeight: '600'\n    lineHeight: 28px\n    letterSpacing: -0.01em\n  title-md:\n    fontFamily: Geist\n    fontSize: 16px\n    fontWeight: '600'\n    lineHeight: 24px\n    letterSpacing: -0.005em\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 26px\n    letterSpacing: 0em\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 22px\n    letterSpacing: 0em\n  body-sm:\n    fontFamily: Inter\n    fontSize: 12px\n    fontWeight: '400'\n    lineHeight: 18px\n    letterSpacing: 0.01em\n  label-lg:\n    fontFamily: Geist\n    fontSize: 14px\n    fontWeight: '500'\n    lineHeight: 20px\n    letterSpacing: 0.02em\n  label-md:\n    fontFamily: Geist\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.04em\n  label-xs:\n    fontFamily: Geist\n    fontSize: 10px\n    fontWeight: '600'\n    lineHeight: 14px\n    letterSpacing: 0.06em\n  code-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '400'\n    lineHeight: 18px\n    letterSpacing: 0em\nrounded:\n  sm: 0.25rem\n  DEFAULT: 0.5rem\n  md: 0.75rem\n  lg: 1rem\n  xl: 1.5rem\n  full: 9999px\nspacing:\n  gutter: 1.25rem\n  gutter-mobile: 0.75rem\n  margin: 2rem\n  margin-mobile: 1rem\n  space-2xs: 0.125rem\n  space-xs: 0.25rem\n  space-sm: 0.5rem\n  space-md: 1rem\n  space-lg: 1.5rem\n  space-xl: 2rem\n  space-2xl: 3rem\n  space-3xl: 4rem\n---\n\n## Brand & Style\n\nThis design system establishes an ultra-refined, executive-grade virtual headquarters tailored for elite digital agencies and multi-tenant corporate offices in Dubai and the wider Gulf region. The atmosphere merges sovereign prestige, precision engineering, and frictionless digital productivity. It rejects the playful, cartoonish aesthetic typical of conventional metaverses in favor of an architectural, high-fidelity command center: luminous frosted surfaces, deep slate canvas planes, and micro-luminescent emerald accents reminiscent of modern Middle Eastern architecture and luxury fintech interfaces.\n\nThe aesthetic fuses **Glassmorphism** with **High-Tech Minimalism**:\n- Translucent obsidian panels with edge-lit specular borders float over real-time isometric 3D spaces.\n- Spatial HUD controls appear weightless, unobtrusive, and calibrated for long work sessions without cognitive fatigue.\n- Functional feedback is crisp, high-contrast, and definitive\u2014elevating presence telemetry, encrypted communications, and spatial presence into an executive-tier digital workplace.\n- Visual rhythm honors both Western geometric discipline and native Arabic typographic balance, ensuring immediate visual parity across LTR and RTL configurations.\n\n## Colors\n\nThe palette is engineered exclusively for an immersive, high-contrast dark mode environment. The foundation is built upon deep cosmic obsidian (`#06090F`) and structured slate-navy (`#0D131F`), creating zero glare while maximizing depth perception for 3D isometric viewports.\n\n### Functional Roles\n- **Primary (`#10B981` Emerald)**: Represents vitality, active connectivity, confirmed actions, and key spatial triggers. In the Gulf context, emerald signifies prosperity, growth, and elite architectural luxury.\n- **Secondary (`#0D9488` Cyber Teal / Desert Oasis)**: Used for secondary telemetry, data visualizations, active meeting rooms, and spatial HUD highlights.\n- **Tertiary (`#D97706` Warm Desert Amber)**: Applied to alerts, VIP notifications, and executive-tier badges.\n- **Neutral (`#090D16` Slate Obsidian)**: The baseline canvas. Tints and elevations build upward from this deep, cool foundation to keep contrast ratios above WCAG AAA for text.\n\n### Ephemeral Presence Colors\nPresence indicators must never be stylized with arbitrary branding; they are critical functional signals:\n- **Online**: `#10B981` (Vibrant Emerald with subtle breathing radial glow).\n- **Busy / In Meeting**: `#F59E0B` (Amber Gold).\n- **Do Not Disturb**: `#F43F5E` (Rose Quartz).\n- **Away / Offline**: `#64748B` (Muted Slate Steel).\n\n## Typography\n\nThe typography pairings unify **Geist** for structural headings, HUD telemetry, and metrics with **Inter** for sustained chat and document legibility. This pairing provides clinical technical authority, tabular numerical precision, and exceptional micro-rendering on Retina screens.\n\n### RTL & Arabic Readiness\nDuring Arabic locale engagement, headings and structural elements seamlessly cascade to native Arabic geometric typefaces (such as Noto Sans Arabic or modern Cairo neo-grotesques), maintaining equivalent x-height, stroke weight, and optical tension without breaking horizontal boundaries.\n\n### Numerical and Data Display\nAll HUD cards, active call timers, room coordinates, and latency indicators enforce OpenType tabular figures (`font-variant-numeric: tabular-nums`) using `Geist` or `JetBrains Mono` to prevent layout jitter during real-time data streaming.\n\n## Layout & Spacing\n\nThe layout is built around a hybrid workspace viewport model: a full-bleed interactive 3D WebGL isometric canvas serves as the spatial bedrock, wrapped by floating modular HUD glass panels, dock bars, and context-triggered side sheets.\n\n### Grid and Panel Philosophy\n- **Desktop (1280px+)**: The canvas fills 100vw/100vh. A floating 12-column grid overlays the 3D canvas with 20px gutters and 32px viewport outer margins. Side panels (Chat, Office Directory, Executive Profiles) anchor to logical screen boundaries using fixed, calculated widths (`380px` to `440px`) with hardware-accelerated drawer sliding.\n- **Tablet (768px - 1279px)**: Split-screen architecture where HUD panels convert to translucent stacked floating modals, preserving at least 60% of the isometric viewport touch interactive zone.\n- **Mobile (< 768px)**: 3D viewport defaults to an optional, low-power mode or gives way to the high-efficiency 2D floor list. Spacing shifts to an 8-point compact rhythm with 16px page margins.\n\n### RTL Logical Standards\nAll horizontal coordinates are strictly managed via logical tokens (`margin-inline-start`, `padding-inline-end`, `inset-inline-start`). Icons indicating unidirectional progress or spatial anchors flip along the horizontal axis, while 3D viewport spatial coordinates maintain true isometric orientation.\n\n## Elevation & Depth\n\nVisual hierarchy does not rely on opaque dropshadows; it uses optical light physics, layered glassmorphism, and perimeter specular highlights. \n\n### Elevation Tiers\n1. **Level 0 (Floor Canvas)**: Deep Slate base `#06090F`. Zero blur, absolute spatial void for 3D room geometries and lighting rigs.\n2. **Level 1 (Dock & Floating Rails)**: `rgba(13, 19, 31, 0.65)` with `16px` backdrop-filter blur. 1px solid `rgba(255, 255, 255, 0.06)` outline. Soft ambient shadow: `0 8px 32px -4px rgba(0, 0, 0, 0.5)`.\n3. **Level 2 (Panels, Chat Drawers, Cards)**: `rgba(13, 19, 31, 0.85)` with `24px` backdrop-filter blur. 1px solid `rgba(255, 255, 255, 0.08)` outline, plus an inner specular highlight on the top edge `inset 0 1px 0 0 rgba(255, 255, 255, 0.12)`.\n4. **Level 3 (Modals, Incoming Calls, HUD Overlays)**: `rgba(9, 13, 22, 0.94)` with `32px` backdrop-filter blur. Rim-lit highlight tinted with subtle emerald ambience: `0 0 0 1px rgba(16, 185, 129, 0.25), 0 20px 48px -8px rgba(0, 0, 0, 0.8)`.\n\n### Specular Edge Lighting\nAll floating panels use a dual-layer hairline border: a dark outer buffer and a subtle bright-gradient hairline across the top-facing edge to mimic real-world executive architectural glass.\n\n## Shapes\n\nThe geometric architecture relies on **Level 2 (Rounded)** curvature with crisp, structural radii. This avoids overly circular or playful consumer shapes while eliminating brutalist sharp corners that feel hostile in high-tech digital workspaces.\n\n- **Base Components (Buttons, Input Fields, Badges)**: 8px (`0.5rem`) border-radius.\n- **Modular Cards, Presence HUDs, and Drawers**: 16px (`1rem`) border-radius.\n- **Executive Modals & Floating Viewport Docks**: 20px to 24px (`1.25rem` to `1.5rem`) border-radius.\n- **Presence Indicators & Micro Status Dots**: Strictly circular (`rounded-full` / `9999px`) to immediately convey status as an unambiguous instrument diode.\n\n## Components\n\n### Buttons & Action Triggers\n- **Primary Action (Call, Send, Enter Office)**: Emerald core (`#10B981`) with rich dark typography (`#06090F`), subtle top inset highlight, and an ambient emerald outer drop glow (`0 0 20px rgba(16, 185, 129, 0.3)`) on hover.\n- **Secondary / HUD Glass Button**: Translucent background (`rgba(255, 255, 255, 0.05)`), hairline border (`rgba(255, 255, 255, 0.1)`), light text (`#F8FAFC`). Hover transitions smoothly to `rgba(255, 255, 255, 0.1)` with 1px border brightening.\n- **Destructive (End Call, Leave Room)**: Deep ruby translucent fill (`rgba(244, 63, 94, 0.12)`) with a rose border (`rgba(244, 63, 94, 0.35)`) and rose text (`#FB7185`).\n\n### Presence Badges & Indicators\n- Embedded directly into avatar corners with a 2px protective canvas knockout border (`#0D131F`).\n- **Online**: Radiant emerald dot featuring a restrained CSS pulse ring for active live states.\n- **Busy / Away / DND**: Solid color-coded dots with crisp optical contrast, completely decoupled from performance tracking metrics.\n\n### Input Fields & Search Bars\n- Background: `rgba(6, 9, 15, 0.6)`.\n- Border: 1px `rgba(255, 255, 255, 0.08)`.\n- Focus state: Subtle emerald halo ring (`box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35)`) with an immediate transition to border color `#10B981`. Logical padding ensures clear input text separation for both LTR and RTL cursor positioning.\n\n### HUD Cards & Viewport Overlays\n- Floating control decks (Orbit, Pan, Zoom, Room Filters) sit inside modular capsules with `backdrop-filter: blur(20px)` and soft inner shadow gradients.\n- Department tags use muted jewel-tone badges (Development: Cyan, Design: Violet, Marketing: Amber, Management: Emerald).\n\n### Executive Employee Profile Card\n- Floating glass panel displaying avatar, high-res status badge, departmental badge, timezone telemetry (e.g., \"Dubai GST \u2022 14:32\"), and a quick-action grid: Message, Voice Call, Video Call, Screen Share, Voice Note, and Meeting Invite.\n- Action buttons are arrayed with logical flex ordering, ensuring automatic alignment flipping in Arabic view mode.",
+  "colorVariant": "FIDELITY",
+  "overridePrimaryColor": "#10b981",
+  "overrideSecondaryColor": "#0d9488",
+  "overrideTertiaryColor": "#d97706",
+  "overrideNeutralColor": "#090d16",
+  "spacingScale": 2,
+  "typography": {
+    "title-md": {
+      "fontFamily": "Geist",
+      "fontSize": "16px",
+      "fontWeight": "600",
+      "lineHeight": "24px",
+      "letterSpacing": "-0.005em"
+    },
+    "headline-xl-mobile": {
+      "fontFamily": "Geist",
+      "fontSize": "26px",
+      "fontWeight": "600",
+      "lineHeight": "32px",
+      "letterSpacing": "-0.01em"
+    },
+    "code-sm": {
+      "fontFamily": "JetBrains Mono",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "lineHeight": "18px",
+      "letterSpacing": "0em"
+    },
+    "body-sm": {
+      "fontFamily": "Inter",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "lineHeight": "18px",
+      "letterSpacing": "0.01em"
+    },
+    "headline-lg": {
+      "fontFamily": "Geist",
+      "fontSize": "28px",
+      "fontWeight": "600",
+      "lineHeight": "36px",
+      "letterSpacing": "-0.02em"
+    },
+    "display-lg": {
+      "fontFamily": "Geist",
+      "fontSize": "48px",
+      "fontWeight": "700",
+      "lineHeight": "56px",
+      "letterSpacing": "-0.03em"
+    },
+    "headline-xl": {
+      "fontFamily": "Geist",
+      "fontSize": "36px",
+      "fontWeight": "600",
+      "lineHeight": "44px",
+      "letterSpacing": "-0.02em"
+    },
+    "label-xs": {
+      "fontFamily": "Geist",
+      "fontSize": "10px",
+      "fontWeight": "600",
+      "lineHeight": "14px",
+      "letterSpacing": "0.06em"
+    },
+    "body-md": {
+      "fontFamily": "Inter",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "lineHeight": "22px",
+      "letterSpacing": "0em"
+    },
+    "display-lg-mobile": {
+      "fontFamily": "Geist",
+      "fontSize": "32px",
+      "fontWeight": "700",
+      "lineHeight": "40px",
+      "letterSpacing": "-0.02em"
+    },
+    "label-lg": {
+      "fontFamily": "Geist",
+      "fontSize": "14px",
+      "fontWeight": "500",
+      "lineHeight": "20px",
+      "letterSpacing": "0.02em"
+    },
+    "body-lg": {
+      "fontFamily": "Inter",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "26px",
+      "letterSpacing": "0em"
+    },
+    "headline-lg-mobile": {
+      "fontFamily": "Geist",
+      "fontSize": "22px",
+      "fontWeight": "600",
+      "lineHeight": "28px",
+      "letterSpacing": "-0.01em"
+    },
+    "label-md": {
+      "fontFamily": "Geist",
+      "fontSize": "12px",
+      "fontWeight": "500",
+      "lineHeight": "16px",
+      "letterSpacing": "0.04em"
+    },
+    "headline-md": {
+      "fontFamily": "Geist",
+      "fontSize": "20px",
+      "fontWeight": "600",
+      "lineHeight": "28px",
+      "letterSpacing": "-0.01em"
+    }
+  },
+  "spacing": {
+    "space-lg": "1.5rem",
+    "space-md": "1rem",
+    "gutter": "1.25rem",
+    "space-3xl": "4rem",
+    "space-xs": "0.25rem",
+    "margin-mobile": "1rem",
+    "space-2xl": "3rem",
+    "space-2xs": "0.125rem",
+    "gutter-mobile": "0.75rem",
+    "space-sm": "0.5rem",
+    "space-xl": "2rem",
+    "margin": "2rem"
+  },
+  "headlineFontFamily": "Geist",
+  "bodyFontFamily": "Inter",
+  "labelFontFamily": "Geist"
+}

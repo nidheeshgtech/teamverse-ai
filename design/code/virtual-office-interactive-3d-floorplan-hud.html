@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-tint":"#4edea3","on-primary-fixed":"#002113","on-primary-container":"#00422b","outline":"#86948a","tertiary-fixed-dim":"#ffb77d","surface-container-lowest":"#0a0e17","tertiary-fixed":"#ffdcc3","surface-panel-glass":"rgba(13, 19, 31, 0.75)","on-secondary-fixed":"#00201d","secondary":"#6bd8cb","tertiary":"#ffb77d","surface-canvas":"#06090F","on-error":"#690005","inverse-on-surface":"#2c303a","secondary-fixed-dim":"#6bd8cb","on-tertiary-fixed":"#2f1500","on-tertiary-fixed-variant":"#6e3900","error-container":"#93000a","on-tertiary-container":"#5a2e00","surface-container-high":"#262a34","on-secondary":"#003732","error":"#ffb4ab","on-error-container":"#ffdad6","hud-glow-emerald":"rgba(16, 185, 129, 0.15)","surface-panel":"#0D131F","primary-fixed-dim":"#4edea3","secondary-container":"#29a195","surface-bright":"#353943","on-primary-fixed-variant":"#005236","surface-container-highest":"#31353f","tertiary-container":"#f08921","background":"#0f131c","inverse-primary":"#006c49","secondary-fixed":"#89f5e7","surface-glass-highlight":"rgba(255, 255, 255, 0.16)","accent-desert-sand":"#E2B887","presence-dnd":"#F43F5E","on-surface":"#dfe2ef","outline-variant":"#3c4a42","primary-fixed":"#6ffbbe","surface-glass-border":"rgba(255, 255, 255, 0.08)","on-secondary-container":"#00302b","on-background":"#dfe2ef","on-primary":"#003824","on-surface-variant":"#bbcabf","inverse-surface":"#dfe2ef","presence-online":"#10B981","presence-away":"#64748B","surface-dim":"#0f131c","on-tertiary":"#4d2600","surface-container-low":"#181b25","presence-busy":"#F59E0B","surface-container":"#1c1f29","on-secondary-fixed-variant":"#005049","surface-variant":"#31353f","surface":"#0f131c","primary-container":"#10b981","primary":"#4edea3"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-3xl":"4rem","gutter-mobile":"0.75rem","space-2xl":"3rem","space-xl":"2rem","space-xs":"0.25rem","space-md":"1rem","margin-mobile":"1rem","space-2xs":"0.125rem","gutter":"1.25rem","space-lg":"1.5rem","margin":"2rem","space-sm":"0.5rem"},fontFamily:{"label-xs":["Geist"],"display-lg":["Geist"],"body-lg":["Inter"],"label-md":["Geist"],"headline-lg":["Geist"],"code-sm":["JetBrains Mono"],"body-md":["Inter"],"display-lg-mobile":["Geist"],"title-md":["Geist"],"headline-md":["Geist"],"label-lg":["Geist"],"headline-xl-mobile":["Geist"],"headline-lg-mobile":["Geist"],"body-sm":["Inter"],"headline-xl":["Geist"]},fontSize:{"label-xs":["10px",{"lineHeight":"14px","letterSpacing":"0.06em","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"56px","letterSpacing":"-0.03em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"code-sm":["12px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"display-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.02em","fontWeight":"500"}],"headline-xl-mobile":["26px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg-mobile":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"400"}],"headline-xl":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface-canvas font-body-md text-on-surface antialiased"><aside class="fixed start-0 top-0 h-full w-72 bg-surface-panel/90 backdrop-blur-2xl z-50 flex flex-col justify-between py-space-md shadow-[0_8px_32px_-4px_rgba(0,0,0,0.5)]"><div class="flex flex-col gap-space-lg"><div class="flex items-center gap-space-sm px-space-lg"><img alt="TeamVerse AI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XJa-Xsxq46ALy6h61RtDlXZ-4X0GpC-WBYSiTJ-awiWsmjUrn_n5gsAml6bVVcBl121eet5MNJFi4NTfw54hD7GCjk5M8rCbARdK4J8wCZnSCAIU6QG7bsVGuU7OcUv4Q5yrzQcFa7vIQpDq_-rjSQktV_xWCyGjvCQOwuM18VXc7HV1UIbwoQveHB9yCirGqPGubrfnhJdyn86MVHmL5oLU7Wr6wSuQuKgmYhO7aKD5gROAu0nA2ACEo"/><div class="flex flex-col"><span class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">TeamVerse AI</span><span class="font-label-xs text-label-xs text-secondary tracking-widest uppercase">Virtual HQ • Dubai</span></div></div><nav class="flex flex-col gap-space-2xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(16,185,129,0.2)]"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-200 bg-primary-container text-on-primary-container font-semibold shadow-[0_0_16px_rgba(16,185,129,0.2)]" data-path="virtual-office" href="#"><span class="material-symbols-outlined text-[20px]">view_in_ar</span><span class="font-label-lg text-label-lg">Virtual Office</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="communications" href="#"><span class="material-symbols-outlined text-[20px]">forum</span><span class="font-label-lg text-label-lg">Communications</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="conferences" href="#"><span class="material-symbols-outlined text-[20px]">groups</span><span class="font-label-lg text-label-lg">Conferences</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="voice-notes" href="#"><span class="material-symbols-outlined text-[20px]">mic</span><span class="font-label-lg text-label-lg">Voice Notes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="ai-assistant" href="#"><span class="material-symbols-outlined text-[20px]">auto_awesome</span><span class="font-label-lg text-label-lg">AI Assistant</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="team-directory" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span class="font-label-lg text-label-lg">Team Directory</span></a></nav></div><div class="px-space-sm flex flex-col gap-space-xs"><div class="bg-surface-container-low/60 backdrop-blur-md rounded-xl p-space-sm flex items-center justify-between mx-space-2xs"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-presence-online animate-pulse"></span><span class="font-label-xs text-label-xs text-on-surface-variant uppercase tracking-wider">Dubai Node Live</span></div><span class="font-code-sm text-code-sm text-secondary">24ms</span></div><nav class="flex flex-col" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-lg text-label-lg">Settings</span></a></nav></div></aside><div class="ps-72"><header class="fixed top-0 start-72 end-0 h-16 z-40 bg-surface-panel/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.3)] flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-lg bg-surface-container-low/70"><span class="material-symbols-outlined text-[16px] text-accent-desert-sand">location_on</span><span class="font-label-sm text-label-md text-on-surface">Dubai, UAE</span><span class="font-code-sm text-code-sm text-on-surface-variant">GST 14:45</span><span class="font-label-xs text-label-xs text-secondary-container px-space-2xs rounded bg-surface-container-high">UTC+4</span></div><div class="flex items-center gap-space-xs bg-surface-container-lowest/80 px-space-md py-space-2xs rounded-xl w-72"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">search</span><span class="font-body-sm text-body-sm text-on-surface-variant flex-1">Search space, channels, team...</span><kbd class="font-code-sm text-code-sm text-outline px-space-2xs py-space-2xs rounded bg-surface-container-high">Ctrl+K</kbd></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-lg bg-surface-container-low/80"><span class="w-2 h-2 rounded-full bg-presence-online ring-2 ring-surface-panel"></span><span class="font-label-sm text-label-md text-on-surface">Online</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-lg bg-surface-container-low/70"><span class="material-symbols-outlined text-[16px] text-secondary">meeting_room</span><span class="font-label-sm text-label-md text-on-surface-variant">Lobby:</span><span class="font-label-sm text-label-md text-primary">Ready</span></div><button class="relative p-space-2xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 end-1 w-2 h-2 rounded-full bg-primary"></span></button><div class="flex items-center gap-space-xs"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-surface-glass-border" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_-wFoGm3wLyAelbSH_VrH4F07siSvoJ92aF5TalkI_W0HaJAYyNGp2FkdphtuQR2UbsQWYQe2gHvhvlcONz82ZW-qnf0NtCGhzOCxZMDpmsgefE7wXPTv8_jeAcWGS8JQulS8yKH7vgEXXhdLIvxgoPb8qgVRdVAFKwkSQbpcS7wH1E_D26OGfamvP2CYLKny4CixmRfvB2jRBXTi5aRKCz3l-432QMbfYZKxG7cUfmR2vqCQeGhm"/><span class="absolute bottom-0 end-0 w-2.5 h-2.5 rounded-full bg-presence-online ring-2 ring-surface-panel"></span></div></div></div></header><main class="w-full pt-16 bg-surface-canvas min-h-screen"><div class="flex flex-col w-full relative min-h-[calc(100vh-4rem)] overflow-hidden select-none">
+<!-- 3D Interactive Spatial Layer -->
+<div class="absolute inset-0 z-0 bg-surface-canvas overflow-hidden">
+<!-- STITCH_THREEJS_START:ANIMATION_3 class="w-full h-full absolute inset-0 bg-transparent" -->
+<div class="w-full h-full absolute inset-0 bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_3" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_3');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  // Interactive Three.js Isometric Virtual Office for TeamVerse AI
+const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+
+const scene = new THREE.Scene();
+scene.background = null; // Transparent so it blends with UI glass
+
+// Isometric orthographic/perspective camera tuned for isometric 3D view
+const aspect = width / height;
+const d = 16;
+const camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
+camera.position.set(24, 28, 24);
+camera.lookAt(0, 0, 0);
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+renderer.setSize(width, height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+container.appendChild(renderer.domElement);
+
+// Lighting setup
+const ambientLight = new THREE.AmbientLight(0xdcfce7, 0.7);
+scene.add(ambientLight);
+
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+dirLight.position.set(30, 45, 20);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.width = 1024;
+dirLight.shadow.mapSize.height = 1024;
+scene.add(dirLight);
+
+const blueAccentLight = new THREE.PointLight(0x06b6d4, 2, 35);
+blueAccentLight.position.set(-8, 6, -8);
+scene.add(blueAccentLight);
+
+const greenAccentLight = new THREE.PointLight(0x10b981, 2.5, 35);
+greenAccentLight.position.set(8, 6, 8);
+scene.add(greenAccentLight);
+
+const officeGroup = new THREE.Group();
+scene.add(officeGroup);
+
+// Materials
+const floorMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.8, metalness: 0.1 });
+const floorGridMat = new THREE.MeshBasicMaterial({ color: 0x1e293b, wireframe: true, transparent: true, opacity: 0.25 });
+const glassWallMat = new THREE.MeshPhysicalMaterial({
+  color: 0x38bdf8,
+  transparent: true,
+  opacity: 0.22,
+  roughness: 0.1,
+  metalness: 0.1,
+  transmission: 0.7,
+  ior: 1.4
+});
+const wallTrimMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.5 });
+const deskMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4 });
+const chairMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.5 });
+const plantPotMat = new THREE.MeshStandardMaterial({ color: 0x0f766e, roughness: 0.3 });
+const plantFoliageMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.6 });
+const monitorMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.2 });
+const screenGlowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+
+// Base Floor
+const floorGeo = new THREE.BoxGeometry(28, 0.6, 28);
+const floor = new THREE.Mesh(floorGeo, floorMat);
+floor.position.y = -0.3;
+floor.receiveShadow = true;
+officeGroup.add(floor);
+
+// Floor Grid overlay
+const gridGeo = new THREE.PlaneGeometry(28, 28, 28, 28);
+const grid = new THREE.Mesh(gridGeo, floorGridMat);
+grid.rotation.x = -Math.PI / 2;
+grid.position.y = 0.02;
+officeGroup.add(grid);
+
+// Outer Low Boundary Walls
+function createWall(w, h, d, x, y, z) {
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), wallTrimMat);
+  mesh.position.set(x, y, z);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  officeGroup.add(mesh);
+}
+// Room Divider glass partitions (Development, Design, Marketing, Meeting Room, PM)
+function createGlassPartition(w, h, d, x, y, z) {
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), glassWallMat);
+  mesh.position.set(x, y, z);
+  officeGroup.add(mesh);
+}
+
+// Perimeter trims
+createWall(28.4, 0.8, 0.4, 0, 0.4, -14);
+createWall(0.4, 0.8, 28.4, -14, 0.4, 0);
+
+// Inner Room Partitions
+createGlassPartition(13.6, 3.2, 0.2, -7, 1.6, 0);
+createGlassPartition(0.2, 3.2, 13.6, 0, 1.6, -7);
+createGlassPartition(0.2, 3.2, 13.6, 0, 1.6, 7);
+
+// Function to add a desk cluster
+function addWorkstation(x, z, rotY, screenColor) {
+  const desk = new THREE.Mesh(new THREE.BoxGeometry(3.2, 1.2, 1.8), deskMat);
+  desk.position.set(x, 0.6, z);
+  desk.rotation.y = rotY || 0;
+  desk.castShadow = true;
+  desk.receiveShadow = true;
+  officeGroup.add(desk);
+
+  // Monitor
+  const scrMat = screenColor ? new THREE.MeshBasicMaterial({ color: screenColor }) : screenGlowMat;
+  const monitor = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.0, 0.1), monitorMat);
+  monitor.position.set(x, 1.7, z);
+  monitor.rotation.y = rotY || 0;
+  officeGroup.add(monitor);
+
+  const screenLight = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.9), scrMat);
+  screenLight.position.set(x, 1.7, z + 0.06);
+  screenLight.rotation.y = rotY || 0;
+  officeGroup.add(screenLight);
+
+  // Chair
+  const chair = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.4, 1.2), chairMat);
+  chair.position.set(x, 0.7, z + 1.4);
+  officeGroup.add(chair);
+}
+
+// 1. Development Room (Top-Left)
+addWorkstation(-8, -8, 0, 0x10b981);
+addWorkstation(-4, -8, 0, 0x34d399);
+addWorkstation(-6, -4, Math.PI, 0x059669);
+
+// 2. Design Studio (Top-Right)
+addWorkstation(6, -8, 0, 0xa855f7);
+addWorkstation(10, -8, 0, 0xec4899);
+addWorkstation(8, -4, Math.PI, 0x8b5cf6);
+
+// 3. Marketing & Growth (Bottom-Left)
+addWorkstation(-8, 6, 0, 0xf59e0b);
+addWorkstation(-4, 6, 0, 0xf97316);
+
+// 4. Meeting Boardroom / Town Hall (Bottom-Right)
+const tableGeo = new THREE.CylinderGeometry(3.6, 3.6, 0.8, 32);
+const confTable = new THREE.Mesh(tableGeo, new THREE.MeshStandardMaterial({ color: 0x1e1b4b, roughness: 0.3 }));
+confTable.position.set(7, 0.4, 7);
+confTable.castShadow = true;
+officeGroup.add(confTable);
+
+const holoDisplay = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 2.2, 16), new THREE.MeshPhysicalMaterial({
+  color: 0x38bdf8,
+  transparent: true,
+  opacity: 0.35,
+  emissive: 0x0284c7,
+  emissiveIntensity: 0.8
+}));
+holoDisplay.position.set(7, 1.8, 7);
+officeGroup.add(holoDisplay);
+
+// Circular chairs around conference table
+for (let i = 0; i < 6; i++) {
+  const angle = (i / 6) * Math.PI * 2;
+  const chairMesh = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.1, 0.9), chairMat);
+  chairMesh.position.set(7 + Math.cos(angle) * 4.6, 0.55, 7 + Math.sin(angle) * 4.6);
+  chairMesh.lookAt(7, 0.55, 7);
+  officeGroup.add(chairMesh);
+}
+
+// Decorative Plants
+function addPlant(x, z) {
+  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.5, 1.2, 16), plantPotMat);
+  pot.position.set(x, 0.6, z);
+  officeGroup.add(pot);
+  const foliage = new THREE.Mesh(new THREE.DodecahedronGeometry(1.0, 1), plantFoliageMat);
+  foliage.position.set(x, 1.7, z);
+  officeGroup.add(foliage);
+}
+addPlant(-12, -12);
+addPlant(12, -12);
+addPlant(-12, 12);
+addPlant(0.5, 0.5);
+
+// 3D Avatar Figures with Presence Halos
+const avatars = [];
+const avatarData = [
+  { name: "Tariq Mansour", role: "VP Engineering", x: -8, z: -6.8, status: 0x10b981 }, // Online Emerald
+  { name: "Sara Al-Hashimi", role: "Lead UI/UX", x: 6, z: -6.8, status: 0x10b981 },   // Online Emerald
+  { name: "Zaid Kabbani", role: "Fullstack Eng", x: -4, z: -6.8, status: 0xf59e0b },    // Busy Amber
+  { name: "Layla Nour", role: "Growth Lead", x: -8, z: 7.2, status: 0x10b981 },        // Online Emerald
+  { name: "Hamdan Zayed", role: "Product Mgr", x: 6.8, z: 4.8, status: 0xef4444 },      // DND Red
+  { name: "Nour Merhi", role: "Creative Dir", x: 10, z: -6.8, status: 0x64748b }       // Away Slate
+];
+
+avatarData.forEach((data, index) => {
+  const personGroup = new THREE.Group();
+  personGroup.position.set(data.x, 0.8, data.z);
+
+  // Body capsule / cylinder
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 1.2, 16), new THREE.MeshStandardMaterial({ color: 0x3b82f6, roughness: 0.4 }));
+  body.position.y = 0.6;
+  body.castShadow = true;
+  personGroup.add(body);
+
+  // Head sphere
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.38, 16, 16), new THREE.MeshStandardMaterial({ color: 0xfde047, roughness: 0.5 }));
+  head.position.y = 1.5;
+  head.castShadow = true;
+  personGroup.add(head);
+
+  // Floating Presence Beacon Ring
+  const ringGeo = new THREE.TorusGeometry(0.65, 0.08, 12, 32);
+  const ringMat = new THREE.MeshBasicMaterial({ color: data.status });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.PI / 2;
+  ring.position.y = 2.1;
+  personGroup.add(ring);
+
+  officeGroup.add(personGroup);
+  avatars.push({ group: personGroup, ring: ring, basePosY: personGroup.position.y, initialAngle: index });
+});
+
+// Interactive Subtle Rotation & Orbit / Mouse controls
+let isDragging = false;
+let previousMousePosition = { x: 0, y: 0 };
+
+container.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  previousMousePosition = { x: e.clientX, y: e.clientY };
+});
+
+window.addEventListener('mouseup', () => { isDragging = false; });
+
+window.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+    const deltaX = e.clientX - previousMousePosition.x;
+    const deltaY = e.clientY - previousMousePosition.y;
+    officeGroup.rotation.y += deltaX * 0.005;
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+  }
+});
+
+// Window resize handler
+window.addEventListener('resize', () => {
+  const w = container.clientWidth || window.innerWidth;
+  const h = container.clientHeight || window.innerHeight;
+  const newAspect = w / h;
+  camera.left = -d * newAspect;
+  camera.right = d * newAspect;
+  camera.top = d;
+  camera.bottom = -d;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+});
+
+// Animation loop
+let clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const elapsedTime = clock.getElapsedTime();
+
+  // Gentle floating effect for avatars & presence rings
+  avatars.forEach((av, i) => {
+    av.ring.rotation.z = elapsedTime * 1.5 + i;
+    av.group.position.y = av.basePosY + Math.sin(elapsedTime * 2 + i) * 0.05;
+  });
+
+  // Pulse hologram
+  if (holoDisplay) {
+    holoDisplay.rotation.y = elapsedTime * 0.8;
+  }
+
+  // Very gentle passive idle pan if user isn't dragging
+  if (!isDragging) {
+    officeGroup.rotation.y += 0.0012;
+  }
+
+  renderer.render(scene, camera);
+}
+animate();
+
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_3 -->
+<!-- Environmental Radial Vignette & Grid Depth Accents -->
+<div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-surface-canvas via-transparent to-surface-canvas/60"></div>
+<div class="absolute -top-40 start-1/4 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[140px] pointer-events-none"></div>
+<div class="absolute -bottom-32 end-1/3 w-[500px] h-[500px] rounded-full bg-secondary/5 blur-[120px] pointer-events-none"></div>
+<!-- Isometric Room Coordinate Anchors (Spatial Context Micro-Pills) -->
+<div class="absolute top-1/3 start-1/3 -translate-x-1/2 -translate-y-1/2 pointer-events-auto cursor-pointer group">
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container/85 backdrop-blur-md shadow-xl transition-all duration-300 group-hover:scale-105 group-hover:bg-surface-container-high">
+<span class="w-2 h-2 rounded-full bg-presence-online animate-ping"></span>
+<span class="w-2 h-2 -ms-3 rounded-full bg-presence-online"></span>
+<span class="font-label-md text-label-md text-on-surface">Executive Suite • DIFC North</span>
+<span class="font-code-sm text-code-sm text-secondary bg-surface-container-lowest/80 px-space-2xs rounded">4 Active</span>
+</div>
+</div>
+<div class="absolute bottom-1/3 start-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto cursor-pointer group">
+<div class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container/85 backdrop-blur-md shadow-xl transition-all duration-300 group-hover:scale-105 group-hover:bg-surface-container-high">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+<span class="font-label-md text-label-md text-on-surface">Engineering Pod • Bay Alpha</span>
+<span class="font-code-sm text-code-sm text-primary bg-surface-container-lowest/80 px-space-2xs rounded">8 Devs</span>
+</div>
+</div>
+</div>
+<!-- TOP OVERLAY HUD: Controls, Filters & Camera Coordinates -->
+<div class="relative z-20 w-full px-space-lg pt-space-md flex flex-col gap-space-sm pointer-events-none">
+<div class="flex items-center justify-between gap-space-md flex-wrap">
+<!-- Facility & Node Breadcrumb Selector -->
+<div class="pointer-events-auto flex items-center gap-space-sm bg-surface-panel/85 backdrop-blur-xl px-space-md py-space-xs rounded-xl shadow-2xl">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[20px]">corporate_fare</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-title-md text-title-md text-on-surface font-semibold tracking-tight">Dubai HQ — Level 42, DIFC</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant cursor-pointer hover:text-primary transition-colors">unfold_more</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-xs text-label-xs text-secondary tracking-widest uppercase">Autonomous Spatial Node</span>
+<span class="font-code-sm text-code-sm text-outline">GEO::25.2048° N, 55.2708° E</span>
+</div>
+</div>
+</div>
+<!-- Department Filter Pills -->
+<div class="pointer-events-auto flex items-center gap-space-2xs bg-surface-panel/85 backdrop-blur-xl p-space-2xs rounded-xl shadow-2xl overflow-x-auto max-w-full">
+<button class="px-space-sm py-space-2xs rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md transition-all shadow-md flex items-center gap-space-xs">
+<span>All Rooms</span>
+<span class="bg-surface-canvas/20 px-space-2xs rounded font-code-sm text-code-sm">28</span>
+</button>
+<button class="px-space-sm py-space-2xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all flex items-center gap-space-xs">
+<span>Development</span>
+<span class="text-secondary font-code-sm text-code-sm">8</span>
+</button>
+<button class="px-space-sm py-space-2xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all flex items-center gap-space-xs">
+<span>Design &amp; UX</span>
+<span class="text-tertiary font-code-sm text-code-sm">5</span>
+</button>
+<button class="px-space-sm py-space-2xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all flex items-center gap-space-xs">
+<span>Marketing &amp; Growth</span>
+<span class="text-on-surface-variant font-code-sm text-code-sm">6</span>
+</button>
+<button class="px-space-sm py-space-2xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all flex items-center gap-space-xs">
+<span>PM &amp; Ops</span>
+<span class="text-on-surface-variant font-code-sm text-code-sm">4</span>
+</button>
+<button class="px-space-sm py-space-2xs rounded-lg text-error hover:bg-error-container/30 font-label-md text-label-md transition-all flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-presence-dnd animate-pulse"></span>
+<span>Boardroom</span>
+<span class="font-code-sm text-code-sm bg-error-container/50 text-on-error-container px-space-2xs rounded">Live</span>
+</button>
+</div>
+<!-- Viewport Projection & Camera Action Capsules -->
+<div class="pointer-events-auto flex items-center gap-space-xs bg-surface-panel/85 backdrop-blur-xl p-space-2xs rounded-xl shadow-2xl">
+<!-- Mode Switcher -->
+<div class="flex items-center bg-surface-container-lowest/90 p-space-2xs rounded-lg">
+<button class="flex items-center gap-space-2xs px-space-xs py-space-2xs rounded-md bg-surface-container-high text-primary font-label-xs text-label-xs" title="Isometric 3D Spatial Environment">
+<span class="material-symbols-outlined text-[16px]">view_in_ar</span>
+<span>3D Spatial</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-xs py-space-2xs rounded-md text-on-surface-variant hover:text-on-surface font-label-xs text-label-xs" title="High Efficiency 2D Roster List">
+<span class="material-symbols-outlined text-[16px]">table_rows</span>
+<span>2D Grid</span>
+</button>
+</div>
+<!-- Camera Control HUD -->
+<div class="flex items-center gap-space-2xs ps-space-xs">
+<button class="p-space-2xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" title="Reset Isometric Perspective (Space)">
+<span class="material-symbols-outlined text-[18px]">recenter</span>
+</button>
+<button class="p-space-2xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" title="Orbit Workspace (Drag Right Click)">
+<span class="material-symbols-outlined text-[18px]">360</span>
+</button>
+<button class="p-space-2xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" title="Zoom Extents (+ / -)">
+<span class="material-symbols-outlined text-[18px]">zoom_in_map</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- MAIN HUD WORKSPACE MID SECTION: Telemetry Left + Interactive Colleague Drawer Right -->
+<div class="relative z-10 flex-1 w-full px-space-lg py-space-md flex justify-between pointer-events-none items-start">
+<!-- LEFT FLOATING MINI HUD: Live Vital Stats & Sovereign Trust Telemetry -->
+<div class="pointer-events-auto flex flex-col gap-space-md w-80">
+<!-- Spatial Vital Metrics Card -->
+<div class="bg-surface-panel/90 backdrop-blur-2xl rounded-2xl p-space-md shadow-2xl flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-label-xs text-secondary uppercase tracking-widest">Office Telemetry</span>
+<span class="font-code-sm text-code-sm text-outline">P2P Mesh Synced</span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs text-center py-space-2xs">
+<div class="bg-surface-container-low/80 p-space-xs rounded-xl flex flex-col items-center">
+<div class="flex items-center gap-space-2xs">
+<span class="w-2 h-2 rounded-full bg-presence-online"></span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">28</span>
+</div>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Present</span>
+</div>
+<div class="bg-surface-container-low/80 p-space-xs rounded-xl flex flex-col items-center">
+<div class="flex items-center gap-space-2xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">04</span>
+</div>
+<span class="font-label-xs text-label-xs text-on-surface-variant">In Huddle</span>
+</div>
+<div class="bg-surface-container-low/80 p-space-xs rounded-xl flex flex-col items-center">
+<div class="flex items-center gap-space-2xs">
+<span class="w-2 h-2 rounded-full bg-presence-dnd"></span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">02</span>
+</div>
+<span class="font-label-xs text-label-xs text-on-surface-variant">DND</span>
+</div>
+</div>
+<!-- Privacy & Non-Surveillance Sovereign Trust Anchor -->
+<div class="bg-surface-container-lowest/70 p-space-xs rounded-xl flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary shrink-0 mt-0.5">verified_user</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Ephemeral presence active. Non-surveillance policy enforced. Zero telemetry keystroke tracking.
+          </p>
+</div>
+<!-- Room Soundstage Mini Waveform -->
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-xs text-label-xs text-on-surface-variant flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[14px] text-secondary">graphic_eq</span>
+            Acoustic Ambience: DIFC Atrium
+          </span>
+<span class="font-code-sm text-code-sm text-primary">32 dB</span>
+</div>
+</div>
+<!-- Quick Desk Navigation Mini-Stack -->
+<div class="bg-surface-panel/80 backdrop-blur-xl rounded-2xl p-space-sm shadow-xl flex flex-col gap-space-2xs">
+<span class="font-label-xs text-label-xs text-outline px-space-xs uppercase tracking-wider">Assigned Spatial Zones</span>
+<button class="flex items-center justify-between p-space-xs rounded-xl hover:bg-surface-container-high transition-colors text-start">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary">layers</span>
+<span class="font-label-md text-label-md text-on-surface">Level 42 Executive Balcony</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Z-1</span>
+</button>
+<button class="flex items-center justify-between p-space-xs rounded-xl hover:bg-surface-container-high transition-colors text-start">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">memory</span>
+<span class="font-label-md text-label-md text-on-surface">AI Cluster Core &amp; Lab</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Z-4</span>
+</button>
+</div>
+</div>
+<!-- RIGHT SLIDE-OVER / PINNED ACTIVE DRAWER: Selected Colleague Profile Panel -->
+<div class="pointer-events-auto w-96 bg-surface-panel/95 backdrop-blur-2xl rounded-2xl p-space-md shadow-2xl flex flex-col gap-space-md max-h-[calc(100vh-10rem)] overflow-y-auto">
+<!-- Drawer Top Bar -->
+<div class="flex items-center justify-between pb-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-xs text-label-xs text-secondary tracking-widest uppercase">Target Focus</span>
+<span class="font-code-sm text-code-sm text-outline">LOC::Desk 14-B</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<button class="p-space-2xs rounded-lg hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Lock Target to Viewport">
+<span class="material-symbols-outlined text-[16px]">push_pin</span>
+</button>
+<button class="p-space-2xs rounded-lg hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Minimize Drawer">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+<!-- Identity Header: Tariq Mansour -->
+<div class="flex items-start gap-space-md">
+<div class="relative shrink-0">
+<img class="w-16 h-16 rounded-2xl object-cover shadow-xl" data-alt="Sophisticated corporate executive portrait of an Arab tech leader wearing modern charcoal blazer in high-tech minimalist glass office, moody emerald ambient backlighting, cinematic executive style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0tSCjUm5rXPIpQB53eXcEibqkj_gzlw5JKCAiN5WzW1T4WngRRPuxdBxycY4PmuOQHZTFHZDgoQOolB-b0r8NCTMRpqvlWqcYZCJy4gNbd3Tkvax0QQboLTglQcKSXe-LU9NJIXvN5C55-kE2suBY9a3aN1sFc0ijcMEWmhSRTGsn6WhPytW17fFf5Q0z0znQNlFF5HCNljbbIZWCDeqHZUjgiWaJ1JathvylwkHf-de6Rt2rPTZU"/>
+<span class="absolute -bottom-1 -end-1 w-4 h-4 rounded-full bg-presence-online ring-2 ring-surface-panel flex items-center justify-center">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-canvas"></span>
+</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold truncate">Tariq Mansour</h3>
+<span class="material-symbols-outlined text-[16px] text-primary" title="Enterprise Core Keyholder">verified</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant truncate">VP Engineering</span>
+<div class="flex items-center gap-space-xs mt-space-2xs flex-wrap">
+<span class="px-space-xs py-space-2xs rounded-md bg-secondary-container/20 text-secondary font-label-xs text-label-xs font-semibold">Development Core</span>
+<span class="font-code-sm text-code-sm text-outline">GST 14:45</span>
+</div>
+</div>
+</div>
+<!-- Current Availability Context Pill -->
+<div class="bg-surface-container-low/90 rounded-xl p-space-xs flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-presence-online shrink-0"></span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-medium truncate">Online • In Dubai Office (Pod 4)</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Spatial Proximity: 4.2m away</span>
+</div>
+</div>
+<!-- Quick Action Command Matrix -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-xs text-label-xs text-outline uppercase tracking-wider">Spatial Comms</span>
+<div class="grid grid-cols-3 gap-space-xs">
+<!-- Voice Call -->
+<button class="flex flex-col items-center justify-center p-space-xs rounded-xl bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-on-surface transition-all gap-space-2xs group shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-primary group-hover:text-on-primary-container">call</span>
+<span class="font-label-xs text-label-xs">1:1 Voice</span>
+</button>
+<!-- HD Video Call -->
+<button class="flex flex-col items-center justify-center p-space-xs rounded-xl bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-on-surface transition-all gap-space-2xs group shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-secondary group-hover:text-on-primary-container">videocam</span>
+<span class="font-label-xs text-label-xs">HD Video</span>
+</button>
+<!-- Voice Memo -->
+<button class="flex flex-col items-center justify-center p-space-xs rounded-xl bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-on-surface transition-all gap-space-2xs group shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-tertiary group-hover:text-on-primary-container">mic</span>
+<span class="font-label-xs text-label-xs">Voice Memo</span>
+</button>
+<!-- Direct Encrypted Chat -->
+<button class="flex flex-col items-center justify-center p-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-all gap-space-2xs shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">chat_bubble</span>
+<span class="font-label-xs text-label-xs">Direct Ping</span>
+</button>
+<!-- Screen Share Request with Consent notice -->
+<button class="flex flex-col items-center justify-center p-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-all gap-space-2xs shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">screen_share</span>
+<span class="font-label-xs text-label-xs">Share Feed</span>
+</button>
+<!-- Boardroom Booking -->
+<button class="flex flex-col items-center justify-center p-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-all gap-space-2xs shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">calendar_add_on</span>
+<span class="font-label-xs text-label-xs">Schedule</span>
+</button>
+</div>
+</div>
+<!-- Active Work Stream & Focus Intent -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-xs text-label-xs text-outline uppercase tracking-wider">Active Work Stream</span>
+<div class="bg-surface-container-low/90 rounded-xl p-space-sm flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+<span class="font-label-md text-label-md font-semibold">Latency Tuning</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-normal">
+            “Benchmarking WebRTC TURN packet routing latency across DIFC &amp; Frankfurt private clusters.”
+          </p>
+<div class="flex items-center justify-between pt-space-2xs">
+<span class="font-code-sm text-code-sm text-outline">Branch: fix/turn-mesh-dubai</span>
+<span class="font-label-xs text-label-xs text-secondary bg-surface-container px-space-2xs rounded">PR #882</span>
+</div>
+</div>
+</div>
+<!-- Recent Shared Media Attachments -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-xs text-label-xs text-outline uppercase tracking-wider">Shared in Workspace</span>
+<a class="font-label-xs text-label-xs text-primary hover:underline" href="#">View All (14)</a>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="relative rounded-xl overflow-hidden group cursor-pointer shadow-md">
+<img class="w-full h-20 object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Technical architectural diagram of WebRTC low latency routing architecture over dark isometric network grids, styled with subtle emerald and cyan glows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjAmp4AuPLOXDGF4ic4_o-ePiocEbrTwG2xcrwA5nQBKs5O9muaMzpcE-bwxSQYJivPacOc_4ztK-UT53IkKbj6M09SsdOD4PG-2Pfrb6Dzk4F1gN1pAjMCsbzmRxLyM4RJerpCoMo0esptxz5p6-x8-t8lpOrjXcvq8UJ08kgV4nyNFoBb6gWJSSQvwablLtgQDjhEzcxAnxyGA3llgh5bOC9YoaflNX9G3xjEXd1tua5KxphMRG-"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-canvas/90 via-transparent to-transparent flex items-end p-space-xs">
+<span class="font-code-sm text-code-sm text-on-surface truncate">mesh-topology.svg</span>
+</div>
+</div>
+<div class="relative rounded-xl overflow-hidden group cursor-pointer shadow-md">
+<img class="w-full h-20 object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Futuristic interactive Dubai smart city data visualization dashboard rendered in obsidian dark mode with glowing data nodes and metrics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrvRtA9TMA7uDmPVcU8znPK5ZLHtxHvu2p_s0BLrzw-a3vyHcsGO-N0idrQO3qXf_PYNRD7gHsmi_1I6UqKmPAJgfcJMpLN_Sgp9P8Z1DOQKg062yOqDGZrStuOkM8YanQluMkW3salVCOUdbtSRjg2YMMUWMVXf8BDwppRrVAXxyjGR-5wPpLxfVZRE3zDcGrJyAxqLenyhpn-62_jBA7_eubllFwPryVgEgfCQ2_4Z1YOyqkGa3i"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-canvas/90 via-transparent to-transparent flex items-end p-space-xs">
+<span class="font-code-sm text-code-sm text-on-surface truncate">dubai-hub-spec.pdf</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Action Dispatch Button -->
+<button class="w-full py-space-sm rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-semibold shadow-lg hover:shadow-primary/20 transition-all flex items-center justify-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">near_me</span>
+<span>Approach Tariq's Desk</span>
+</button>
+</div>
+</div>
+<!-- BOTTOM FLOATING HUD COMMAND BAR -->
+<div class="relative z-20 w-full px-space-lg pb-space-md pt-space-xs flex items-center justify-between pointer-events-none gap-space-md flex-wrap">
+<!-- Audio, Mic, & Spatial Headset Controls -->
+<div class="pointer-events-auto flex items-center gap-space-2xs bg-surface-panel/90 backdrop-blur-2xl p-space-2xs rounded-2xl shadow-2xl">
+<button class="p-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-all flex items-center gap-space-xs" title="Toggle Microphone (M)">
+<span class="material-symbols-outlined text-[20px] text-primary">mic</span>
+<span class="font-label-md text-label-md hidden sm:inline">Mic On</span>
+</button>
+<button class="p-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-all flex items-center gap-space-xs" title="Toggle Spatial Audio (H)">
+<span class="material-symbols-outlined text-[20px] text-secondary">headphones</span>
+<span class="font-label-md text-label-md hidden sm:inline">Spatial 3D</span>
+</button>
+<button class="p-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all" title="Broadcast Desk Feed">
+<span class="material-symbols-outlined text-[20px]">sensors</span>
+</button>
+</div>
+<!-- Mini Scheduled Meeting Lobby Notification Pill -->
+<div class="pointer-events-auto flex items-center gap-space-sm bg-surface-panel/90 backdrop-blur-2xl px-space-md py-space-2xs rounded-2xl shadow-2xl">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary-container animate-pulse"></div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Executive Boardroom:</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Product Roadmap Sync in 12m</span>
+</div>
+<button class="px-space-sm py-space-2xs rounded-lg bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary transition-all font-label-sm text-label-md font-medium">
+        Join Early
+      </button>
+</div>
+<!-- Keyboard Navigation & Spatial Cheat Sheet -->
+<div class="pointer-events-auto hidden xl:flex items-center gap-space-sm bg-surface-panel/90 backdrop-blur-2xl px-space-md py-space-xs rounded-2xl shadow-2xl">
+<div class="flex items-center gap-space-2xs">
+<kbd class="font-code-sm text-code-sm text-outline px-space-2xs rounded bg-surface-container-high">W A S D</kbd>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Walk</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<kbd class="font-code-sm text-code-sm text-outline px-space-2xs rounded bg-surface-container-high">R-Click</kbd>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Orbit</span>
+</div>
+<div class="flex items-center gap-space-2xs">
+<kbd class="font-code-sm text-code-sm text-outline px-space-2xs rounded bg-surface-container-high">Space</kbd>
+<span class="font-label-xs text-label-xs text-on-surface-variant">Center HQ</span>
+</div>
+</div>
+</div>
+</div></main></div></body></html>
