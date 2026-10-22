@@ -190,6 +190,18 @@
       "everyone": "Everyone · {count}",
       "thisIsYou": "This is you"
     },
+    "views": { "label": "Show people as", "grid": "Grid", "list": "List", "search": "Search" },
+    "finder": {
+      "title": "Find a colleague",
+      "subtitle": "{count, plural, one {# person} other {# people}} in the office · {online} connected now",
+      "placeholder": "Type a name, title or desk…",
+      "clear": "Clear",
+      "hintMove": "to move",
+      "hintOpen": "to open their profile",
+      "results": "{count, plural, =0 {No matches} one {# match} other {# matches}}",
+      "quick": "Connected now",
+      "quickNone": "Nobody is connected right now. Start typing to find anyone."
+    },
     "profile": {
       "label": "Profile of {name}",
       "close": "Close profile",

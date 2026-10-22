@@ -64,11 +64,38 @@ test.describe("virtual office (fixture)", () => {
     await expect(card.getByRole("button", { name: /^Video call/ })).toHaveAttribute("aria-disabled", "true");
   });
 
-  test("is accessible", async ({ page }) => {
+  test("list view shows the same people as rows", async ({ page }) => {
     await openOffice(page);
-    const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
-    const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
-    expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
+    await page.getByRole("radio", { name: "List" }).click();
+    await expect(page.locator("main section li")).toHaveCount(11);
+    await tag(page, "Hamdan Zayed").click();
+    await expect(page.getByRole("region", { name: "Profile of Hamdan Zayed" })).toBeVisible();
+  });
+
+  test("search view: type, move with arrows, Enter opens the profile, and the choice is remembered", async ({ page }) => {
+    await openOffice(page);
+    await page.getByRole("radio", { name: "Search" }).click();
+    const box = page.getByRole("searchbox", { name: "Search people, titles or desks" });
+    await expect(box).toBeFocused();
+    await expect(page.getByRole("heading", { name: "Connected now" })).toBeVisible();
+    await page.keyboard.type("za");
+    await expect(page.getByText("3 matches")).toBeVisible(); // Zaid Chen, Zayd Benali, Hamdan Zayed
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("region", { name: "Profile of Zayd Benali" })).toBeVisible();
+
+    await page.reload();
+    await expect(page.getByRole("radio", { name: "Search" })).toHaveAttribute("data-state", "on");
+  });
+
+  test("is accessible in every view", async ({ page }) => {
+    await openOffice(page);
+    for (const view of ["Grid", "List", "Search"]) {
+      await page.getByRole("radio", { name: view }).click();
+      const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+      const serious = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
+      expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`), view).toEqual([]);
+    }
   });
 });
 
