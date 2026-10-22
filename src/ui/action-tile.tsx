@@ -37,3 +37,27 @@ export function PrimaryActionTile({ icon, label, onClick, disabled }: { icon: Re
     </button>
   );
 }
+
+/** A secondary contact action. With `disabledReason` it stays visible but explains why it can't run. */
+export function ActionTile({ icon, label, onClick, disabledReason }: { icon: ReactNode; label: string; onClick: () => void; disabledReason?: string | null }) {
+  const disabled = Boolean(disabledReason);
+  return (
+    <button
+      type="button"
+      onClick={disabled ? undefined : onClick}
+      aria-disabled={disabled || undefined}
+      title={disabledReason ?? undefined}
+      className={cn(
+        tileClass,
+        "border-glass-line bg-surface-container-low text-on-surface focus-visible:shadow-focus-ring focus-visible:outline-none",
+        disabled ? "cursor-not-allowed opacity-60" : "hover:border-primary-container/40 hover:bg-surface-container-high",
+      )}
+    >
+      <span aria-hidden className={disabled ? "text-outline" : "text-primary"}>
+        {icon}
+      </span>
+      <span className="type-label-md">{label}</span>
+      {disabledReason ? <span className="sr-only">{disabledReason}</span> : null}
+    </button>
+  );
+}

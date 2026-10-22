@@ -1,4 +1,6 @@
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
+import { CallRoot } from "@/components/calls/call-root";
 import { MobileNavBar, Sidebar } from "@/components/shell/sidebar";
 import { Topbar } from "@/components/shell/topbar";
 
@@ -25,6 +27,9 @@ export default async function AppLayout({ children }: LayoutProps<"/[locale]">) 
         {children}
       </main>
       <MobileNavBar />
+      <Suspense fallback={null}>
+        <CallRoot />
+      </Suspense>
     </>
   );
 }

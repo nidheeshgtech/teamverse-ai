@@ -228,7 +228,8 @@ export function createSupabaseTransport(supabase: SupabaseClient, orgId: string,
         .on("broadcast", { event: "conversation_removed" }, ({ payload }) => {
           const parsed = inboxEventSchema.safeParse(payload);
           if (parsed.success) handlers.onMembershipChanged(parsed.data.conversation_id, "removed");
-        });
+        })
+        .on("broadcast", { event: "call" }, ({ payload }) => handlers.onCall?.(payload));
       watchStatus(channel, handlers.onStatus);
       return () => void supabase.removeChannel(channel);
     },

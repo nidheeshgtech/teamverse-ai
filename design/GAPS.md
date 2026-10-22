@@ -91,7 +91,7 @@ The scene is labelled "Placeholder 3D — final office assets pending". Demo dat
 | AI Copilot banner ("detected 2 action items… Review Draft Items") | Omitted until Phase 6 | No AI yet; AI output must be an approved draft |
 | Emoji reactions (⚡4, 🇦🇪6) | Deferred (approved 2026-10-21) | Not in spec; logged for review |
 | "Read by 12" under any message | "Read by N" / "Seen" under **your** latest message; counts only people who share receipts | Read receipts are opt-out per person (Settings) |
-| Huddle (3) + video button | Huddle visible, disabled "Arrives in Phase 4"; video omitted | Calls are Phase 4 |
+| Huddle (3) + video button | Phase 4: DMs get voice + video buttons; channels/groups get Huddle (Join huddle (n) while one is live) | Built |
 | Pin and in-thread search icons | Omitted | Not built; avoids dead controls |
 | Composer placeholder "Send an encrypted broadcast…", "Transmit" | "Message #channel", "Send" | Not end-to-end encrypted |
 | RTL / العربية toggle in composer | Omitted until Phase 8 | Arabic arrives in Phase 8 |
@@ -126,6 +126,29 @@ Message text uses a safe markdown subset (bold, italic, code, code blocks, quote
   empty chair = not connected, never a guess); name tags are compact (avatar only) when zoomed
   out and show names when zoomed in or hovered; room names are floor signs at each room's front;
   figures are user-chosen (default from the account id, never inferred from a name).
+
+## Phase 4 — calls (2026-10-22)
+Source: Stitch "Executive Boardroom — Live Audio/Video Conference" (stage, tile strip, control bar).
+
+| Stitch element | Built as | Why |
+|---|---|---|
+| "E2EE Active" | "Encrypted in transit" badge with tooltip | LiveKit SFU decrypts media; not end-to-end |
+| Node / latency / packet-loss / bandwidth readouts | LiveKit's connection-quality bars (3 levels) | Only show measured data |
+| AI "Intelligence Sidecar", live transcript, action items | Omitted | Phase 6, consent-gated |
+| Raise hand, reactions, "Simultaneous AR Dub" | Omitted | Not in spec |
+| Spatial audio / 3D seat audio | Omitted | Not in spec for v1 |
+| Incoming call, ringing, ended, minimized, huddle banner, Conferences list | DESIGN GAP — built from tokens (glass card, pill controls) | No Stitch screens |
+
+Behaviour: one call at a time per user; 1:1 calls ring for 30 s (server expires ringing after 45 s);
+busy or Do-not-disturb callees are recorded as missed and the caller is told why; huddles live in a
+channel/group and anyone in it can join or leave. Screen share is offered only in a connected call
+and only where the browser supports it (not on phones).
+
+### Known limitations (Phase 4)
+- No calendar/scheduled meetings or "Invite to meeting" yet (still marked as a later phase).
+- No recording, no end-to-end encryption, no spatial audio.
+- No push notification for calls while the app is closed (Phase 5 web push); an incoming call rings only in an open tab.
+- Call history is stored (calls table) but there is no history screen yet.
 
 ## Accessibility notes
 - axe (WCAG 2.1 AA) reports no serious/critical issues on sign-in and the component gallery.

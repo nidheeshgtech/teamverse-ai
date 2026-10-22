@@ -1,12 +1,13 @@
 "use client";
 
-import { ArrowDown, ArrowLeft, Hash, Headphones, Info, Lock, MessagesSquare, PanelRightClose, PanelRightOpen, Users } from "lucide-react";
+import { ArrowDown, ArrowLeft, Hash, Info, Lock, MessagesSquare, PanelRightClose, PanelRightOpen, Users } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Fragment, useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { attachmentPath } from "@/features/messaging/attachments";
 import { TYPING_THROTTLE_MS, TYPING_TTL_MS, type ConversationDetail } from "@/features/messaging/model";
 import { initialThreadState, latestConfirmedAt, readByCount, sameDay, startsGroup, threadReducer, ts, type ThreadMessage } from "@/features/messaging/thread-state";
 import { ChatError } from "@/features/messaging/transport";
+import { HuddleBanner, ThreadCallButtons } from "@/components/calls/thread-call-buttons";
 import { Link } from "@/i18n/navigation";
 import { useMediaQuery, WIDE_QUERY } from "@/lib/use-media-query";
 import { Avatar } from "@/ui/avatar";
@@ -392,19 +393,7 @@ export function Thread({ conversationId }: { conversationId: string }) {
               {detail.topic ? ` · ${detail.topic}` : null}
             </p>
           </div>
-          {/* DESIGN DEVIATION: "Huddle (3)" + video button are visible but disabled until calls exist (Phase 4). */}
-          <Button
-            size="sm"
-            variant="glass"
-            aria-disabled
-            aria-label={`${t("thread.huddle")} — ${t("thread.phaseHint", { phase: 4 })}`}
-            title={t("thread.phaseHint", { phase: 4 })}
-            className="cursor-not-allowed opacity-50 max-sm:size-10 max-sm:px-0"
-            onClick={(e) => e.preventDefault()}
-          >
-            <Headphones aria-hidden />
-            <span className="max-sm:hidden">{t("thread.huddle")}</span>
-          </Button>
+          <ThreadCallButtons kind={detail.kind} conversationId={detail.id} otherId={other} />
           {wide ? (
             <Button size="icon" variant="ghost" aria-pressed={showDetails} aria-label={showDetails ? t("thread.hideDetails") : t("thread.showDetails")} onClick={() => setShowDetails((s) => !s)}>
               {showDetails ? <PanelRightClose aria-hidden className="icon-directional" /> : <PanelRightOpen aria-hidden className="icon-directional" />}
@@ -417,6 +406,7 @@ export function Thread({ conversationId }: { conversationId: string }) {
         </header>
 
         <ConnectionBanner />
+        <HuddleBanner conversationId={detail.id} />
 
         <div className="relative min-h-0 flex-1">
           <div ref={scroller} onScroll={onScroll} className="h-full overflow-y-auto overscroll-contain px-space-xs pb-space-md sm:px-space-md lg:px-space-lg">

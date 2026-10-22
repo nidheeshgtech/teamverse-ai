@@ -9,10 +9,13 @@ type KnownDepartment = (typeof knownDepartments)[number];
 
 const isKnown = (slug: string): slug is KnownDepartment => (knownDepartments as readonly string[]).includes(slug);
 
-/** Translated department names; unknown slugs (custom departments) fall back to the slug itself. */
+/** "client-success" → "Client Success" (custom departments have no translation yet). */
+export const titleFromSlug = (slug: string) => slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+
+/** Translated department names; custom departments fall back to a title-cased slug. */
 export function useDepartmentLabel() {
   const t = useTranslations("departments");
-  return useCallback((slug: string | null) => (slug && isKnown(slug) ? t(slug) : (slug ?? "")), [t]);
+  return useCallback((slug: string | null) => (slug && isKnown(slug) ? t(slug) : slug ? titleFromSlug(slug) : ""), [t]);
 }
 
 export function departmentTone(slug: string | null): BadgeTone {

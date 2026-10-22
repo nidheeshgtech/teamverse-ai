@@ -5,7 +5,8 @@ import { useFormatter, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import type { Occupant } from "@/features/office/model";
 import { cn } from "@/lib/utils";
-import { DisabledActionTile, PrimaryActionTile } from "@/ui/action-tile";
+import { useCallActions } from "@/components/calls/use-call-actions";
+import { ActionTile, DisabledActionTile, PrimaryActionTile } from "@/ui/action-tile";
 import { Avatar } from "@/ui/avatar";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
@@ -32,6 +33,7 @@ export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClos
   const [messaging, setMessaging] = useState<"idle" | "pending" | "failed">("idle");
   const format = useFormatter();
   const deptLabel = useDepartmentLabel();
+  const calls = useCallActions();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -99,8 +101,17 @@ export function ProfilePanel({ person, isSelf, canFocusDesk, onFocusDesk, onClos
             ) : (
               <DisabledActionTile icon={<MessageSquare />} label={t("office.profile.message")} tag={t("office.profile.previewTag")} reason={t("office.profile.previewHint")} />
             )}
-            <DisabledActionTile icon={<Phone />} label={t("office.profile.voiceCall")} tag={phaseTag(4)} reason={phaseReason(4)} />
-            <DisabledActionTile icon={<Video />} label={t("office.profile.videoCall")} tag={phaseTag(4)} reason={phaseReason(4)} />
+            {calls.ready ? (
+              <>
+                <ActionTile icon={<Phone />} label={t("office.profile.voiceCall")} disabledReason={calls.blocked} onClick={() => calls.startCall(person.userId, "audio")} />
+                <ActionTile icon={<Video />} label={t("office.profile.videoCall")} disabledReason={calls.blocked} onClick={() => calls.startCall(person.userId, "video")} />
+              </>
+            ) : (
+              <>
+                <DisabledActionTile icon={<Phone />} label={t("office.profile.voiceCall")} tag={t("office.profile.previewTag")} reason={t("office.profile.previewHint")} />
+                <DisabledActionTile icon={<Video />} label={t("office.profile.videoCall")} tag={t("office.profile.previewTag")} reason={t("office.profile.previewHint")} />
+              </>
+            )}
             <DisabledActionTile icon={<MonitorUp />} label={t("office.profile.screenShare")} tag={t("office.profile.inCallsTag")} reason={t("office.profile.screenShareHint")} />
             <DisabledActionTile icon={<Mic />} label={t("office.profile.voiceNote")} tag={phaseTag(5)} reason={phaseReason(5)} />
             <DisabledActionTile icon={<CalendarPlus />} label={t("office.profile.inviteMeeting")} tag={phaseTag(4)} reason={phaseReason(4)} />

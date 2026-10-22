@@ -29,8 +29,15 @@ export class InboxStore {
   private teardown: (() => void) | null = null;
   private reloadTimer: ReturnType<typeof setTimeout> | null = null;
   private activeId: string | null = null;
+  private callListeners = new Set<(payload: unknown) => void>();
 
   constructor(readonly transport: ChatTransport) {}
+
+  /** Call events arrive on the same private inbox channel (one subscription per user). */
+  subscribeCalls(listener: (payload: unknown) => void) {
+    this.callListeners.add(listener);
+    return () => this.callListeners.delete(listener);
+  }
 
   getSnapshot = () => this.snapshot;
 
@@ -67,6 +74,7 @@ export class InboxStore {
         this.scheduleReload();
       },
       onMembershipChanged: () => this.scheduleReload(0),
+      onCall: (payload) => this.callListeners.forEach((listener) => listener(payload)),
       onStatus: (status, resumed) => {
         if (!navigator.onLine) return;
         this.set({ connection: status, everLive: this.snapshot.everLive || status === "live" });

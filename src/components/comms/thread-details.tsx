@@ -6,13 +6,14 @@ import { useMemo, useState } from "react";
 import type { ConversationDetail } from "@/features/messaging/model";
 import type { ThreadMessage } from "@/features/messaging/thread-state";
 import { cn } from "@/lib/utils";
-import { DisabledActionTile } from "@/ui/action-tile";
+import { ActionTile, DisabledActionTile } from "@/ui/action-tile";
 import { Avatar } from "@/ui/avatar";
 import { Badge } from "@/ui/badge";
 import { Button } from "@/ui/button";
 import { FieldError } from "@/ui/input";
 import { PanelEyebrow } from "@/ui/panel";
 import { PresenceDot } from "@/ui/presence";
+import { useCallActions } from "../calls/use-call-actions";
 import { departmentTone, useDepartmentLabel } from "../office/use-labels";
 import { AttachmentList } from "./attachment-view";
 import { useComms } from "./comms-context";
@@ -22,7 +23,7 @@ type Props = { detail: ConversationDetail; messages: ThreadMessage[]; onLeft: ()
 // Stitch Communications › right column (profile card, contact grid, SHARED ASSETS).
 // DESIGN DEVIATIONS: "Spatial Presence · Synchronized / seated in Dubai VIP Executive Suite" and
 // "GCC Sovereign Telemetry" removed (no location tracking; unverifiable claims) → honest privacy note;
-// "DIFC Node" chip → department; contact actions disabled until Phases 4–5; "View Vault" omitted.
+// "DIFC Node" chip → department; voice note disabled until Phase 5; "View Vault" omitted.
 export function ThreadDetails({ detail, messages, onLeft, variant = "panel" }: Props) {
   const t = useTranslations();
   const { viewerId, transport, store } = useComms();
@@ -94,6 +95,7 @@ function PersonCard({ userId }: { userId: string }) {
   const format = useFormatter();
   const deptLabel = useDepartmentLabel();
   const { people, personName, statusOf } = useComms();
+  const calls = useCallActions();
   const person = people.get(userId);
   const status = statusOf(userId);
   const name = personName(userId);
@@ -116,8 +118,17 @@ function PersonCard({ userId }: { userId: string }) {
       </p>
 
       <div className="mt-2 grid w-full grid-cols-2 gap-2" aria-label={t("comms.details.contact")} role="group">
-        <DisabledActionTile icon={<Phone />} label={t("comms.details.directCall")} tag={t("office.profile.phaseTag", { phase: 4 })} reason={t("comms.thread.phaseHint", { phase: 4 })} />
-        <DisabledActionTile icon={<Video />} label={t("comms.details.videoCall")} tag={t("office.profile.phaseTag", { phase: 4 })} reason={t("comms.thread.phaseHint", { phase: 4 })} />
+        {calls.ready ? (
+          <>
+            <ActionTile icon={<Phone />} label={t("comms.details.directCall")} disabledReason={calls.blocked} onClick={() => calls.startCall(userId, "audio")} />
+            <ActionTile icon={<Video />} label={t("comms.details.videoCall")} disabledReason={calls.blocked} onClick={() => calls.startCall(userId, "video")} />
+          </>
+        ) : (
+          <>
+            <DisabledActionTile icon={<Phone />} label={t("comms.details.directCall")} tag={t("office.profile.previewTag")} reason={t("office.profile.previewHint")} />
+            <DisabledActionTile icon={<Video />} label={t("comms.details.videoCall")} tag={t("office.profile.previewTag")} reason={t("office.profile.previewHint")} />
+          </>
+        )}
         <DisabledActionTile icon={<MonitorUp />} label={t("comms.details.screenShare")} tag={t("office.profile.inCallsTag")} reason={t("office.profile.screenShareHint")} />
         <DisabledActionTile icon={<Mic />} label={t("comms.details.voiceNote")} tag={t("office.profile.phaseTag", { phase: 5 })} reason={t("comms.thread.phaseHint", { phase: 5 })} />
       </div>

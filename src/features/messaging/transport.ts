@@ -20,6 +20,8 @@ export type ConversationHandlers = {
 export type InboxHandlers = {
   onMessage: (event: { conversationId: string; senderId: string | null; createdAt: string | null }) => void;
   onMembershipChanged: (conversationId: string, change: "added" | "removed") => void;
+  /** Call state changes (Phase 4), validated by the calls feature. */
+  onCall?: (payload: unknown) => void;
   onStatus: (status: ChannelStatus, resumed: boolean) => void;
 };
 

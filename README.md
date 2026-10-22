@@ -33,8 +33,16 @@ Demo accounts (local only, password `demo-password-123`):
 - **"exec format error"** on `supabase_db_*`: a corrupted cached image. `docker rmi public.ecr.aws/supabase/postgres:<tag>` and start again.
 - Full-stack e2e (`E2E_SUPABASE=1`) reuses the seeded accounts: run `npm run db:reset` first and stop `next dev` while it runs.
 
+### Loading a real team for a demo
+`scripts/import-team.mjs` replaces the demo organization's people with a roster file (`Name: Department[, owner|admin]` per line), resizes the office rooms to fit, and empties the chats (no real person appears to have said anything). Logins become `<first-name>@demo.teamverse.local`. Keep the roster file outside the repo.
+```bash
+TEAM_PASSWORD='…' node scripts/import-team.mjs ~/Desktop/roster.txt > /tmp/team.sql
+docker exec -i supabase_db_teamverse-ai psql -U postgres -d postgres < /tmp/team.sql   # local
+```
+
 ## Environment variables (names only)
 `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (server only — bypasses RLS, used only to create the account when an invitation is accepted).
+`LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` (server only — calls; without them call buttons say calls aren't configured).
 Without Supabase values the app runs and shows a "Supabase is not configured" state.
 
 ## Commands
@@ -43,7 +51,7 @@ Without Supabase values the app runs and shows a "Supabase is not configured" st
 | `npm run dev` / `build` / `start` | Next.js |
 | `npm run lint` · `npm run typecheck` | ESLint · route typegen + tsc |
 | `npm test` | Unit tests (tokens, RTL logical-property guard, auth helpers, components, messaging: markdown/XSS, thread state, receipts, files) |
-| `npm run test:e2e` | Playwright + axe against a production build (`E2E_DEV=1` for `next dev`): desktop flows plus a phone-size suite (`tests/e2e/mobile.spec.ts`). Full-stack flows need `E2E_SUPABASE=1` with Supabase running |
+| `npm run test:e2e` | Playwright + axe against a production build (`E2E_DEV=1` for `next dev`): desktop flows plus a phone-size suite (`tests/e2e/mobile.spec.ts`). Full-stack flows need `E2E_SUPABASE=1` with Supabase running; call flows also need `E2E_LIVEKIT=1` with a local LiveKit server (see `.env.example`) |
 | `npm run db:test` | pgTAP RLS tests (`supabase/tests/database`) |
 | `npm run tokens` | Regenerate `src/styles/tokens.css` from `design/DESIGN.md` |
 | `npm run db:types` | Generate Supabase TypeScript types |
@@ -60,6 +68,9 @@ src/components/office/scene/  React Three Fiber scene (placeholder geometry, ins
 src/features/presence/  Ephemeral Realtime presence (private channel org:<id>:presence)
 src/features/messaging/ Chat transport (Supabase + in-memory demo), inbox store, thread state, safe markdown
 src/components/comms/   Conversation list, thread, composer, details panel, dialogs
+src/features/calls/     Call state (Postgres RPCs + inbox broadcasts) and the LiveKit room client
+src/components/calls/   Incoming call card, call screen, minimized pill, call/huddle buttons
+src/app/api/            Call token + leave endpoints, LiveKit webhook
 src/ui/                 Design-system components (tokens only)
 src/components/shell/   Sidebar, top bar
 src/features/*          Server actions/queries per domain
@@ -83,6 +94,13 @@ supabase/               Migrations, RLS, storage policies, seed, pgTAP tests
 - Files: private bucket, 25 MB, MIME allow-list (no HTML/SVG), path `{org}/{conversation}/{random}/{name}` checked by storage policies, size/type taken from the stored object, downloads via 5-minute signed URLs. Deleting a message wipes its text and files.
 - Known limitations are listed in `design/GAPS.md` › Phase 3.
 
+## Security model (Phase 4: calls)
+- Call state lives in Postgres: `calls`/`call_participants` are written only by RPCs (`start_call`, `start_huddle`, `answer_call`, `decline_call`, `leave_call`) that check org membership, conversation membership (huddles) and that the callee isn't busy or in Do not disturb (then the call is recorded as missed, never rung).
+- Media goes through LiveKit. `/api/calls/[id]/token` mints a 10-minute join token only for a participant who has joined a ringing/active call; the API secret never reaches the browser. Tokens grant mic, camera and screen share, no data channel.
+- Camera and microphone are requested only when you start or answer a call; screen share only when you press Share. Muting and camera-off stop publishing.
+- Media is encrypted in transit (DTLS-SRTP to the LiveKit server), **not end-to-end**; the UI says so.
+- The LiveKit webhook (`/api/livekit/webhook`, signature-verified) ends calls when people drop or the room closes; ringing calls expire after 45 s.
+
 ## Dev previews (no database needed)
 Available in `next dev`, or in a production build only with `ENABLE_DEV_PREVIEW=1` (CI). They use a DEMO fixture generated from `supabase/seed.sql` and SIMULATED presence, both badged in the UI.
 - `/dev/ui` — tokens and components
@@ -90,6 +108,16 @@ Available in `next dev`, or in a production build only with `ENABLE_DEV_PREVIEW=
 - `/dev/office` — virtual office (3D + 2D)
 - `/dev/directory` — team directory
 - `/dev/comms` — Communications with an in-memory DEMO transport (sending, editing, offline retry work locally; nothing leaves the browser)
+
+## Phase 4 demo checklist
+Needs LiveKit: locally the `teamverse-livekit` container (see `.env.example`); in production LiveKit Cloud keys in Vercel and the webhook URL `https://<site>/api/livekit/webhook`.
+1. Two browsers: `zayd.benali@…` on the DM with Tariq, `tariq.mansour@…` anywhere in the app.
+2. Zayd presses the video icon in the thread header → full-screen call "Calling…", ringback tone; Tariq gets an incoming card (Decline · Audio only · Video) with a ringtone.
+3. Tariq accepts → both see the other's camera on the stage, own preview as a tile, timer, connection bars and "Encrypted in transit".
+4. Mute (mic level meter while unmuted; the other side shows a muted icon), camera off/on, switch camera, Share screen (desktop browsers), Minimize → pill bottom right → restore, Leave → "Call ended." on both sides.
+5. Decline → caller sees "Tariq Mansour declined the call." Set Tariq to Do not disturb → the call isn't rung and Zayd is told why.
+6. `#eng-architecture` → **Huddle** starts an audio huddle; other members see "Huddle in progress · Join huddle" and it is listed on **Conferences**.
+7. From `/office` or `/directory` → profile → **Voice call** / **Video call**.
 
 ## Phase 3 demo checklist
 1. Sign in as `zayd.benali@…` → `/comms`: channels and DMs with unread pills; the sidebar shows the total.
