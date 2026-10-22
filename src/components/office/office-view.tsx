@@ -1,277 +1,258 @@
 "use client";
 
-import { Building2 } from "lucide-react";
-import dynamic from "next/dynamic";
+import { Building2, MessageSquare, Phone, Search, Users, Video } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { buildOccupants, countByDepartment, filterOccupants, presenceSummary, type OfficeData, type PresenceMap } from "@/features/office/model";
+import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { useCallActions } from "@/components/calls/use-call-actions";
+import { buildOccupants, countByDepartment, filterOccupants, presenceSummary, type Occupant, type OfficeData, type PresenceMap } from "@/features/office/model";
 import type { PresenceConnection } from "@/features/presence/use-org-presence";
-import { Badge, Kbd } from "@/ui/badge";
-import { Skeleton, StateMessage } from "@/ui/states";
-import { FloorPlan2D } from "./floor-plan-2d";
-import { OfficeToolbar, type OfficeViewMode } from "./office-toolbar";
-import { PeopleList } from "./people-list";
-import { PresenceCard } from "./presence-card";
-import { ProfileDock } from "./profile-dock";
-import type { CameraCommand } from "./scene/office-scene";
-import { prefersLowPower, useReducedMotion, useWebGLSupport } from "./use-device-capabilities";
-import { useDepartmentLabel } from "./use-labels";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/ui/avatar";
-import { useSceneTokens } from "./use-scene-tokens";
-
-// three.js + R3F load only when the 3D view is actually shown.
-const OfficeScene = dynamic(() => import("./scene/office-scene"), { ssr: false, loading: () => <SceneLoading /> });
+import { Badge } from "@/ui/badge";
+import { InputWithIcon } from "@/ui/input";
+import { PresenceDot, type PresenceStatus } from "@/ui/presence";
+import { StateMessage } from "@/ui/states";
+import { ToggleGroup } from "radix-ui";
+import { ProfileDock } from "./profile-dock";
+import { departmentTone, useDepartmentLabel } from "./use-labels";
 
 type Props = {
   data: OfficeData;
   viewerId: string;
   presence: PresenceMap;
   connection: PresenceConnection | "simulated";
-  /** Low-bandwidth preference from the viewer's profile. */
+  /** Kept for the 3D floor (paused); the people board needs no bandwidth mode. */
   lowBandwidth?: boolean;
   onMessage?: (userId: string) => Promise<boolean>;
 };
 
-const VIEW_KEY = "tv.office.view";
-// Projected labels are placed in screen space (x measured from the physical left edge), so their
-// origin is physical on purpose; RTL must not flip it.
-const screenOrigin = { left: 0 } as const;
-const PERF_KEY = "tv.office.performance";
+const connectionTone = { live: "primary", connecting: "neutral", error: "danger", unconfigured: "warning", simulated: "warning" } as const;
+const statusOrder: Record<PresenceStatus, number> = { online: 0, busy: 1, away: 2, dnd: 3, offline: 4 };
 
-function readPref(key: string): string | null {
-  try {
-    return window.localStorage.getItem(key);
-  } catch {
-    return null;
-  }
-}
-function writePref(key: string, value: string) {
-  try {
-    window.localStorage.setItem(key, value);
-  } catch {
-    // Storage unavailable (private mode): preference simply isn't remembered.
-  }
-}
+const chip =
+  "inline-flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-md px-3 type-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface data-[state=on]:bg-primary-container data-[state=on]:font-semibold data-[state=on]:text-on-primary-action [&[data-state=on]_.count]:bg-on-primary-action/15 [&[data-state=on]_.count]:text-on-primary-action";
 
-export function OfficeView({ data, viewerId, presence, connection, lowBandwidth = false, onMessage }: Props) {
-  const t = useTranslations("office");
+// Product-owner decision (2026-10-22): the office is a board of people tags (4 per row, scrolling)
+// instead of the 3D floor, which returns once the commissioned 3D assets exist. Connected people
+// come first; each tag has one-click message / voice / video.
+export function OfficeView({ data, viewerId, presence, connection, onMessage }: Props) {
+  const t = useTranslations();
   const deptLabel = useDepartmentLabel();
-  const webgl = useWebGLSupport();
-  const reducedMotion = useReducedMotion();
-  const tokens = useSceneTokens();
-
   const [department, setDepartment] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const labelLayer = useRef<HTMLDivElement>(null);
-  const [view, setViewState] = useState<OfficeViewMode>("3d");
-  const [performance, setPerformanceState] = useState(false);
-  const [camera, setCamera] = useState<CameraCommand | null>(null);
-
-  // Restore per-device preferences after hydration.
-  useEffect(() => {
-    const storedView = readPref(VIEW_KEY);
-    const storedPerf = readPref(PERF_KEY);
-    /* eslint-disable react-hooks/set-state-in-effect -- one-time sync from browser storage */
-    if (storedView === "2d" || storedView === "3d") setViewState(storedView);
-    // DESIGN.md › Mobile: 3D is optional on phones; the 2D floor plan is the default there.
-    else if (window.matchMedia("(max-width: 47.99rem)").matches) setViewState("2d");
-    setPerformanceState(storedPerf ? storedPerf === "1" : lowBandwidth || prefersLowPower());
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, [lowBandwidth]);
-
-  const setView = (next: OfficeViewMode) => {
-    setViewState(next);
-    writePref(VIEW_KEY, next);
-  };
-  const setPerformance = (on: boolean) => {
-    setPerformanceState(on);
-    writePref(PERF_KEY, on ? "1" : "0");
-  };
 
   const occupants = useMemo(() => buildOccupants(data, presence), [data, presence]);
   const visible = useMemo(() => filterOccupants(occupants, department, query), [occupants, department, query]);
   const counts = useMemo(() => countByDepartment(occupants), [occupants]);
   const summary = useMemo(() => presenceSummary(occupants), [occupants]);
-  const selected = occupants.find((o) => o.userId === selectedId) ?? null;
-
   const departments = useMemo(
-    () => [...data.departments].sort((a, b) => a.sortOrder - b.sortOrder).map((d) => d.slug).filter((slug) => slug !== "meeting-room" || counts.has(slug)),
+    () => [...data.departments].sort((a, b) => a.sortOrder - b.sortOrder).map((d) => d.slug).filter((slug) => counts.has(slug)),
     [data.departments, counts],
   );
-
-  const effectiveView: OfficeViewMode = webgl === false ? "2d" : view;
-  const show3d = effectiveView === "3d" && webgl === true && tokens !== null;
-
-  const focus = useCallback((userId: string) => {
-    const seat = occupants.find((o) => o.userId === userId)?.seat;
-    if (seat) setCamera({ kind: "focus", target: { x: seat.position.x, z: seat.position.z }, nonce: Date.now() });
-  }, [occupants]);
-
-  const select = useCallback((userId: string | null) => setSelectedId(userId), []);
+  const here = visible.filter((o) => o.status !== "offline").sort((a, b) => statusOrder[a.status] - statusOrder[b.status] || a.displayName.localeCompare(b.displayName));
+  const away = visible.filter((o) => o.status === "offline");
+  const selected = occupants.find((o) => o.userId === selectedId) ?? null;
   const close = useCallback(() => setSelectedId(null), []);
 
-  if (data.scene.rooms.length === 0) {
-    return <StateMessage titleAs="h2" icon={<Building2 />} title={t("noLayout")} className="mt-space-2xl" />;
-  }
+  const stats = [
+    { status: "online", value: summary.online },
+    { status: "busy", value: summary.busy },
+    { status: "dnd", value: summary.dnd },
+  ] as const;
 
   return (
-    // DESIGN GAP (< lg): the HUD panels stack in a scrolling column; the 3D view becomes a card.
-    <div className="relative flex flex-col gap-space-md py-space-md lg:block lg:h-[calc(100dvh-var(--chrome-top)-var(--chrome-bottom))] lg:overflow-hidden lg:py-0">
-      {/* Layer 0: 3D canvas (full bleed) */}
-      {show3d ? (
-        <div
-          data-office-canvas
-          tabIndex={0}
-          aria-label={t("canvasLabel")}
-          role="group"
-          // Starts after the people column so the fitted scene isn't hidden behind it (logical inset: flips in RTL).
-          className="relative order-2 mx-margin-mobile h-[55dvh] overflow-hidden rounded-lg isolate focus-visible:outline-offset-[-4px] lg:absolute lg:inset-y-0 lg:end-0 lg:start-[calc(var(--spacing-margin)+var(--spacing-panel-sm))] lg:mx-0 lg:h-auto lg:overflow-visible lg:rounded-none"
-        >
-          <OfficeScene
-            rooms={data.scene.rooms}
-            seats={data.seats}
-            occupants={occupants}
-            selectedId={selectedId}
-            hoveredId={hoveredId}
-            departmentFilter={department}
-            labelLayer={labelLayer}
-            tokens={tokens}
-            performance={performance}
-            reducedMotion={reducedMotion}
-            camera={camera}
-            onSelect={select}
-            onHover={setHoveredId}
-          />
-          {/* DOM labels positioned by the scene's LabelProjector. Hidden until first placed. */}
-          <div ref={labelLayer} aria-hidden className="group/labels pointer-events-none absolute inset-0 overflow-hidden">
-            {data.scene.rooms.map((room) => (
-              <span
-                key={room.department}
-                data-anchor={`room:${room.department}`}
-                data-dimmed={department !== null && department !== room.department}
-                style={screenOrigin}
-                className="invisible absolute top-0 inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-glass-line bg-surface-canvas/85 px-3.5 py-2 type-title-md text-on-surface shadow-level-2 backdrop-blur-md transition-opacity data-[dimmed=true]:opacity-40"
-              >
-                <span className="inline-block size-2.5 rounded-full" style={{ backgroundColor: `var(--tv-color-dept-${room.department}, var(--tv-color-primary))` }} />
-                {deptLabel(room.department)}
-                <span className="type-label-md text-on-surface-variant">{t("roomPeople", { count: counts.get(room.department) ?? 0 })}</span>
-              </span>
+    <div className="flex gap-gutter px-margin-mobile py-space-lg lg:p-margin">
+      <div className="flex min-w-0 flex-1 flex-col gap-space-md">
+        <header className="glass-level-1 flex flex-wrap items-center gap-x-space-md gap-y-space-sm rounded-xl px-4 py-3">
+          <span aria-hidden className="inline-flex size-10 shrink-0 items-center justify-center rounded-md bg-surface-container-high text-secondary">
+            <Building2 className="size-5" />
+          </span>
+          <div className="me-auto min-w-0">
+            <h1 className="truncate type-title-md text-on-surface">{data.layoutName}</h1>
+            <p className="mt-0.5 truncate type-label-xs uppercase tracking-[0.08em] text-secondary">{data.orgName}</p>
+          </div>
+          <dl aria-label={t("office.presenceTitle")} className="flex items-center gap-1.5">
+            {stats.map(({ status, value }) => (
+              <div key={status} title={t(`presence.${status}`)} className="flex items-center gap-2 rounded-md border border-glass-line bg-surface-container-low/60 px-2.5 py-1.5">
+                <dt className="sr-only">{t(`presence.${status}`)}</dt>
+                <PresenceDot status={status} />
+                <dd className="type-label-lg tabular-nums text-on-surface">{value}</dd>
+              </div>
             ))}
-            {/* Name tags for everyone with a desk (mouse shortcut; the People list is the keyboard path). */}
-            {occupants
-              .filter((o) => o.seat)
-              .map((o) => (
-                <button
-                  key={o.userId}
-                  type="button"
-                  tabIndex={-1}
-                  data-anchor={`person:${o.userId}`}
-                  data-dimmed={(department !== null && o.departmentSlug !== department) || undefined}
-                  data-active={o.userId === hoveredId || o.userId === selectedId || undefined}
-                  onClick={() => select(o.userId)}
-                  onPointerEnter={() => setHoveredId(o.userId)}
-                  onPointerLeave={() => setHoveredId(null)}
-                  style={screenOrigin}
-                  className={cn(
-                    "pointer-events-auto invisible absolute top-0 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-glass-line bg-surface-canvas/80 p-1 type-label-md group-data-[zoomed=true]/labels:pe-3 data-[active]:pe-3 text-on-surface shadow-level-1 backdrop-blur-md",
-                    "transition-[opacity,border-color,background-color] duration-150 hover:border-primary-container data-[active]:border-primary-container data-[active]:bg-surface-panel data-[dimmed]:opacity-30",
-                    o.status === "offline" && "opacity-70",
-                  )}
-                >
-                  <Avatar name={o.displayName} src={o.avatarUrl} size="xs" status={o.status} decorative />
-                  {/* Compact (avatar only) when zoomed out; the name shows when zoomed in or active. */}
-                  <span className="hidden group-data-[zoomed=true]/labels:inline [[data-active]>&]:inline">{o.displayName}</span>
-                </button>
-              ))}
-          </div>
-        </div>
-      ) : null}
-
-      {/* Layer 1: HUD. Containers ignore the pointer so the canvas stays draggable between panels. */}
-      <div className="pointer-events-none contents lg:absolute lg:inset-0 lg:z-10 lg:flex lg:flex-col lg:gap-space-md lg:p-margin">
-        <header className="pointer-events-auto flex flex-wrap items-start justify-between gap-space-md max-lg:mx-margin-mobile">
-          <div className="glass-level-1 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg px-4 py-3 max-lg:w-full">
-            <span aria-hidden className="inline-flex size-10 items-center justify-center rounded-md bg-surface-container-high text-secondary">
-              <Building2 className="size-5" />
-            </span>
-            <div className="me-auto">
-              <h1 className="type-title-md text-on-surface">{data.layoutName}</h1>
-              <p className="mt-0.5 type-label-xs uppercase tracking-[0.08em] text-secondary">{data.orgName}</p>
-            </div>
-            {data.orgIsDemo ? <Badge tone="warning">{t("demoData")}</Badge> : null}
-            {data.scene.placeholder && show3d ? <Badge>{t("placeholderScene")}</Badge> : null}
-          </div>
+          </dl>
+          <Badge tone={connectionTone[connection]} aria-live="polite">{t(`office.connection.${connection}`)}</Badge>
+          {data.orgIsDemo ? <Badge tone="warning">{t("office.demoData")}</Badge> : null}
         </header>
 
-        <div className="pointer-events-auto max-lg:mx-margin-mobile">
-          <OfficeToolbar
-            departments={departments}
-            counts={counts}
-            total={occupants.length}
-            department={department}
-            onDepartment={setDepartment}
-            view={effectiveView}
-            onView={setView}
-            webgl={webgl !== false}
-            performance={performance}
-            onPerformance={setPerformance}
-            onRecenter={() => setCamera({ kind: "recenter", nonce: Date.now() })}
+        <div className="flex flex-wrap items-center gap-space-sm">
+          <InputWithIcon
+            icon={<Search />}
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("office.searchPeople")}
+            aria-label={t("office.searchPeople")}
+            className="w-full sm:w-80"
           />
-        </div>
-        {webgl === false ? (
-          <p role="status" className="pointer-events-auto type-body-sm text-tertiary max-lg:mx-margin-mobile">{t("webglUnavailable")}</p>
-        ) : null}
-
-        <div className="relative order-3 flex min-h-0 flex-col gap-gutter max-lg:mx-margin-mobile lg:flex-1 lg:flex-row">
-          <div className="pointer-events-auto order-2 flex min-h-0 shrink-0 flex-col gap-gutter lg:order-none lg:w-panel-sm">
-            <PresenceCard summary={summary} connection={connection} />
-            <PeopleList people={visible} query={query} onQuery={setQuery} selectedId={selectedId} onSelect={select} className="lg:flex-1" />
-          </div>
-
-          <div className={cn("min-w-0 flex-1", effectiveView === "2d" ? "order-1 max-lg:h-[60dvh] max-lg:flex-none lg:order-none" : "max-lg:hidden")}>
-            {effectiveView === "2d" ? (
-              <div className="pointer-events-auto size-full max-lg:overflow-x-auto max-lg:overscroll-x-contain max-lg:[&>*]:min-w-[44rem]">
-                <FloorPlan2D rooms={data.scene.rooms} occupants={occupants} departmentFilter={department} selectedId={selectedId} onSelect={select} />
-              </div>
-            ) : null}
-          </div>
-
-          {selected ? (
-            // Desktop: floats over the content area so the 2D plan / 3D view keep their full width.
-            // Phones/tablets: a bottom sheet.
-            <ProfileDock
-              desktopClassName="pointer-events-auto absolute inset-y-0 end-0 w-panel-lg overflow-y-auto"
-              person={selected}
-              isSelf={selected.userId === viewerId}
-              canFocusDesk={show3d && selected.seat !== null}
-              onFocusDesk={() => focus(selected.userId)}
-              onClose={close}
-              onMessage={onMessage}
-            />
+          {departments.length > 1 ? (
+            <ToggleGroup.Root
+              type="single"
+              aria-label={t("office.filtersLabel")}
+              value={department ?? "all"}
+              onValueChange={(v) => v && setDepartment(v === "all" ? null : v)}
+              className="glass-level-1 flex gap-space-2xs rounded-md p-space-2xs max-md:w-full max-md:overflow-x-auto max-md:[scrollbar-width:none] md:flex-wrap"
+            >
+              <ToggleGroup.Item value="all" className={chip}>
+                {t("office.allRooms")}
+                <span className="count rounded-sm bg-surface-container-high px-1.5 type-label-xs tabular-nums">{occupants.length}</span>
+              </ToggleGroup.Item>
+              {departments.map((slug) => (
+                <ToggleGroup.Item key={slug} value={slug} className={chip}>
+                  {deptLabel(slug)}
+                  <span className="count rounded-sm bg-surface-container-high px-1.5 type-label-xs tabular-nums">{counts.get(slug)}</span>
+                </ToggleGroup.Item>
+              ))}
+            </ToggleGroup.Root>
           ) : null}
+          <p className="type-label-md text-on-surface-variant sm:ms-auto" aria-live="polite">{t("office.peopleCount", { count: visible.length })}</p>
         </div>
 
-        {show3d ? (
-          <p className="glass-level-1 pointer-events-auto hidden w-fit items-center gap-2 rounded-lg px-3 py-2 type-label-md text-on-surface-variant lg:flex [&_kbd]:ms-2 [&_kbd:first-child]:ms-0">
-            <Kbd>{t("keyDrag")}</Kbd> {t("hintOrbit")}
-            <Kbd>{t("keyScroll")}</Kbd> {t("hintZoom")}
-            <Kbd>{t("keyRightDrag")}</Kbd> {t("hintPan")}
-          </p>
-        ) : null}
+        {visible.length === 0 ? (
+          <StateMessage icon={<Users />} title={t("office.noResults", { query })} className="mt-space-xl" />
+        ) : (
+          <>
+            {here.length ? (
+              <Section title={t("office.board.here", { count: here.length })} live>
+                {here.map((p) => (
+                  <PersonTag key={p.userId} person={p} isSelf={p.userId === viewerId} selected={p.userId === selectedId} onOpen={setSelectedId} onMessage={onMessage} />
+                ))}
+              </Section>
+            ) : null}
+            {away.length ? (
+              <Section title={here.length ? t("office.board.notConnected", { count: away.length }) : t("office.board.everyone", { count: away.length })}>
+                {away.map((p) => (
+                  <PersonTag key={p.userId} person={p} isSelf={p.userId === viewerId} selected={p.userId === selectedId} onOpen={setSelectedId} onMessage={onMessage} />
+                ))}
+              </Section>
+            ) : null}
+          </>
+        )}
       </div>
+
+      {selected ? (
+        // Desktop: sticky side column. Phones/tablets: a bottom sheet.
+        <ProfileDock
+          desktopClassName="w-panel-lg shrink-0 [&>*]:sticky [&>*]:top-[calc(var(--spacing-topbar)+var(--spacing-margin))]"
+          person={selected}
+          isSelf={selected.userId === viewerId}
+          canFocusDesk={false}
+          onFocusDesk={() => undefined}
+          onClose={close}
+          onMessage={onMessage}
+        />
+      ) : null}
     </div>
   );
 }
 
-function SceneLoading() {
-  const t = useTranslations("office");
+function Section({ title, live = false, children }: { title: string; live?: boolean; children: ReactNode }) {
   return (
-    <div className="flex size-full items-center justify-center" role="status">
-      <Skeleton className="h-2/3 w-2/3 rounded-xl" />
-      <span className="sr-only">{t("loading3d")}</span>
-    </div>
+    <section className="flex flex-col gap-space-sm">
+      <h2 className="flex items-center gap-2 type-label-xs uppercase tracking-[0.08em] text-on-surface-variant">
+        {live ? <span aria-hidden className="size-2 rounded-full bg-presence-online motion-safe:animate-pulse" /> : null}
+        {title}
+      </h2>
+      <ul className="grid grid-cols-2 gap-gutter md:grid-cols-3 xl:grid-cols-4">{children}</ul>
+    </section>
+  );
+}
+
+type TagProps = { person: Occupant; isSelf: boolean; selected: boolean; onOpen: (userId: string) => void; onMessage?: (userId: string) => Promise<boolean> };
+
+/** A person's name tag on the office board: open the profile, or message / call in one click. */
+function PersonTag({ person, isSelf, selected, onOpen, onMessage }: TagProps) {
+  const t = useTranslations();
+  const deptLabel = useDepartmentLabel();
+  const calls = useCallActions();
+  const offline = person.status === "offline";
+  const accent = person.departmentSlug ? `var(--tv-color-dept-${person.departmentSlug}, var(--tv-color-primary))` : "var(--tv-color-primary)";
+
+  return (
+    <li
+      className={cn(
+        "glass-level-2 group relative flex flex-col items-center gap-3 overflow-hidden rounded-xl px-3 pt-5 pb-3 text-center transition-[border-color,background-color,transform] duration-200 hover:-translate-y-0.5 hover:border-surface-glass-highlight motion-reduce:hover:translate-y-0",
+        selected && "border-primary-container",
+      )}
+    >
+      {/* Department colour as a lanyard strip. */}
+      <span aria-hidden className={cn("absolute inset-x-0 top-0 h-1", offline && "opacity-50")} style={{ backgroundColor: accent }} />
+      {/* The whole tag opens the profile; the action buttons sit above this layer. */}
+      <button
+        type="button"
+        onClick={() => onOpen(person.userId)}
+        aria-current={selected ? "true" : undefined}
+        aria-label={`${person.displayName}, ${t(`presence.${person.status}`)}`}
+        className="absolute inset-0 rounded-xl focus-visible:shadow-focus-ring focus-visible:outline-none"
+      />
+      <Avatar
+        name={person.displayName}
+        src={person.avatarUrl}
+        size="lg"
+        status={person.status}
+        statusLabel={t(`presence.${person.status}`)}
+        decorative
+        className={cn(offline && "opacity-75")}
+      />
+      <div className="w-full min-w-0">
+        <p className="truncate type-title-md text-on-surface">
+          {person.displayName}
+          {isSelf ? <span className="type-body-sm text-on-surface-variant"> ({t("calls.you")})</span> : null}
+        </p>
+        <p className="mt-0.5 truncate type-body-sm text-on-surface-variant">{person.title ?? (person.departmentSlug ? deptLabel(person.departmentSlug) : "")}</p>
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-1.5">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-container-low px-2 py-0.5 type-label-md text-on-surface-variant">
+          <PresenceDot status={person.status} />
+          {t(`presence.${person.status}`)}
+        </span>
+        {person.title && person.departmentSlug ? <Badge tone={departmentTone(person.departmentSlug)}>{deptLabel(person.departmentSlug)}</Badge> : null}
+      </div>
+
+      {!isSelf ? (
+        <div className="relative z-10 mt-auto grid w-full grid-cols-3 gap-1.5 border-t border-glass-line pt-3">
+          <TagAction label={t("office.profile.message")} disabled={!onMessage} onClick={() => void onMessage?.(person.userId)}>
+            <MessageSquare />
+          </TagAction>
+          <TagAction label={t("office.profile.voiceCall")} reason={calls.ready ? calls.blocked : t("office.profile.previewHint")} onClick={() => calls.startCall(person.userId, "audio")}>
+            <Phone />
+          </TagAction>
+          <TagAction label={t("office.profile.videoCall")} reason={calls.ready ? calls.blocked : t("office.profile.previewHint")} onClick={() => calls.startCall(person.userId, "video")}>
+            <Video />
+          </TagAction>
+        </div>
+      ) : (
+        <p className="relative z-10 mt-auto w-full border-t border-glass-line pt-3 type-label-md text-on-surface-variant">{t("office.board.thisIsYou")}</p>
+      )}
+    </li>
+  );
+}
+
+function TagAction({ label, onClick, disabled = false, reason = null, children }: { label: string; onClick: () => void; disabled?: boolean; reason?: string | null; children: ReactNode }) {
+  const blocked = disabled || Boolean(reason);
+  return (
+    <button
+      type="button"
+      onClick={blocked ? undefined : onClick}
+      aria-disabled={blocked || undefined}
+      aria-label={reason ? `${label} — ${reason}` : label}
+      title={reason ?? label}
+      className={cn(
+        "inline-flex h-9 items-center justify-center rounded-md text-on-surface-variant transition-colors focus-visible:shadow-focus-ring focus-visible:outline-none [&_svg]:size-4.5",
+        blocked ? "cursor-not-allowed opacity-40" : "hover:bg-primary-container/15 hover:text-primary",
+      )}
+    >
+      <span aria-hidden>{children}</span>
+    </button>
   );
 }

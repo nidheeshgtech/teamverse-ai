@@ -127,6 +127,13 @@ Message text uses a safe markdown subset (bold, italic, code, code blocks, quote
   out and show names when zoomed in or hovered; room names are floor signs at each room's front;
   figures are user-chosen (default from the account id, never inferred from a name).
 
+## Office board (2026-10-22) — product-owner decision
+- The Office page shows a board of people tags (4 per row on desktop, 3 on tablet, 2 on phones,
+  scrolling) instead of the 3D floor / 2D plan: connected people first, then everyone else, each
+  tag with one-click Message / Voice call / Video call; selecting a tag opens the profile panel.
+- The 3D scene code stays in `src/components/office/scene/` for when the commissioned 3D assets
+  arrive; it is no longer loaded.
+
 ## Phase 4 — calls (2026-10-22)
 Source: Stitch "Executive Boardroom — Live Audio/Video Conference" (stage, tile strip, control bar).
 

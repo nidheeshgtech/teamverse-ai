@@ -65,13 +65,12 @@ test.describe("phone layout", () => {
     await expect(sheet.getByRole("button", { name: "Sign out" })).toBeVisible();
   });
 
-  test("office: stacked panels, 2D plan by default, profile as a sheet", async ({ page }) => {
+  test("office: two tags per row, profile as a sheet", async ({ page }) => {
     await page.goto("/dev/office");
     await expect(page.getByRole("heading", { name: "Main Office (Demo)" })).toBeVisible();
-    await expect(page.getByRole("radio", { name: /2D plan/ })).toHaveAttribute("data-state", "on");
     await expectNoHorizontalScroll(page);
 
-    await page.getByRole("region", { name: "People", exact: true }).getByRole("button", { name: /Tariq Mansour/ }).click();
+    await page.getByRole("button", { name: /^Tariq Mansour, / }).click();
     await expect(page.getByRole("dialog", { name: "Profile of Tariq Mansour" })).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });

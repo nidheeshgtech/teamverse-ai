@@ -184,6 +184,12 @@
     "loading3d": "Loading 3D office…",
     "noLayout": "This organization has no active office layout yet.",
     "selectHint": "Select someone to see their profile.",
+    "board": {
+      "here": "In the office now · {count}",
+      "notConnected": "Not connected · {count}",
+      "everyone": "Everyone · {count}",
+      "thisIsYou": "This is you"
+    },
     "profile": {
       "label": "Profile of {name}",
       "close": "Close profile",
