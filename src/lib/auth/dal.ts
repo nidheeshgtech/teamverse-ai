@@ -48,7 +48,7 @@ export const getViewer = cache(async (): Promise<Viewer | null> => {
       .from("profiles")
       .select("display_name, avatar_url, title, timezone, locale, availability")
       .eq("id", claims.sub)
-      .single(),
+      .maybeSingle(),
     supabase
       .from("memberships")
       .select("org_id, role, organizations(name, is_demo), departments(slug)")
@@ -62,6 +62,8 @@ export const getViewer = cache(async (): Promise<Viewer | null> => {
   if (membershipResult.error) throw new Error(`Failed to load membership: ${membershipResult.error.message}`);
 
   const profile = profileResult.data;
+  // A valid session for an account that has since been deleted: clear it instead of crashing.
+  if (!profile) redirect("/auth/signed-out");
   const membership = membershipResult.data as
     | { org_id: string; role: string; organizations: { name: string; is_demo: boolean } | null; departments: { slug: string } | null }
     | null;
