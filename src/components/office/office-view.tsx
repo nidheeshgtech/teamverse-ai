@@ -168,6 +168,15 @@ function Section({ title, live = false, children }: { title: string; live?: bool
   );
 }
 
+const COVER_COUNT = 16;
+
+/** A stable cover for each person, picked from their id (same cover on every device). */
+export function coverFor(userId: string) {
+  let hash = 0;
+  for (const char of userId) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return `/covers/cover-${String((hash % COVER_COUNT) + 1).padStart(2, "0")}.svg`;
+}
+
 type TagProps = { person: Occupant; isSelf: boolean; selected: boolean; onOpen: (userId: string) => void; onMessage?: (userId: string) => Promise<boolean> };
 
 /** A person's name tag on the office board: open the profile, or message / call in one click. */
@@ -176,17 +185,20 @@ function PersonTag({ person, isSelf, selected, onOpen, onMessage }: TagProps) {
   const deptLabel = useDepartmentLabel();
   const calls = useCallActions();
   const offline = person.status === "offline";
-  const accent = person.departmentSlug ? `var(--tv-color-dept-${person.departmentSlug}, var(--tv-color-primary))` : "var(--tv-color-primary)";
 
   return (
     <li
       className={cn(
-        "glass-level-2 group relative flex flex-col items-center gap-3 overflow-hidden rounded-xl px-3 pt-5 pb-3 text-center transition-[border-color,background-color,transform] duration-200 hover:-translate-y-0.5 hover:border-surface-glass-highlight motion-reduce:hover:translate-y-0",
+        "glass-level-2 group relative flex flex-col items-center gap-3 overflow-hidden rounded-xl px-3 pb-3 text-center transition-[border-color,background-color,transform] duration-200 hover:-translate-y-0.5 hover:border-surface-glass-highlight motion-reduce:hover:translate-y-0",
         selected && "border-primary-container",
       )}
     >
-      {/* Department colour as a lanyard strip. */}
-      <span aria-hidden className={cn("absolute inset-x-0 top-0 h-1", offline && "opacity-50")} style={{ backgroundColor: accent }} />
+      {/* Abstract cover art (scripts/build-covers.mjs), fixed per person; muted while offline. */}
+      <span
+        aria-hidden
+        className={cn("-mx-3 block h-20 self-stretch bg-cover bg-center transition-[filter,opacity] duration-200", offline && "opacity-60 saturate-50")}
+        style={{ backgroundImage: `url(${coverFor(person.userId)})` }}
+      />
       {/* The whole tag opens the profile; the action buttons sit above this layer. */}
       <button
         type="button"
@@ -195,15 +207,17 @@ function PersonTag({ person, isSelf, selected, onOpen, onMessage }: TagProps) {
         aria-label={`${person.displayName}, ${t(`presence.${person.status}`)}`}
         className="absolute inset-0 rounded-xl focus-visible:shadow-focus-ring focus-visible:outline-none"
       />
-      <Avatar
-        name={person.displayName}
-        src={person.avatarUrl}
-        size="lg"
-        status={person.status}
-        statusLabel={t(`presence.${person.status}`)}
-        decorative
-        className={cn(offline && "opacity-75")}
-      />
+      {/* Frame in the card's own fill so the avatar reads as cut out of the cover. */}
+      <span className="relative -mt-11 rounded-[1.25rem] p-1 shadow-level-2" style={{ backgroundColor: "var(--tv-glass-level-2-fill)" }}>
+        <Avatar
+          name={person.displayName}
+          src={person.avatarUrl}
+          size="lg"
+          status={person.status}
+          statusLabel={t(`presence.${person.status}`)}
+          decorative
+        />
+      </span>
       <div className="w-full min-w-0">
         <p className="truncate type-title-md text-on-surface">
           {person.displayName}
