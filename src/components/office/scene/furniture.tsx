@@ -5,7 +5,7 @@ import { useThree } from "@react-three/fiber";
 import { useEffect, useMemo } from "react";
 import { AnimationMixer, Color, MeshBasicMaterial, type Object3D } from "three";
 import type { Occupant, Room, Seat } from "@/features/office/model";
-import { useCharacter, useFurniture, useFurnitureSize, type CharacterName, type FurnitureName } from "./assets";
+import { FURNITURE_SCALE, useCharacter, useFurniture, useFurnitureSize, type CharacterName, type FurnitureName } from "./assets";
 import { sceneTheme } from "./scene-theme";
 
 const rad = (deg: number) => (deg * Math.PI) / 180;
@@ -27,7 +27,8 @@ export function seatPoint(seat: Seat, localZ: number, y: number): [number, numbe
 
 function Placed({ name, position, rotationY = 0, scale = 1 }: { name: FurnitureName; position: [number, number, number]; rotationY?: number; scale?: number }) {
   const object = useFurniture(name);
-  return <primitive object={object} position={position} rotation={[0, rotationY, 0]} scale={object.scale.x * scale} />;
+  // Always from the constant base scale: deriving it from object.scale would compound on every render.
+  return <primitive object={object} position={position} rotation={[0, rotationY, 0]} scale={FURNITURE_SCALE * scale} />;
 }
 
 /** Desk, office chair, monitor (with a soft department-coloured glow) and keyboard for one seat. */
